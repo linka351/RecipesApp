@@ -1,11 +1,11 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import Main from "./components/main/Main";
-import Recipes from "./components/recipes/Recipes";
-import MealPlans from "./components/mealPlans/MealPlans";
-import LandingPage from "./components/landingPage/LandingPage";
-import AddRecipe from "./components/addRecipe/AddRecipe";
-import AddMealPlan from "./components/addMealPlan/AddMealPlan";
+import Main from "./pages/main/Main";
+import Recipes from "./pages/recipes/Recipes";
+import MealPlans from "./pages/mealPlans/MealPlans";
+import LandingPage from "./pages/landingPage/LandingPage";
+import AddRecipe from "./pages/addRecipe/AddRecipe";
+import AddMealPlan from "./pages/addMealPlan/AddMealPlan";
 
 const router = createBrowserRouter([
 	{
@@ -17,11 +17,11 @@ const router = createBrowserRouter([
 		element: <Main />,
 	},
 	{
-		path: "/main/addMealPlan",
+		path: "/main/add-meal-plan",
 		element: <AddMealPlan />,
 	},
 	{
-		path: "/main/addRecipe",
+		path: "/main/add-recipe",
 		element: <AddRecipe />,
 	},
 	{
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
 		element: <Recipes />,
 	},
 	{
-		path: "/mealPlans",
+		path: "/meal-plans",
 		element: <MealPlans />,
 	},
 ]);
