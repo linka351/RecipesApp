@@ -7,6 +7,8 @@ import LandingPage from "./pages/landingPage/LandingPage";
 import AddRecipe from "./pages/addRecipe/AddRecipe";
 import AddMealPlan from "./pages/addMealPlan/AddMealPlan";
 
+import "./app.scss";
+
 const router = createBrowserRouter([
 	{
 		path: "/",
