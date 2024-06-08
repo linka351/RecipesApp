@@ -1,4 +1,4 @@
-import { useFormik } from "formik";
+import { FormikHelpers, useFormik } from "formik";
 import { db } from "../../firebase/firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 import * as yup from "yup";
@@ -13,18 +13,29 @@ interface FormValues {
 	recipeElement: string[];
 }
 
+const instructionSchema = yup
+	.string()
+	.min(5, "Instrukcja musi składać się z co najmniej 5 znaków")
+	.required("Pole wymagane");
+
+const ingredientsSchema = yup
+	.string()
+	.min(2, "długośc nazwy składniku powinna być wieksza niż dwa")
+	.required("Pole wymagane");
+
 function AddRecipe() {
 	const [instructions, setInstructions] = useState<string[]>([]);
 	const [currentInstruction, setCurrentInstruction] = useState<string>("");
 	const [ingredients, setIngredients] = useState<string[]>([]);
 	const [currentIngredient, setCurrentIngredient] = useState<string>("");
+	const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 	const addRecipeFormik = useFormik<FormValues>({
 		initialValues: {
 			recipeName: "",
 			recipeDescription: "",
-			recipeInstructions: [],
-			recipeElement: [],
+			recipeInstructions: instructions,
+			recipeElement: ingredients,
 		},
 		validationSchema: yup.object().shape({
 			recipeName: yup
@@ -35,8 +46,16 @@ function AddRecipe() {
 				.string()
 				.required("Pole wymagane")
 				.min(5, "Opis musi składać się z więcej niż 5 liter"),
+			recipeInstructions: yup
+				.array()
+				.of(instructionSchema)
+				.required("Pole wymagane"),
+			recipeElement: yup
+				.array()
+				.of(ingredientsSchema)
+				.required("Pole wymagane"),
 		}),
-		onSubmit: async values => {
+		onSubmit: async (values, { resetForm }: FormikHelpers<FormValues>) => {
 			try {
 				values.recipeInstructions = instructions;
 				values.recipeElement = ingredients;
@@ -46,25 +65,62 @@ function AddRecipe() {
 					recipeInstructions: values.recipeInstructions,
 					recipeElement: values.recipeElement,
 				});
+				resetForm();
+				setIngredients([]);
+				setInstructions([]);
+				setErrors({});
 				alert("Dodano przepis " + values.recipeName);
-			} catch (e) {
-				console.error("Error adding document: ", e);
+			} catch (e: any) {
+				const errors = e.inner
+					.map((el: { path: string; message: string }) => ({
+						fieldName: el.path,
+						message: el.message,
+					}))
+					.reduce(
+						(
+							acc: { [key: string]: string },
+							current: { fieldName: string; message: string }
+						) => ({
+							...acc,
+							[current.fieldName]: current.message,
+						}),
+						{}
+					);
+				setErrors(errors);
 			}
 		},
 	});
 
-	const handleAddInstruction = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const handleAddInstruction = async (
+		e: React.MouseEvent<HTMLButtonElement>
+	) => {
 		e.preventDefault();
-		if (currentInstruction.trim() !== "") {
+		try {
+			await instructionSchema.validate(currentInstruction);
 			setInstructions([...instructions, currentInstruction]);
 			setCurrentInstruction("");
+			setErrors(prevErrors => ({ ...prevErrors, currentInstruction: "" }));
+		} catch (error: any) {
+			setErrors(prevErrors => ({
+				...prevErrors,
+				currentInstruction: error.message,
+			}));
 		}
 	};
-	const handleAddRecipeElement = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const handleAddRecipeElement = async (
+		e: React.MouseEvent<HTMLButtonElement>
+	) => {
 		e.preventDefault();
-		if (currentIngredient.trim() !== "") {
+		try {
+			await ingredientsSchema.validate(currentIngredient);
 			setIngredients([...ingredients, currentIngredient]);
 			setCurrentIngredient("");
+			setErrors(prevErrors => ({ ...prevErrors, currentIngredient: "" }));
+		} catch (error: any) {
+			setErrors(prevErrors => ({
+				...prevErrors,
+				currentIngredient: error.message,
+			}));
 		}
 	};
 
@@ -72,40 +128,43 @@ function AddRecipe() {
 		<div className='add-recipe-container'>
 			<h2>Nowy Przepis</h2>
 			<form className='add-recipe' onSubmit={addRecipeFormik.handleSubmit}>
-				<label className='add-recipe-text'>Recipe Name</label>
+				<div className='recipe-box'>
+					<input
+						className='add-recipe-input'
+						type='text'
+						placeholder='Nazwa przepisu'
+						name='recipeName'
+						onChange={addRecipeFormik.handleChange}
+						value={addRecipeFormik.values.recipeName}
+					/>
+					{addRecipeFormik.touched.recipeName &&
+					addRecipeFormik.errors.recipeName ? (
+						<div className='add-recipe-error'>
+							{addRecipeFormik.errors.recipeName}
+						</div>
+					) : (
+						""
+					)}
+				</div>
+				<div className='recipe-box'>
+					<textarea
+						placeholder='Krótki opis przepisu'
+						className='recipe-description'
+						name='recipeDescription'
+						onChange={addRecipeFormik.handleChange}
+						value={addRecipeFormik.values.recipeDescription}></textarea>
+					{addRecipeFormik.touched.recipeDescription &&
+					addRecipeFormik.errors.recipeDescription ? (
+						<div className='add-recipe-error'>
+							{addRecipeFormik.errors.recipeDescription}
+						</div>
+					) : (
+						""
+					)}
+				</div>
+				<label className='add-recipe-label'>Dodaj Instrukcje</label>
 				<input
-					className='recipe-name'
-					type='text'
-					placeholder='nazwa przepisu'
-					name='recipeName'
-					onChange={addRecipeFormik.handleChange}
-					value={addRecipeFormik.values.recipeName}
-				/>
-				{addRecipeFormik.touched.recipeName &&
-				addRecipeFormik.errors.recipeName ? (
-					<div className='add-recipe-error'>
-						{addRecipeFormik.errors.recipeName}
-					</div>
-				) : (
-					""
-				)}
-				<label className='add-recipe-text'>Recipe Description</label>
-				<textarea
-					placeholder='krótki opis przepisu'
-					className='recipe-description'
-					name='recipeDescription'
-					onChange={addRecipeFormik.handleChange}
-					value={addRecipeFormik.values.recipeDescription}></textarea>
-				{addRecipeFormik.touched.recipeDescription &&
-				addRecipeFormik.errors.recipeDescription ? (
-					<div className='add-recipe-error'>
-						{addRecipeFormik.errors.recipeDescription}
-					</div>
-				) : (
-					""
-				)}
-				<label>Instrukcje</label>
-				<input
+					className='add-recipe-input'
 					type='text'
 					name='currentInstruction'
 					onChange={e => setCurrentInstruction(e.target.value)}
@@ -119,26 +178,51 @@ function AddRecipe() {
 				) : (
 					""
 				)}
-				<button onClick={handleAddInstruction}>Add</button>
+				<button className='add-recipe-button' onClick={handleAddInstruction}>
+					Add
+				</button>
+				{errors.currentInstruction && (
+					<div className='add-recipe-error'>{errors.currentInstruction}</div>
+				)}
 				<ul>
 					{instructions.map((instruction, index) => (
-						<li key={index}>{instruction}</li>
+						<li key={index} className='add-recipe-element'>
+							{instruction}
+						</li>
 					))}
 				</ul>
-				<label>Dodaj składnik</label>
+				<label className='add-recipe-label'>Dodaj składnik</label>
 				<input
+					className='add-recipe-input'
 					type='text'
 					name='currentIngredient'
 					onChange={e => setCurrentIngredient(e.target.value)}
 					value={currentIngredient}
 				/>
-				<button onClick={handleAddRecipeElement}>Add</button>
+				{addRecipeFormik.touched.recipeElement &&
+				addRecipeFormik.errors.recipeElement ? (
+					<div className='add-recipe-error'>
+						{addRecipeFormik.errors.recipeElement}
+					</div>
+				) : (
+					""
+				)}
+				<button className='add-recipe-button' onClick={handleAddRecipeElement}>
+					Add
+				</button>
+				{errors.currentIngredient && (
+					<div className='add-recipe-error'>{errors.currentIngredient}</div>
+				)}
 				<ul>
 					{ingredients.map((ingredientsEl, index) => (
-						<li key={index}>{ingredientsEl}</li>
+						<li key={index} className='add-recipe-element'>
+							{ingredientsEl}
+						</li>
 					))}
 				</ul>
-				<button type='submit'>Submit</button>
+				<button type='submit' className='add-recipe-submit'>
+					Zapisz
+				</button>
 			</form>
 		</div>
 	);
