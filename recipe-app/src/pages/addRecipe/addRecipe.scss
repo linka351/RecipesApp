@@ -1,6 +1,9 @@
 .add-recipe-container {
 	background-color: #265721;
 	width: 300px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
 	h2 {
 		color: white;
@@ -23,42 +26,6 @@
 			padding-bottom: 5px;
 		}
 
-		.add-recipe-text {
-			color: white;
-			font-size: 20px;
-			font-weight: bold;
-			padding: 10px;
-		}
-
-		.add-recipe-button {
-			width: 80px;
-			border: none;
-			margin: 10px;
-			height: 30px;
-			color: white;
-			background-color: #287233;
-			border-radius: 5px;
-			font-weight: bold;
-			cursor: pointer;
-		}
-		.add-recipe-button:hover {
-			background-color: lighten($color: #287233, $amount: 10);
-		}
-
-		.add-recipe-element {
-			color: white;
-			list-style-type: none;
-			width: 280px;
-			background-color: #287233;
-			min-height: 30px;
-			border-radius: 5px;
-			margin: 10px;
-			font-size: 20px;
-			display: flex;
-			align-items: center;
-			padding: 5px;
-		}
-
 		.add-recipe-input {
 			border: none;
 			outline: none;
@@ -78,24 +45,52 @@
 			font-size: 16px;
 			padding: 5px;
 		}
+	}
 
-		.add-recipe-error {
-			color: red;
-		}
+	.add-recipe-element {
+		color: white;
+		list-style-type: none;
+		width: 280px;
+		background-color: #287233;
+		min-height: 30px;
+		border-radius: 5px;
+		margin: 10px;
+		font-size: 20px;
+		display: flex;
+		align-items: center;
+		padding: 5px;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
 
-		.add-recipe-submit {
+		.remove-button {
+			background: none;
 			border: none;
-			width: 150px;
-			height: 30px;
-			margin: 10px;
-			background-color: #287233;
-			color: white;
-			font-weight: bold;
 			cursor: pointer;
-			border-radius: 5px;
-		}
-		.add-recipe-submit:hover {
-			background-color: lighten($color: #287233, $amount: 10);
+			font-size: 18px;
+			.remove-element {
+				color: red;
+			}
 		}
 	}
+
+	.add-recipe-submit {
+		border: none;
+		width: 150px;
+		height: 30px;
+		margin: 10px;
+		background-color: #287233;
+		color: white;
+		font-weight: bold;
+		cursor: pointer;
+		border-radius: 5px;
+	}
+	.add-recipe-submit:hover {
+		background-color: lighten($color: #287233, $amount: 10);
+	}
+}
+
+.add-recipe-error {
+	margin-top: 5px;
+	color: red;
 }
