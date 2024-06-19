@@ -8,6 +8,8 @@ import { recipeApi } from "../../api/recipes";
 import { validationSchema } from "./addRecipe.validation";
 
 import "./addRecipe.scss";
+import Input from "./components/input/Input";
+import TextArea from "./components/textArea/TextArea";
 
 export interface FormValues {
 	name: string;
@@ -68,36 +70,28 @@ function AddRecipe() {
 		<div className='add-recipe-container'>
 			<h2>Nowy Przepis</h2>
 			<form className='add-recipe' onSubmit={formik.handleSubmit}>
-				<div className='recipe-box'>
-					<input
-						className='add-recipe-input'
-						type='text'
-						placeholder='Nazwa przepisu'
-						name='name'
-						onChange={formik.handleChange}
-						value={formik.values.name}
-					/>
-					{formik.touched.name && formik.errors.name && (
-						<div className='add-recipe-error'>{formik.errors.name}</div>
-					)}
-				</div>
-				<div className='recipe-box'>
-					<textarea
-						placeholder='Krótki opis przepisu'
-						className='recipe-description'
-						name='description'
-						onChange={formik.handleChange}
-						value={formik.values.description}></textarea>
-					{formik.touched.description && formik.errors.description && (
-						<div className='add-recipe-error'>{formik.errors.description}</div>
-					)}
-				</div>
+				<Input
+					placeholder='Nazwa przepisu'
+					name='name'
+					onChange={formik.handleChange}
+					value={formik.values.name}
+					touched={!!formik.touched.name}
+					errors={formik.errors.name || ""}
+				/>
+				<TextArea
+					placeholder='Krótki opis przepisu'
+					name='description'
+					onChange={formik.handleChange}
+					value={formik.values.description}
+					touched={!!formik.touched.description}
+					errors={formik.errors.description || ""}
+				/>
 			</form>
-
-			<InstructionsForm onInstructionsAdded={handleAddInstruction} />
-			{formik.touched.instructions && formik.errors.instructions && (
-				<div className='add-recipe-error'>{formik.errors.instructions}</div>
-			)}
+			<InstructionsForm
+				onInstructionsAdded={handleAddInstruction}
+				touched={!!formik.touched.instructions}
+				errors={formik.errors.instructions || ""}
+			/>
 			<ul>
 				{formik.values.instructions.map((instruction, index) => (
 					<li key={index} className='add-recipe-element'>
@@ -110,10 +104,11 @@ function AddRecipe() {
 					</li>
 				))}
 			</ul>
-			<IngredientsForm onIngredientsAdded={handleAddIngredient} />
-			{formik.touched.ingredients && formik.errors.ingredients && (
-				<div className='add-recipe-error'>{formik.errors.ingredients}</div>
-			)}
+			<IngredientsForm
+				onIngredientsAdded={handleAddIngredient}
+				touched={!!formik.touched.ingredients}
+				errors={formik.errors.ingredients || ""}
+			/>
 			<ul>
 				{formik.values.ingredients.map((ingredient, index) => (
 					<li key={index} className='add-recipe-element'>

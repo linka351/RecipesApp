@@ -5,16 +5,18 @@ import "../addRecipeElementsForm.scss";
 
 type Props = {
 	onInstructionsAdded: (instruction: string) => void;
+	touched: boolean;
+	errors: string | string[];
 };
 
-export default function InstructionsForm({ onInstructionsAdded }: Props) {
+export default function InstructionsForm(props: Props) {
 	const { errors, values, touched, handleChange, handleSubmit } = useFormik({
 		initialValues: {
 			instruction: "",
 		},
 		validationSchema: instructionSchema,
 		onSubmit: (values, { resetForm }) => {
-			onInstructionsAdded(values.instruction);
+			props.onInstructionsAdded(values.instruction);
 			resetForm();
 		},
 	});
@@ -35,9 +37,13 @@ export default function InstructionsForm({ onInstructionsAdded }: Props) {
 			{touched.instruction && errors.instruction && (
 				<div className='error'>{errors.instruction}</div>
 			)}
-			<button type='submit' className='button'>
+			<button
+				type='submit'
+				className='button'
+				disabled={values.instruction === ""}>
 				Add
 			</button>
+			<div className='add-recipe-error'>{props.touched && props.errors}</div>
 		</form>
 	);
 }
