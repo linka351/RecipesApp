@@ -1,15 +1,14 @@
 import { FormikHelpers, useFormik } from "formik";
-import { FaTrashAlt } from "react-icons/fa";
 
 import InstructionsForm from "./components/instructionsForm/InstructionsForm";
 import IngredientsForm from "./components/ingredientsForm/IngredientsForm";
+import Input from "./components/input/Input";
+import TextArea from "./components/textArea/TextArea";
 
 import { recipeApi } from "../../api/recipes";
 import { validationSchema } from "./addRecipe.validation";
 
 import "./addRecipe.scss";
-import Input from "./components/input/Input";
-import TextArea from "./components/textArea/TextArea";
 
 export interface FormValues {
 	name: string;
@@ -37,10 +36,9 @@ function AddRecipe() {
 		{ resetForm }: FormikHelpers<FormValues>
 	) {
 		try {
-			alert(JSON.stringify(values));
 			await recipeApi.add(values);
 			resetForm();
-			alert("Dodano przepis " + values.name);
+			//TODO: Dodać powiadomienia
 		} catch (e: any) {
 			console.log({ e });
 		}
@@ -60,10 +58,13 @@ function AddRecipe() {
 		]);
 	};
 
-	const handleRemoveElement = (index: number, element: keyof FormValues) => {
-		const updatedElement = [...formik.values[element]];
-		updatedElement.splice(index, 1);
-		formik.setFieldValue(element, updatedElement);
+	const handleRemoveElement = (
+		index: number,
+		element: "instructions" | "ingredients"
+	) => {
+		const updatedElements = [...formik.values[element]];
+		updatedElements.splice(index, 1);
+		formik.setFieldValue(element, updatedElements);
 	};
 
 	return (
@@ -89,39 +90,18 @@ function AddRecipe() {
 			</form>
 			<InstructionsForm
 				onInstructionsAdded={handleAddInstruction}
+				onRemove={index => handleRemoveElement(index, "instructions")}
+				instructions={formik.values.instructions}
 				touched={!!formik.touched.instructions}
 				errors={formik.errors.instructions || ""}
 			/>
-			<ul>
-				{formik.values.instructions.map((instruction, index) => (
-					<li key={index} className='add-recipe-element'>
-						{instruction}
-						<button
-							className='remove-button'
-							onClick={() => handleRemoveElement(index, "instructions")}>
-							<FaTrashAlt className='remove-element' />
-						</button>
-					</li>
-				))}
-			</ul>
 			<IngredientsForm
 				onIngredientsAdded={handleAddIngredient}
+				onRemove={index => handleRemoveElement(index, "ingredients")}
+				ingredients={formik.values.ingredients}
 				touched={!!formik.touched.ingredients}
 				errors={formik.errors.ingredients || ""}
 			/>
-			<ul>
-				{formik.values.ingredients.map((ingredient, index) => (
-					<li key={index} className='add-recipe-element'>
-						{ingredient}
-						<button
-							className='remove-button'
-							onClick={() => handleRemoveElement(index, "ingredients")}>
-							<FaTrashAlt className='remove-element' />
-						</button>
-					</li>
-				))}
-			</ul>
-
 			<button className='add-recipe-submit' onClick={formik.submitForm}>
 				Zapisz
 			</button>

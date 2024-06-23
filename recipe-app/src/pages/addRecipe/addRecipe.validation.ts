@@ -10,7 +10,7 @@ export const instructionSchema = yup.object().shape({
 
 const ingredientValidation = yup
 	.string()
-	.min(2, "długośc nazwy składniku powinna być wieksza niż dwa");
+	.min(3, "Nazwa składniku powinna składać się conajmniej z trzech liter");
 
 export const ingredientSchema = yup.object().shape({
 	ingredient: ingredientValidation,
@@ -31,6 +31,6 @@ export const validationSchema = yup.object().shape({
 		.min(2, "Przynajmniej dwie instrukcje są wymagane"),
 	ingredients: yup
 		.array()
-		.of(ingredientSchema)
+		.of(ingredientValidation)
 		.min(3, "Wymagane przynajmniej trzy składniki"),
 });
