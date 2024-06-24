@@ -16,7 +16,7 @@ const router = createBrowserRouter([
 		element: <LandingPage />,
 	},
 	{
-		path: "app/recipes",
+		path: "/app/recipes",
 		element: <Recipes />,
 	},
 	{
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
 		element: <EditRecipe />,
 	},
 	{
-		path: "app/meal-plans",
+		path: "/app/meal-plans",
 		element: <MealPlans />,
 	},
 	{
