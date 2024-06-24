@@ -12,14 +12,20 @@ type Props = {
 	errors: string | string[];
 };
 
-export default function InstructionsForm(props: Props) {
+export default function InstructionsForm({
+	onInstructionsAdded,
+	onRemove,
+	instructions,
+	touched,
+	errors,
+}: Props) {
 	const formik = useFormik({
 		initialValues: {
 			instruction: "",
 		},
 		validationSchema: instructionSchema,
 		onSubmit: (values, { resetForm }) => {
-			props.onInstructionsAdded(values.instruction);
+			onInstructionsAdded(values.instruction);
 			resetForm();
 		},
 	});
@@ -47,16 +53,16 @@ export default function InstructionsForm(props: Props) {
 					disabled={formik.values.instruction === ""}>
 					Add
 				</button>
-				<div className='add-recipe-error'>{props.touched && props.errors}</div>
+				<div className='add-recipe-error'>{touched && errors}</div>
 			</form>
 			<ul>
-				{props.instructions.map((instruction, index) => (
+				{instructions.map((instruction, index) => (
 					<li key={index} className='add-recipe-element'>
 						{instruction}
 						<button
 							type='button'
 							className='remove-button'
-							onClick={() => props.onRemove(index)}>
+							onClick={() => onRemove(index)}>
 							<FaTrashAlt className='remove-element' />
 						</button>
 					</li>

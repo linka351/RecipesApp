@@ -7,17 +7,24 @@ type Props = {
 	errors: string;
 };
 
-function TextArea(props: Props) {
+function TextArea({
+	placeholder,
+	name,
+	onChange,
+	value,
+	touched,
+	errors,
+}: Props) {
 	return (
 		<div className='recipe-box'>
 			<textarea
 				className='recipe-description'
-				placeholder={props.placeholder}
-				name={props.name}
-				onChange={props.onChange}
-				value={props.value}
+				placeholder={placeholder}
+				name={name}
+				onChange={onChange}
+				value={value}
 			/>
-			<div className='add-recipe-error'>{props.touched && props.errors}</div>
+			<div className='add-recipe-error'>{touched && errors}</div>
 		</div>
 	);
 }

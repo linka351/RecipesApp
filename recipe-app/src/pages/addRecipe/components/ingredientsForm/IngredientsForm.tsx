@@ -11,14 +11,20 @@ type Props = {
 	errors: string | string[];
 };
 
-export default function IngredientsForm(props: Props) {
+export default function IngredientsForm({
+	onIngredientsAdded,
+	onRemove,
+	ingredients,
+	touched,
+	errors,
+}: Props) {
 	const formik = useFormik({
 		initialValues: {
 			ingredient: "",
 		},
 		validationSchema: ingredientSchema,
 		onSubmit: (values, { resetForm }) => {
-			props.onIngredientsAdded(values.ingredient);
+			onIngredientsAdded(values.ingredient);
 			resetForm();
 		},
 	});
@@ -46,16 +52,16 @@ export default function IngredientsForm(props: Props) {
 					disabled={formik.values.ingredient === ""}>
 					Add
 				</button>
-				<div className='add-recipe-error'>{props.touched && props.errors}</div>
+				<div className='add-recipe-error'>{touched && errors}</div>
 			</form>
 			<ul>
-				{props.ingredients.map((ingredient, index) => (
+				{ingredients.map((ingredient, index) => (
 					<li key={index} className='add-recipe-element'>
 						{ingredient}
 						<button
 							type='button'
 							className='remove-button'
-							onClick={() => props.onRemove(index)}>
+							onClick={() => onRemove(index)}>
 							<FaTrashAlt className='remove-element' />
 						</button>
 					</li>
