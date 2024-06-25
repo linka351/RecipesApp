@@ -5,7 +5,7 @@ import IngredientsForm from "./components/ingredientsForm/IngredientsForm";
 import Input from "./components/input/Input";
 import TextArea from "./components/textArea/TextArea";
 
-import { recipeApi } from "../../api/recipes";
+import { recipeApi } from "../../../../../api/recipes";
 import { validationSchema } from "./addRecipe.validation";
 
 import "./addRecipe.scss";
