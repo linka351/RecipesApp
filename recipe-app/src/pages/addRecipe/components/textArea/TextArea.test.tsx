@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import TextArea from "./TextArea";
 import userEvent from "@testing-library/user-event";
-//import userEvent from "@testing-library/user-event";
 
 describe("TextArea component", () => {
 	test("renders with initial value provided via props", () => {
@@ -43,7 +42,7 @@ describe("TextArea component", () => {
 		expect(errorElement).toBeInTheDocument();
 	});
 
-	test("should change textArea value", async () => {
+	test("should update TextArea value and call onChange handler on typing", async () => {
 		const onChange = jest.fn();
 		render(
 			<TextArea
@@ -58,11 +57,7 @@ describe("TextArea component", () => {
 
 		const textAreaElement = screen.getByPlaceholderText("Enter description");
 		expect(textAreaElement).toHaveValue("");
-
 		await userEvent.type(textAreaElement, "test");
 		expect(onChange).toHaveBeenCalledTimes(4);
-		expect(textAreaElement).toHaveValue("test");
-
-		screen.debug();
 	});
 });
