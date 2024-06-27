@@ -1,5 +1,7 @@
+import Footer from "../../components/footer/Footer";
+
 function LandingPage() {
-	return <p>Landing Page</p>;
+	return <Footer />;
 }
 
 export default LandingPage;
