@@ -1,5 +1,7 @@
+import Navbar from "../../../components/navbar/Navbar";
+
 function LandingPage() {
-	return <p>Landing Page</p>;
+	return <Navbar />;
 }
 
 export default LandingPage;
