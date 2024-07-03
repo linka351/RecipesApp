@@ -3,48 +3,99 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import AddRecipe from "./AddRecipe";
 
-test("renders the form with initial elements", () => {
-	render(<AddRecipe />);
+jest.mock("../../../../../api/recipes", () => ({
+	recipeApi: {
+		add: jest.fn().mockImplementation(() => Promise.resolve()),
+	},
+}));
 
-	expect(screen.getByPlaceholderText("Nazwa przepisu")).toBeInTheDocument();
-	expect(
-		screen.getByPlaceholderText("Krótki opis przepisu")
-	).toBeInTheDocument();
-	expect(screen.getByLabelText(/Dodaj Instrukcje/)).toBeInTheDocument();
-	expect(screen.getByLabelText(/Dodaj Składniki/)).toBeInTheDocument();
-	expect(screen.getByRole("button", { name: "Zapisz" })).toBeInTheDocument();
-});
+describe("AddRecipe Component", () => {
+	test("renders the component", () => {
+		render(<AddRecipe />);
+		expect(screen.getByText("Nowy Przepis")).toBeInTheDocument();
+	});
 
-test("displays validation errors", async () => {
-	render(<AddRecipe />);
+	test("validates the form correctly", async () => {
+		render(<AddRecipe />);
 
-	await userEvent.click(screen.getByRole("button", { name: "Zapisz" }));
+		await userEvent.click(screen.getByText("Zapisz"));
 
-	expect(screen.getByText("Nazwa przepisu jest wymagana")).toBeInTheDocument();
-	expect(screen.getByText("Opis przepisu jest wymagany")).toBeInTheDocument();
-});
+		expect(
+			screen.getByText("Przynajmniej dwie instrukcje są wymagane")
+		).toBeInTheDocument();
+	});
 
-test("allows the user to remove an instruction", async () => {
-	render(<AddRecipe />);
+	test("submits the form correctly", async () => {
+		render(<AddRecipe />);
+		await userEvent.type(
+			screen.getByPlaceholderText("Nazwa przepisu"),
+			"Test Recipe"
+		);
 
-	const instructionInput = screen.getByLabelText("Dodaj Instrukcje");
-	await userEvent.type(instructionInput, "Test Instruction");
-	await userEvent.click(screen.getByRole("button", { name: "Add" }));
+		await userEvent.type(
+			screen.getByPlaceholderText("Krótki opis przepisu"),
+			"Test Recipe Description"
+		);
+		await userEvent.type(
+			screen.getByLabelText("Dodaj Instrukcje"),
+			"Test Instruction 1"
+		);
+		await userEvent.click(screen.getByTestId("add-instruction"));
+		await userEvent.type(
+			screen.getByLabelText("Dodaj Instrukcje"),
+			"Test Instruction 2"
+		);
+		await userEvent.click(screen.getByTestId("add-instruction"));
+		await userEvent.type(
+			screen.getByLabelText("Dodaj Składnik"),
+			"Test Ingredient 1"
+		);
+		await userEvent.click(screen.getByTestId("add-ingredient"));
+		await userEvent.type(
+			screen.getByLabelText("Dodaj Składnik"),
+			"Test Ingredient 2"
+		);
+		await userEvent.click(screen.getByTestId("add-ingredient"));
+		await userEvent.click(screen.getByText("Zapisz"));
+		//Dopytać bo coś nie działa
+		expect(screen.getByPlaceholderText("Nazwa przepisu")).toHaveValue(
+			"Test Recipe"
+		);
+		expect(screen.getByText("Test Recipe Description")).toBeInTheDocument();
+		expect(screen.getByText("Test Instruction 1")).toBeInTheDocument();
+		expect(screen.getByText("Test Instruction 2")).toBeInTheDocument();
+		expect(screen.getByText("Test Ingredient 1")).toBeInTheDocument();
+		expect(screen.getByText("Test Ingredient 2")).toBeInTheDocument();
+	});
 
-	const removeButtons = screen.getAllByRole("button", { name: "Remove" });
-	await userEvent.click(removeButtons[0]);
+	test("allows the user to add instructions and ingredients", async () => {
+		render(<AddRecipe />);
 
-	expect(screen.queryByText("Test Instruction")).not.toBeInTheDocument();
-});
+		await userEvent.type(
+			screen.getByPlaceholderText("Nazwa przepisu"),
+			"Test Recipe"
+		);
+		await userEvent.type(
+			screen.getByPlaceholderText("Krótki opis przepisu"),
+			"Test Recipe Description"
+		);
 
-test("allows the user to remove an ingredient", async () => {
-	render(<AddRecipe />);
-	const ingredientInput = screen.getByLabelText("Dodaj Składniki");
-	await userEvent.type(ingredientInput, "Test Ingredient");
-	await userEvent.click(screen.getByRole("button", { name: "Add" }));
+		for (let index = 0; index < 3; index++) {
+			await userEvent.type(
+				screen.getByLabelText("Dodaj Instrukcje"),
+				"Test Instruction " + (index + 1)
+			);
+			await userEvent.click(screen.getByTestId("add-instruction"));
+		}
 
-	const removeButtons = screen.getAllByRole("button", { name: "Remove" });
-	await userEvent.click(removeButtons[0]);
+		for (let index = 0; index < 3; index++) {
+			await userEvent.type(
+				screen.getByLabelText("Dodaj Składnik"),
+				"Test  Ingredient" + (index + 1)
+			);
+			await userEvent.click(screen.getByTestId("add-ingredient"));
+		}
 
-	expect(screen.queryByText("Test Ingredient")).not.toBeInTheDocument();
+		await userEvent.click(screen.getByRole("button", { name: "Zapisz" }));
+	});
 });

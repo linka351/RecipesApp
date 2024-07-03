@@ -1,5 +1,5 @@
 import { addDoc, collection } from "firebase/firestore";
-import { FormValues } from "../pages/app/recipes/add/addRecipe/AddRecipe"; //../pages/addRecipe/AddRecipe
+import { FormValues } from "../pages/app/recipes/add/addRecipe/AddRecipe";
 import { db } from "../firebase/firebaseConfig";
 
 const add = async (values: FormValues) => {

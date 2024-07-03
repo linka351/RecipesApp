@@ -48,6 +48,7 @@ export default function InstructionsForm({
 					<div className='error'>{formik.errors.instruction}</div>
 				)}
 				<button
+					data-testid='add-instruction'
 					type='submit'
 					className='button'
 					disabled={formik.values.instruction === ""}>

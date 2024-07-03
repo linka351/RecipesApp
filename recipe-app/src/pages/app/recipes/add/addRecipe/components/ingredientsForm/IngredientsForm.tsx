@@ -47,6 +47,7 @@ export default function IngredientsForm({
 					<div className='error'>{formik.errors.ingredient}</div>
 				)}
 				<button
+					data-testid='add-ingredient'
 					type='submit'
 					className='button'
 					disabled={formik.values.ingredient === ""}>
