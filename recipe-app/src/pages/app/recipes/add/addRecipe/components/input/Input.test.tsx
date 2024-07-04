@@ -4,8 +4,8 @@ import "@testing-library/jest-dom";
 import Input from "./Input";
 
 describe("Input component", () => {
+	const onChangeMock = jest.fn();
 	const setup = (propsOverride = {}) => {
-		const onChangeMock = jest.fn();
 		const props = {
 			placeholder: "Enter text",
 			name: "testInput",
@@ -23,6 +23,10 @@ describe("Input component", () => {
 		};
 	};
 
+	beforeEach(() => {
+		onChangeMock.mockClear();
+	});
+
 	test("renders the input with correct placeholder", () => {
 		const { input } = setup();
 		expect(input).toBeInTheDocument();
@@ -35,6 +39,14 @@ describe("Input component", () => {
 		await user.type(input, "Hello");
 		expect(onChangeMock).toHaveBeenCalledTimes(5);
 	});
+
+		test("calls onChange function when typing", async () => {
+		const user = userEvent.setup();
+		const { input, onChangeMock } = setup();
+		await user.type(input, "Hello");
+		expect(onChangeMock).toHaveBeenCalledTimes(5);
+	});
+
 
 	test("displays error message when touched and errors are present", () => {
 		setup({ touched: true, errors: "This field is required" });

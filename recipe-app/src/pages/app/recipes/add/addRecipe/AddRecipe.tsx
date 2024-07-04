@@ -99,8 +99,8 @@ function AddRecipe() {
 				onIngredientsAdded={handleAddIngredient}
 				onRemove={index => handleRemoveElement(index, "ingredients")}
 				ingredients={formik.values.ingredients}
-				touched={!!formik.touched.ingredients}
-				errors={formik.errors.ingredients || ""}
+				touched={true}
+				errors={ "asdadasdasd"}
 			/>
 			<button className='add-recipe-submit' onClick={formik.submitForm}>
 				Zapisz

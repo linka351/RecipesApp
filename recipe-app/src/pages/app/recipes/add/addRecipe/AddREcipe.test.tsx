@@ -57,6 +57,7 @@ describe("AddRecipe Component", () => {
 		);
 		await userEvent.click(screen.getByTestId("add-ingredient"));
 		await userEvent.click(screen.getByText("Zapisz"));
+
 		//Dopytać bo coś nie działa
 		expect(screen.getByPlaceholderText("Nazwa przepisu")).toHaveValue(
 			"Test Recipe"
