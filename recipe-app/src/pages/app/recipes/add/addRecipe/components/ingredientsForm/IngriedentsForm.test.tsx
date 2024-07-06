@@ -49,19 +49,31 @@ describe("IngredientsForm", () => {
 		await userEvent.click(addButton);
 
 		expect(mockOnIngredientsAdded).toHaveBeenCalledWith("Test ingredient");
+		expect(mockOnIngredientsAdded).toHaveBeenCalledTimes(1);
 	});
 
 	test("displays validation errors", async () => {
-		setup({
-			touched: true,
-			errors: "Required",
-		});
+		setup();
 		const ingredientInput = screen.getByLabelText("Dodaj Składnik");
 
-		await userEvent.type(ingredientInput, "Test ingredient");
-		ingredientInput.blur();
+		await userEvent.type(ingredientInput, "T");
+		const submitButton = screen.getByRole("button", { name: "Add" });
+		await userEvent.click(submitButton);
 
-		expect(screen.getByText("Required")).toBeInTheDocument();
+		expect(
+			screen.getByText(
+				"Nazwa składniku powinna składać się conajmniej z trzech liter"
+			)
+		).toBeInTheDocument();
+
+		await userEvent.type(ingredientInput, "Test ingredient");
+		await userEvent.click(submitButton);
+
+		expect(
+			screen.queryByText(
+				"Nazwa składniku powinna składać się conajmniej z trzech liter"
+			)
+		).not.toBeInTheDocument();
 	});
 
 	test("displays form-level errors", () => {

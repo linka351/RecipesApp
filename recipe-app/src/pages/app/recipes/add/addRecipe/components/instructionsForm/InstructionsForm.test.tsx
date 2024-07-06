@@ -49,19 +49,29 @@ describe("InstructionsForm", () => {
 		await userEvent.click(addButton);
 
 		expect(mockOnInstructionsAdded).toHaveBeenCalledWith("Test instruction");
+		expect(mockOnInstructionsAdded).toHaveBeenCalledTimes(1);
 	});
 
 	test("displays validation errors", async () => {
-		setup({
-			touched: true,
-			errors: "Required",
-		});
+		setup();
 		const instructionInput = screen.getByLabelText("Dodaj Instrukcje");
 
-		await userEvent.type(instructionInput, "Test instruction");
-		instructionInput.blur();
+		await userEvent.type(instructionInput, "T");
+		const submitButton = screen.getByRole("button", { name: "Add" });
+		await userEvent.click(submitButton);
 
-		expect(screen.getByText("Required")).toBeInTheDocument();
+		expect(
+			screen.getByText("Instrukcja musi składać się z co najmniej 5 znaków")
+		).toBeInTheDocument();
+
+		await userEvent.type(instructionInput, "Test instruction");
+		await userEvent.click(submitButton);
+
+		expect(
+			screen.queryByText(
+				"Nazwa składniku powinna składać się conajmniej z trzech liter"
+			)
+		).not.toBeInTheDocument();
 	});
 
 	test("displays form-level errors", () => {

@@ -84,9 +84,10 @@
 		font-weight: bold;
 		cursor: pointer;
 		border-radius: 5px;
-	}
-	.add-recipe-submit:hover {
-		background-color: lighten($color: #287233, $amount: 10);
+
+		&:hover {
+			background-color: lighten($color: #287233, $amount: 10);
+		}
 	}
 }
 

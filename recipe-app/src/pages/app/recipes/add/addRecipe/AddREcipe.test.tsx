@@ -20,8 +20,15 @@ describe("AddRecipe Component", () => {
 
 		await userEvent.click(screen.getByText("Zapisz"));
 
+		const errorMessages = screen.getAllByText("Pole wymagane");
+		errorMessages.forEach(errorMessage => {
+			expect(errorMessage).toBeInTheDocument();
+		});
 		expect(
 			screen.getByText("Przynajmniej dwie instrukcje są wymagane")
+		).toBeInTheDocument();
+		expect(
+			screen.getByText("Wymagane przynajmniej trzy składniki")
 		).toBeInTheDocument();
 	});
 
@@ -57,7 +64,7 @@ describe("AddRecipe Component", () => {
 		);
 		await userEvent.click(screen.getByTestId("add-ingredient"));
 		await userEvent.click(screen.getByText("Zapisz"));
-		//Dopytać bo coś nie działa
+
 		expect(screen.getByPlaceholderText("Nazwa przepisu")).toHaveValue(
 			"Test Recipe"
 		);

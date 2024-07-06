@@ -28,10 +28,16 @@
 		border-radius: 5px;
 		font-weight: bold;
 		cursor: pointer;
+
+		&:hover {
+			background-color: lighten($color: #287233, $amount: 10);
+		}
+
+		&[disabled] {
+			background-color: #287233;
+		}
 	}
-	.button:hover {
-		background-color: lighten($color: #287233, $amount: 10);
-	}
+
 	.error {
 		margin-top: 5px;
 		color: red;
