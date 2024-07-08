@@ -23,7 +23,7 @@ function Navbar() {
 					</div>
 				</Link>
 			</div>
-			<div className={`ofcanvas-menu ${!open && "active"}`}>
+			<nav className={`ofcanvas-menu ${!open && "active"}`}>
 				<ul>
 					<li>
 						<Link className='link' to={"/"}>
@@ -61,7 +61,7 @@ function Navbar() {
 						</Link>
 					</li>
 				</ul>
-			</div>
+			</nav>
 		</>
 	);
 }
