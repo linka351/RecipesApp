@@ -42,6 +42,12 @@ describe("Input component", () => {
 		expect(errorMessage).toBeInTheDocument();
 	});
 
+	test("show yup component error when touched", () => {
+		setup({ touched: true, errors: "Pole dłuższe niż 3 znaki" });
+		const errorMessage = screen.getByText("Pole dłuższe niż 3 znaki");
+		expect(errorMessage).toBeInTheDocument();
+	});
+
 	test("does not display error message when not touched", () => {
 		setup();
 		const errorMessage = screen.queryByText("This field is required");
