@@ -8,7 +8,7 @@ function Navbar() {
 	const [open, setOpen] = useState<boolean>(true);
 
 	const toggleMenu = () => {
-		setOpen(!open);
+		setOpen(prev => !prev);
 	};
 	return (
 		<>
