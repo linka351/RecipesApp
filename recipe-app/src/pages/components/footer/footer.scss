@@ -35,5 +35,10 @@
 		width: 100px;
 		display: flex;
 		justify-content: space-between;
+		transition: 0.8s;
+
+		:hover {
+			transform: rotate(5deg);
+		}
 	}
 }
