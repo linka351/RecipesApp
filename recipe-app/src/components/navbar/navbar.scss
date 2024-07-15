@@ -1,0 +1,66 @@
+.navbar {
+	width: 100%;
+	height: 80px;
+	background-color: rgb(192, 54, 54);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+
+	.menu {
+		border: none;
+	}
+
+	.logo-link {
+		text-decoration: none;
+	}
+
+	.logo {
+		text-align: center;
+
+		p {
+			padding-top: 0;
+			color: white;
+			font-weight: bold;
+		}
+	}
+
+	.icon {
+		color: white;
+		width: 40px;
+		height: 40px;
+	}
+
+	.menu-icon {
+		top: 25px;
+		color: white;
+		font-size: 30px;
+		left: 10px;
+		cursor: pointer;
+		position: absolute;
+	}
+}
+
+.ofcanvas-menu {
+	position: absolute;
+	background-color: lighten($color: rgb(192, 54, 54), $amount: 10);
+	top: -100vh;
+	margin-top: 80px;
+	width: 300px;
+	transition: 0.5s;
+	height: 80vh;
+}
+
+.active {
+	transform: translateY(100vh);
+}
+
+.link {
+	text-decoration: none;
+	color: white;
+	display: block;
+	padding: 10px 30px;
+}
+.link:hover {
+	background-color: darken($color: rgb(192, 54, 54), $amount: 10);
+}
