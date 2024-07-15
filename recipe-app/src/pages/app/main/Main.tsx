@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import Recipes from "../recipes/Recipes";
 import MealPlans from "../mealPlans/MealPlans";
@@ -45,6 +46,7 @@ function Main() {
 	return (
 		<>
 			<RouterProvider router={router} />
+			<ToastContainer position="top-center" />
 		</>
 	);
 }

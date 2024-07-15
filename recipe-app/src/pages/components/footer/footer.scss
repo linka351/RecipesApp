@@ -1,0 +1,44 @@
+.footer {
+	width: 100%;
+	height: 80px;
+	background-color: rgb(173, 4, 4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+
+	.icon {
+		width: 40px;
+		height: 40px;
+		color: white;
+	}
+	.logo {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+
+		.link {
+			text-decoration: none;
+		}
+
+		.text {
+			padding-top: 10px;
+			color: white;
+		}
+	}
+
+	.social {
+		position: absolute;
+		left: 90%;
+		width: 100px;
+		display: flex;
+		justify-content: space-between;
+		transition: 0.8s;
+
+		:hover {
+			transform: rotate(5deg);
+		}
+	}
+}
