@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-	apiKey: import.meta.env.RECIPES_APP_API_KEY,
+	apiKey: import.meta.env.VITE_RECIPES_APP_API_KEY,
 	authDomain: "recipesapp-334f3.firebaseapp.com",
 	projectId: "recipesapp-334f3",
 	storageBucket: "recipesapp-334f3.appspot.com",
