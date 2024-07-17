@@ -48,11 +48,11 @@
 	margin-top: 80px;
 	width: 300px;
 	transition: 0.5s;
-	height: 80vh;
 }
 
 .active {
 	transform: translateY(100vh);
+	height: calc(100vh - 160px);
 }
 
 .link {
