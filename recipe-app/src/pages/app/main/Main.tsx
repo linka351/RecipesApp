@@ -46,7 +46,7 @@ function Main() {
 	return (
 		<>
 			<RouterProvider router={router} />
-			<ToastContainer position="top-center" />
+			<ToastContainer position='top-center' />
 		</>
 	);
 }
