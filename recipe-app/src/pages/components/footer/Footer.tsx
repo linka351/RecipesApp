@@ -11,7 +11,7 @@ function Footer() {
 		<>
 			<div className='footer'>
 				<div className='logo'>
-					<Link className='link' to={"/"} aria-label='home'>
+					<Link className='footer-link' to={"/"} aria-label='home'>
 						<GiRiceCooker className='icon' />
 						<p className='text'>&copy; 2024 Recipe App</p>
 					</Link>
