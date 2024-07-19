@@ -27,11 +27,11 @@ describe("Slider Component", () => {
 		expect(screen.getByText("Dodaj swój plan żywnościowy")).toBeInTheDocument();
 	});
 
-	test("loops back to the first slide after the last slide", () => {
+	test("loops back to the first slide after the last slide", async () => {
 		render(<Slider />);
-		userEvent.click(screen.getByLabelText("next"));
-		userEvent.click(screen.getByLabelText("next"));
-		userEvent.click(screen.getByLabelText("next"));
+		await userEvent.click(screen.getByLabelText("next"));
+		await userEvent.click(screen.getByLabelText("next"));
+		await userEvent.click(screen.getByLabelText("next"));
 		expect(screen.getByText("Recipe App")).toBeInTheDocument();
 	});
 
