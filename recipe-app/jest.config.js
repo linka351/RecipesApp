@@ -5,6 +5,7 @@ export default {
 	},
 
 	moduleNameMapper: {
+		"\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
 		"\\.(css|less|sass|scss)$": "identity-obj-proxy",
 	},
 
