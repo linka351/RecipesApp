@@ -1,5 +1,7 @@
+import Slider from "./components/slider/Slider";
+
 function LandingPage() {
-	return <p>LandingPage</p>;
+	return <Slider />;
 }
 
 export default LandingPage;
