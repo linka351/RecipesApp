@@ -1,10 +1,7 @@
-import Navbar from "../../../components/navbar/Navbar";
-
-import Footer from "../../components/footer/Footer";
+import Slider from "./components/slider/Slider";
 
 function LandingPage() {
-	return <Navbar />;
-	return <Footer />;
+	return <Slider />;
 }
 
 export default LandingPage;
