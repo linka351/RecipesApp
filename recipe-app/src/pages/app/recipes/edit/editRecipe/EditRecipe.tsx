@@ -1,133 +1,195 @@
 import { useEffect, useState } from "react";
 import { recipeApi } from "../../../../../api/recipes";
 import { Formik, FormikHelpers } from "formik";
+import { Recipe } from "../../../../../types/editRecipe";
+import { FaRegEdit } from "react-icons/fa";
 
-interface Recipe {
-	id: string;
-	name: string;
-	description: string;
-	ingredients: string;
-	instructions: string;
-}
+import "./editRecipe.scss";
+import EditRecipeList from "./components/editRecipeList/EditRecipeList";
+import EditRecipeInput from "./components/editRecipesInput/EditRecipesInput";
 
 function EditRecipe() {
-	const [recipes, setRecipes] = useState<any[]>([]);
+	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [edit, setEdit] = useState(false);
-	const [editRecipe, setEditRecipe] = useState({
+	const [editIngredientIndex, setEditIngredientIndex] = useState<number | null>(
+		null
+	);
+	const [editInstructionIndex, setEditInstructionIndex] = useState<
+		number | null
+	>(null);
+	const [editRecipe, setEditRecipe] = useState<Recipe>({
 		id: "",
 		name: "",
 		description: "",
-		ingredients: "",
-		instructions: "",
+		ingredients: [],
+		instructions: [],
 	});
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const recipesAll = await recipeApi.getAll();
-			const mappedRecipes = recipesAll.map(recipe => ({
-				id: recipe.id,
-				name: recipe.name,
-				description: recipe.description,
-				ingredients: recipe.ingredients,
-				instructions: recipe.instructions,
-			}));
-			setRecipes(mappedRecipes);
+			setRecipes(recipesAll);
 		};
 		fetchData();
 	}, []);
-
 	const handleEditClick = (recipe: Recipe) => {
 		setEdit(true);
-		setEditRecipe({
-			id: recipe.id,
-			name: recipe.name,
-			description: recipe.description,
-			ingredients: recipe.ingredients,
-			instructions: recipe.instructions,
-		});
+		setEditRecipe(recipe);
 	};
 
-	const handleSaveClick = async (
+	const handleEditInstructionClick = (index: number) => {
+		setEditInstructionIndex(index);
+	};
+
+	const handleEditIngredientClick = (index: number) => {
+		setEditIngredientIndex(index);
+	};
+
+	const handleInstructionChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		index: number,
+		setFieldValue: (
+			field: string,
+			value: any,
+			shouldValidate?: boolean | undefined
+		) => void
+	) => {
+		const newInstructions = [...editRecipe.instructions];
+		newInstructions[index] = e.target.value;
+		setFieldValue("instructions", newInstructions);
+	};
+
+	const handleIngredientChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		index: number,
+		setFieldValue: (
+			field: string,
+			value: any,
+			shouldValidate?: boolean | undefined
+		) => void
+	) => {
+		const newIngredients = [...editRecipe.ingredients];
+		newIngredients[index] = e.target.value;
+		setFieldValue("ingredients", newIngredients);
+	};
+
+	const onSubmit = async (
 		values: Recipe,
 		{ setSubmitting }: FormikHelpers<Recipe>
 	) => {
-		const updatedData = {
-			name: values.name,
-			description: values.description,
-			ingredients: values.ingredients,
-			instructions: values.instructions,
-		};
-
-		await recipeApi.updateRecipe(editRecipe.id, updatedData);
-
+		const { id, ...updatedData } = values;
+		await recipeApi.update(id, updatedData);
 		const recipesData = await recipeApi.getAll();
 		setRecipes(recipesData);
-
 		setEdit(false);
 		setSubmitting(false);
 	};
 
 	return (
-		<>
-			<ul>
-				{recipes.map(recipe => (
-					<li key={recipe.id}>
-						<p>{recipe.name}</p>
-						<button onClick={() => handleEditClick(recipe)}>Edit</button>
-					</li>
-				))}
-			</ul>
-			{edit && (
-				<div>
-					<h2>Edit Recipe</h2>
-					<Formik initialValues={editRecipe} onSubmit={handleSaveClick}>
-						{({ values, handleChange, handleSubmit }) => (
-							<form onSubmit={handleSubmit}>
-								<label>
-									Title:
-									<input
-										type='text'
-										name='name'
-										value={values.name}
-										onChange={handleChange}
-									/>
-								</label>
-								<label>
-									Description:
-									<input
-										type='text'
-										name='description'
-										value={values.description}
-										onChange={handleChange}
-									/>
-								</label>
+		<div className='edit-recipe'>
+			{!edit ? (
+				<EditRecipeList onClick={handleEditClick} data={recipes} />
+			) : (
+				<div className='edit-container'>
+					<p className='edit-recipe-name'>Edytuj Przepis</p>
+					<Formik initialValues={editRecipe} onSubmit={onSubmit}>
+						{({ values, handleChange, handleSubmit, setFieldValue }) => (
+							<form className='edit-form' onSubmit={handleSubmit}>
+								<EditRecipeInput value={values} onChange={handleChange} />
+								<div className='edit-recipe-box'>
+									<label>
+										<textarea
+											placeholder='Opis przepisu'
+											className='description-input'
+											name='description'
+											value={values.description}
+											onChange={handleChange}
+										/>
+									</label>
+								</div>
 								<br />
-								<label>
-									Ingredients:
-									<input
-										type='text'
-										name='ingredients'
-										value={values.ingredients}
-										onChange={handleChange}
-									/>
-								</label>
-								<br />
-								<label>
-									Instructions:
-									<input
-										type='text'
-										name='instructions'
-										value={values.instructions}
-										onChange={handleChange}
-									/>
-								</label>
-								<br />
-								<button type='submit'>Save</button>
+								<p className='list-element'>Edytuj Składnik</p>
+								{values.ingredients.map((ingredient, index) => {
+									return (
+										<div className='data-container' key={index}>
+											{editIngredientIndex === index ? (
+												<div className='data-input'>
+													<input
+														className='name-input'
+														type='text'
+														value={ingredient}
+														onChange={e =>
+															handleIngredientChange(e, index, setFieldValue)
+														}
+														onBlur={() => setEditIngredientIndex(null)}
+													/>
+													<button
+														className='recipe-button'
+														type='button'
+														onClick={() => handleEditIngredientClick(index)}>
+														Edytuj
+													</button>
+												</div>
+											) : (
+												<div className='data-element'>
+													<p className='data-text'>{ingredient}</p>
+													<button
+														className='edit-button'
+														type='button'
+														onClick={() => handleEditIngredientClick(index)}>
+														<FaRegEdit className='edit-icon' />
+													</button>
+												</div>
+											)}
+										</div>
+									);
+								})}
+								<p className='list-element'>Edytuj Instrukcję</p>
+
+								{values.instructions.map((instruction, index) => {
+									return (
+										<div className='data-container' key={index}>
+											{editInstructionIndex === index ? (
+												<div className='ingredient-instruction-input'>
+													<input
+														className='name-input'
+														type='text'
+														value={instruction}
+														onChange={e =>
+															handleInstructionChange(e, index, setFieldValue)
+														}
+														onBlur={() => setEditInstructionIndex(null)}
+													/>
+													<button
+														className='recipe-button'
+														type='button'
+														onClick={() => handleEditInstructionClick(index)}>
+														Edytuj
+													</button>
+												</div>
+											) : (
+												<div className='data-element'>
+													<p className='data-text'>{instruction}</p>
+													<button
+														className='edit-button'
+														type='button'
+														onClick={() => handleEditInstructionClick(index)}>
+														<FaRegEdit className='edit-icon' />
+													</button>
+												</div>
+											)}
+										</div>
+									);
+								})}
+								<button className='submit-button' type='submit'>
+									Zapisz
+								</button>
 							</form>
 						)}
 					</Formik>
 				</div>
 			)}
-		</>
+		</div>
 	);
 }
 
