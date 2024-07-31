@@ -2,11 +2,12 @@ import {
 	addDoc,
 	collection,
 	doc,
+	getDoc,
 	getDocs,
 	query,
 	updateDoc,
 } from "firebase/firestore";
-import { FormValues } from "../pages/app/recipes/add/addRecipe/AddRecipe";
+import { FormValues } from "../pages/app/recipes/recipesForm/RecipesForm";
 import { db } from "../firebase/firebaseConfig";
 import { Recipe } from "../types/editRecipe";
 
@@ -27,8 +28,16 @@ const update = async (docId: string, updatedData: Omit<Recipe, "id">) => {
 	await updateDoc(docRef, updatedData);
 };
 
+const getOne = async (id: string) => {
+	const documentReference = doc(db, "recipes", id);
+	const documentSnapshot = await getDoc(documentReference);
+
+	return { id: documentSnapshot.id, ...documentSnapshot.data() } as Recipe;
+};
+
 export const recipeApi = {
 	add,
 	getAll,
 	update,
+	getOne,
 };

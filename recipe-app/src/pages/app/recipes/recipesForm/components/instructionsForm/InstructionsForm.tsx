@@ -1,11 +1,13 @@
 import { useFormik } from "formik";
-import { FaTrashAlt } from "react-icons/fa";
+import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { instructionSchema } from "../../addRecipe.validation";
 
 import "../addRecipeElementsForm.scss";
+import { useState } from "react";
 
 type Props = {
 	onInstructionsAdded: (instruction: string) => void;
+	onInstructionEdited: (Index: number, instruction: string) => void;
 	onRemove: (index: number) => void;
 	instructions: string[];
 	touched: boolean;
@@ -14,27 +16,45 @@ type Props = {
 
 export default function InstructionsForm({
 	onInstructionsAdded,
+	onInstructionEdited,
 	onRemove,
 	instructions,
 	touched,
 	errors,
 }: Props) {
+	const [editInstruction, setEditInstruction] = useState<number | null>(null);
+
 	const formik = useFormik({
 		initialValues: {
 			instruction: "",
 		},
 		validationSchema: instructionSchema,
 		onSubmit: (values, { resetForm }) => {
-			onInstructionsAdded(values.instruction);
+			if (editInstruction !== null) {
+				onInstructionEdited(editInstruction, values.instruction);
+				setEditInstruction(null);
+			} else {
+				onInstructionsAdded(values.instruction);
+			}
 			resetForm();
 		},
 	});
+
+	const handleEditClick = (index: number, ingredient: string) => {
+		setEditInstruction(index);
+		formik.setFieldValue("instruction", ingredient);
+	};
+
+	const handleExitEdit = () => {
+		setEditInstruction(null);
+		formik.resetForm();
+	};
 
 	return (
 		<>
 			<form className='instruction-box' onSubmit={formik.handleSubmit}>
 				<label htmlFor='instruction' className='label'>
-					Dodaj Instrukcje
+					{editInstruction !== null ? "Edytuj Składnik" : "Dodaj Składnik"}
 				</label>
 				<input
 					className='input'
@@ -52,8 +72,16 @@ export default function InstructionsForm({
 					type='submit'
 					className='button'
 					disabled={formik.values.instruction === ""}>
-					Add
+					{editInstruction !== null ? "Zapisz" : "Dodaj"}
 				</button>
+				{editInstruction !== null && (
+					<button
+						type='button'
+						className='button cancel-button'
+						onClick={handleExitEdit}>
+						Anuluj
+					</button>
+				)}
 				<div className='add-recipe-error'>{touched && errors}</div>
 			</form>
 			<ul>
@@ -65,6 +93,12 @@ export default function InstructionsForm({
 							className='remove-button'
 							onClick={() => onRemove(index)}>
 							<FaTrashAlt className='remove-element' />
+						</button>
+						<button
+							type='button'
+							className='remove-button'
+							onClick={() => handleEditClick(index, instruction)}>
+							<FaRegEdit className='remove-element' />
 						</button>
 					</li>
 				))}
