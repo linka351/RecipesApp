@@ -41,7 +41,7 @@ function Navbar() {
 						</Link>
 					</li>
 					<li>
-						<Link className='link' to={"/app/recipes/edit/:id"}>
+						<Link className='link' to={"/app/recipes/edit"}>
 							Edytuj Przepis
 						</Link>
 					</li>
