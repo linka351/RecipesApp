@@ -1,0 +1,52 @@
+.container {
+	background-color: #265721;
+	margin: 10vh auto;
+	border-radius: 10px;
+	width: 90%;
+
+	.title {
+		color: white;
+		font-size: 25px;
+		padding: 10px;
+	}
+
+	.add-meal-plan-form {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.label {
+		color: white;
+		font-size: 20px;
+		padding: 10px 100px 10px;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		:focus {
+			outline: none;
+		}
+	}
+
+	.plan-input-description {
+		height: 100px;
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+	}
+
+	.plan-input {
+		width: 500px;
+		padding: 10px;
+		border-radius: 10px;
+		margin-left: 10px;
+		border: none;
+	}
+
+	.table-header {
+		color: white;
+		font-size: 18px;
+		text-transform: uppercase;
+		padding: 10px;
+	}
+}
