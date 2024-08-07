@@ -1,9 +1,9 @@
 import RecipesForm from "../../recipesForm/RecipesForm";
 
-function AddRecipe({ onSubmitSuccess }: { onSubmitSuccess: () => void }) {
+function AddRecipe({ onSubmit }: { onSubmit: () => void }) {
 	return (
 		<div>
-			<RecipesForm onSubmitSuccess={onSubmitSuccess} />
+			<RecipesForm onSubmit={onSubmit} />
 		</div>
 	);
 }

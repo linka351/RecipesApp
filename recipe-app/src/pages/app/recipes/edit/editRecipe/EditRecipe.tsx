@@ -17,12 +17,10 @@ function EditRecipeList() {
 	}, []);
 
 	return (
-		<ul className='recipe-container'>
+		<ul className='edit-container'>
 			{recipes.map(recipe => (
 				<li className='recipe' key={recipe.id}>
-					<p className='recipe-text' style={{ color: "black" }}>
-						{recipe.name}
-					</p>
+					<p>{recipe.name}</p>
 					<Link to={`/app/recipes/edit/${recipe.id}`}>
 						<button className='recipe-button'>Edytuj</button>
 					</Link>

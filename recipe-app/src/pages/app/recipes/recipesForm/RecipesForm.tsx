@@ -17,10 +17,10 @@ export interface FormValues {
 
 interface RecipesFormProps {
 	initialValues?: FormValues;
-	onSubmitSuccess?: () => void;
+	onSubmit?: () => void;
 }
 
-function RecipesForm({ initialValues, onSubmitSuccess }: RecipesFormProps) {
+function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const defaultValues: FormValues = {
 		name: "",
 		description: "",
@@ -31,16 +31,17 @@ function RecipesForm({ initialValues, onSubmitSuccess }: RecipesFormProps) {
 	const formik = useFormik<FormValues>({
 		initialValues: initialValues || defaultValues,
 		validationSchema,
-		onSubmit,
+		onSubmit: handleSubmit,
 	});
 
-	async function onSubmit(
+	async function handleSubmit(
 		values: FormValues,
-		{ resetForm }: FormikHelpers<FormValues>
+		formikHelpers: FormikHelpers<FormValues>
 	) {
+		const isEditMode = !!values.id;
 		try {
-			if (values.id) {
-				await recipeApi.update(values.id, {
+			if (isEditMode) {
+				await recipeApi.update(values.id!, {
 					name: values.name,
 					description: values.description,
 					instructions: values.instructions,
@@ -49,45 +50,45 @@ function RecipesForm({ initialValues, onSubmitSuccess }: RecipesFormProps) {
 			} else {
 				await recipeApi.add(values);
 			}
-			resetForm();
-			if (onSubmitSuccess) onSubmitSuccess();
+			formikHelpers.resetForm();
+			if (onSubmit) onSubmit();
 		} catch (e: any) {
 			console.log({ e });
 		}
 	}
 
-	function handleAddInstruction(instruction: string) {
+	const handleAddInstruction = (instruction: string): void => {
 		formik.setFieldValue("instructions", [
 			...formik.values.instructions,
 			instruction,
 		]);
-	}
+	};
 
-	function handleAddIngredient(ingredient: string) {
+	const handleAddIngredient = (ingredient: string): void => {
 		formik.setFieldValue("ingredients", [
 			...formik.values.ingredients,
 			ingredient,
 		]);
-	}
+	};
 
-	function handleRemoveElement(
+	const handleRemoveElement = (
 		index: number,
 		element: "instructions" | "ingredients"
-	) {
+	): void => {
 		const updatedElements = [...formik.values[element]];
 		updatedElements.splice(index, 1);
 		formik.setFieldValue(element, updatedElements);
-	}
+	};
 
 	const handleEditIngredient = (index: number, ingredient: string) => {
 		const updatedIngredients = [...formik.values.ingredients];
 		updatedIngredients[index] = ingredient;
 		formik.setFieldValue("ingredients", updatedIngredients);
 	};
-	const handleEditInstruction = (index: number, ingredient: string) => {
+	const handleEditInstruction = (index: number, instruction: string) => {
 		const updatedInstructions = [...formik.values.instructions];
-		updatedInstructions[index] = ingredient;
-		formik.setFieldValue("ingredients", updatedInstructions);
+		updatedInstructions[index] = instruction;
+		formik.setFieldValue("instructions", updatedInstructions);
 	};
 
 	return (
@@ -127,7 +128,10 @@ function RecipesForm({ initialValues, onSubmitSuccess }: RecipesFormProps) {
 				touched={!!formik.touched.ingredients}
 				errors={formik.errors.ingredients || ""}
 			/>
-			<button className='add-recipe-submit' onClick={formik.submitForm}>
+			<button
+				className='add-recipe-submit'
+				type='submit'
+				onClick={formik.submitForm}>
 				Zapisz
 			</button>
 		</div>

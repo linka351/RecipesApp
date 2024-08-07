@@ -88,18 +88,20 @@ export default function IngredientsForm({
 				{ingredients.map((ingredient, index) => (
 					<li key={index} className='add-recipe-element'>
 						{ingredient}
-						<button
-							type='button'
-							className='remove-button'
-							onClick={() => onRemove(index)}>
-							<FaTrashAlt className='remove-element' />
-						</button>
-						<button
-							type='button'
-							className='remove-button'
-							onClick={() => handleEditClick(index, ingredient)}>
-							<FaRegEdit className='remove-element' />
-						</button>
+						<div className='buttons'>
+							<button
+								type='button'
+								className='remove-button'
+								onClick={() => onRemove(index)}>
+								<FaTrashAlt className='remove-element' />
+							</button>
+							<button
+								type='button'
+								className='edit-button'
+								onClick={() => handleEditClick(index, ingredient)}>
+								<FaRegEdit className='edit-element' />
+							</button>
+						</div>
 					</li>
 				))}
 			</ul>

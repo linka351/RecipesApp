@@ -54,7 +54,7 @@ export default function InstructionsForm({
 		<>
 			<form className='instruction-box' onSubmit={formik.handleSubmit}>
 				<label htmlFor='instruction' className='label'>
-					{editInstruction !== null ? "Edytuj Składnik" : "Dodaj Składnik"}
+					{editInstruction !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}
 				</label>
 				<input
 					className='input'
@@ -88,18 +88,20 @@ export default function InstructionsForm({
 				{instructions.map((instruction, index) => (
 					<li key={index} className='add-recipe-element'>
 						{instruction}
-						<button
-							type='button'
-							className='remove-button'
-							onClick={() => onRemove(index)}>
-							<FaTrashAlt className='remove-element' />
-						</button>
-						<button
-							type='button'
-							className='remove-button'
-							onClick={() => handleEditClick(index, instruction)}>
-							<FaRegEdit className='remove-element' />
-						</button>
+						<div className='buttons'>
+							<button
+								type='button'
+								className='remove-button'
+								onClick={() => onRemove(index)}>
+								<FaTrashAlt className='remove-element' />
+							</button>
+							<button
+								type='button'
+								className='edit-button'
+								onClick={() => handleEditClick(index, instruction)}>
+								<FaRegEdit className='edit-element' />
+							</button>
+						</div>
 					</li>
 				))}
 			</ul>

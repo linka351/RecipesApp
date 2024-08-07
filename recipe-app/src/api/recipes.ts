@@ -28,7 +28,7 @@ const update = async (docId: string, updatedData: Omit<Recipe, "id">) => {
 	await updateDoc(docRef, updatedData);
 };
 
-const getOne = async (id: string) => {
+const getById = async (id: string) => {
 	const documentReference = doc(db, "recipes", id);
 	const documentSnapshot = await getDoc(documentReference);
 
@@ -39,5 +39,5 @@ export const recipeApi = {
 	add,
 	getAll,
 	update,
-	getOne,
+	getById,
 };

@@ -48,46 +48,59 @@
 	}
 
 	.add-recipe-element {
-		color: white;
-		list-style-type: none;
-		width: 280px;
-		background-color: #287233;
-		min-height: 30px;
 		border-radius: 5px;
 		margin: 10px;
 		font-size: 20px;
 		display: flex;
-		align-items: center;
-		padding: 5px;
-		display: flex;
 		justify-content: space-between;
-		align-items: flex-start;
+		align-items: center;
+		width: 280px;
+		background-color: #287233;
+		min-height: 30px;
+		padding: 5px;
+		color: white;
+	}
 
-		.remove-button {
-			background: none;
-			border: none;
-			cursor: pointer;
-			font-size: 18px;
-			.remove-element {
-				color: red;
-			}
+	.buttons {
+		display: flex;
+		gap: 10px;
+	}
+
+	.remove-button {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 20px;
+		.remove-element {
+			color: red;
 		}
 	}
 
-	.add-recipe-submit {
+	.edit-button {
+		background: none;
 		border: none;
-		width: 150px;
-		height: 30px;
-		margin: 10px;
-		background-color: #287233;
-		color: white;
-		font-weight: bold;
 		cursor: pointer;
-		border-radius: 5px;
+		font-size: 20px;
 
-		&:hover {
-			background-color: lighten($color: #287233, $amount: 10);
+		.edit-element {
+			color: rgb(247, 170, 26);
 		}
+	}
+}
+
+.add-recipe-submit {
+	border: none;
+	width: 150px;
+	height: 30px;
+	margin: 10px;
+	background-color: #287233;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 5px;
+
+	&:hover {
+		background-color: lighten($color: #287233, $amount: 10);
 	}
 }
 

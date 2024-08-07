@@ -8,8 +8,8 @@ interface EditRecipeListProps {
 }
 const EditRecipeList: React.FC<EditRecipeListProps> = ({ onClick, data }) => {
 	const handleClick =
-		(recipe: Recipe) => (event: React.MouseEvent<HTMLButtonElement>) => {
-			event.preventDefault();
+		(recipe: Recipe) => (e: React.MouseEvent<HTMLButtonElement>) => {
+			e.preventDefault();
 			onClick(recipe);
 		};
 	return (

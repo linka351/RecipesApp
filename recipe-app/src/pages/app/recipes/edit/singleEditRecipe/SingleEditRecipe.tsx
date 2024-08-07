@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { recipeApi } from "../../../../../api/recipes";
-import RecipeForm, { FormValues } from "../../recipesForm/RecipesForm";
+import RecipesForm, { FormValues } from "../../recipesForm/RecipesForm";
 
 function SingleEditRecipe() {
 	const { id } = useParams<{ id: string }>();
@@ -10,33 +10,19 @@ function SingleEditRecipe() {
 
 	useEffect(() => {
 		async function fetchRecipe() {
-			if (id) {
-				const recipe = await recipeApi.getOne(id);
-				setRecipe(recipe);
-				if (recipe) {
-					setRecipe({
-						id: recipe.id,
-						name: recipe.name,
-						description: recipe.description,
-						instructions: recipe.instructions,
-						ingredients: recipe.ingredients,
-					});
-				}
-			}
+			const singleRecipe = await recipeApi.getById(id!);
+			setRecipe(singleRecipe);
 		}
 
 		fetchRecipe();
 	}, [id]);
 
-	async function handleFormSubmitSuccess() {
+	async function handleFormSubmit() {
 		navigate("/app/recipes/edit");
 	}
 
 	return recipe ? (
-		<RecipeForm
-			initialValues={recipe}
-			onSubmitSuccess={handleFormSubmitSuccess}
-		/>
+		<RecipesForm initialValues={recipe} onSubmit={handleFormSubmit} />
 	) : (
 		<div>Loading...</div>
 	);
