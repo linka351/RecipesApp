@@ -1,0 +1,96 @@
+.recipe-container {
+	background-color: #265721;
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	h2 {
+		color: white;
+		text-align: center;
+		padding: 10px;
+	}
+
+	.recipe {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.recipe-box {
+			padding: 15px;
+		}
+
+		.add-recipe-label {
+			color: white;
+			font-size: 20px;
+			padding-bottom: 5px;
+		}
+
+		.add-recipe-input {
+			border: none;
+			outline: none;
+			width: 280px;
+			height: 30px;
+			border-radius: 5px;
+			font-size: 16px;
+			padding: 5px;
+		}
+
+		.recipe-description {
+			outline: none;
+			border: none;
+			min-height: 150px;
+			width: 280px;
+			border-radius: 5px;
+			font-size: 16px;
+			padding: 5px;
+		}
+	}
+
+	.buttons {
+		display: flex;
+		gap: 10px;
+	}
+
+	.remove-button {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 20px;
+		.remove-element {
+			color: red;
+		}
+	}
+
+	.edit-button {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 20px;
+
+		.edit-element {
+			color: rgb(247, 170, 26);
+		}
+	}
+}
+
+.recipe-submit {
+	border: none;
+	width: 150px;
+	height: 30px;
+	margin: 10px;
+	background-color: #287233;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 5px;
+
+	&:hover {
+		background-color: lighten($color: #287233, $amount: 10);
+	}
+}
+
+.add-recipe-error {
+	margin-top: 5px;
+	color: red;
+}

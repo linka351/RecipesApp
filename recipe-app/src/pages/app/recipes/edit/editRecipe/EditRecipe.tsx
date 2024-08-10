@@ -4,7 +4,7 @@ import "./editRecipe.scss";
 import { recipeApi } from "../../../../../api/recipes";
 import { Link } from "react-router-dom";
 
-function EditRecipeList() {
+function EditRecipe() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
 	useEffect(() => {
@@ -30,4 +30,4 @@ function EditRecipeList() {
 	);
 }
 
-export default EditRecipeList;
+export default EditRecipe;

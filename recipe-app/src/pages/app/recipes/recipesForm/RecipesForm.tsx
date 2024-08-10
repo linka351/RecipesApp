@@ -4,8 +4,9 @@ import IngredientsForm from "./components/ingredientsForm/IngredientsForm";
 import Input from "./components/input/Input";
 import TextArea from "./components/textArea/TextArea";
 import { recipeApi } from "../../../../api/recipes";
-import { validationSchema } from "./addRecipe.validation";
-import "../add/addRecipe/addRecipe.scss";
+import { validationSchema } from "./RecipeForm.validation";
+
+import "./recipesForm.scss";
 
 export interface FormValues {
 	id?: string;
@@ -38,9 +39,8 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		values: FormValues,
 		formikHelpers: FormikHelpers<FormValues>
 	) {
-		const isEditMode = !!values.id;
 		try {
-			if (isEditMode) {
+			if (values.id) {
 				await recipeApi.update(values.id!, {
 					name: values.name,
 					description: values.description,
@@ -92,9 +92,9 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	};
 
 	return (
-		<div className='add-recipe-container'>
+		<div className='recipe-container'>
 			<h2>{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}</h2>
-			<form className='add-recipe' onSubmit={formik.handleSubmit}>
+			<form className='recipe' onSubmit={formik.handleSubmit}>
 				<Input
 					placeholder='Nazwa przepisu'
 					name='name'
@@ -129,8 +129,8 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 				errors={formik.errors.ingredients || ""}
 			/>
 			<button
-				className='add-recipe-submit'
-				type='submit'
+				className='recipe-submit'
+				type='button'
 				onClick={formik.submitForm}>
 				Zapisz
 			</button>

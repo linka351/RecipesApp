@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import { FaTrashAlt } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
-import { ingredientSchema } from "../../addRecipe.validation";
-import "../addRecipeElementsForm.scss";
+import { ingredientSchema } from "../../RecipeForm.validation";
+import "../recipesFormComponents.scss";
 import { useState } from "react";
 
 type Props = {
@@ -52,7 +52,7 @@ export default function IngredientsForm({
 
 	return (
 		<>
-			<form className='instruction-box' onSubmit={formik.handleSubmit}>
+			<form className='container' onSubmit={formik.handleSubmit}>
 				<label htmlFor='ingredient' className='label'>
 					{editIngredient !== null ? "Edytuj Składnik" : "Dodaj Składnik"}
 				</label>
@@ -82,11 +82,11 @@ export default function IngredientsForm({
 						Anuluj
 					</button>
 				)}
-				<div className='add-recipe-error'>{touched && errors}</div>
+				<div className='error'>{touched && errors}</div>
 			</form>
 			<ul>
 				{ingredients.map((ingredient, index) => (
-					<li key={index} className='add-recipe-element'>
+					<li key={index} className='recipe-element'>
 						{ingredient}
 						<div className='buttons'>
 							<button

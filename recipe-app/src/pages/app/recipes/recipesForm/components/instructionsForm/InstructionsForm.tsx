@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
-import { instructionSchema } from "../../addRecipe.validation";
+import { instructionSchema } from "../../RecipeForm.validation";
 
-import "../addRecipeElementsForm.scss";
+import "../recipesFormComponents.scss";
 import { useState } from "react";
 
 type Props = {
@@ -52,7 +52,7 @@ export default function InstructionsForm({
 
 	return (
 		<>
-			<form className='instruction-box' onSubmit={formik.handleSubmit}>
+			<form className='container' onSubmit={formik.handleSubmit}>
 				<label htmlFor='instruction' className='label'>
 					{editInstruction !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}
 				</label>
@@ -82,11 +82,11 @@ export default function InstructionsForm({
 						Anuluj
 					</button>
 				)}
-				<div className='add-recipe-error'>{touched && errors}</div>
+				<div className='error'>{touched && errors}</div>
 			</form>
 			<ul>
 				{instructions.map((instruction, index) => (
-					<li key={index} className='add-recipe-element'>
+					<li key={index} className='recipe-element'>
 						{instruction}
 						<div className='buttons'>
 							<button

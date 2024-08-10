@@ -18,7 +18,7 @@ function SingleEditRecipe() {
 	}, [id]);
 
 	async function handleFormSubmit() {
-		navigate("/app/recipes/edit");
+		navigate("/app/recipes");
 	}
 
 	return recipe ? (

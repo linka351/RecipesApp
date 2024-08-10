@@ -1,5 +1,7 @@
+import EditRecipe from "./edit/editRecipe/EditRecipe";
+
 function Recipes() {
-	return <p>Recipes</p>;
+	return <EditRecipe />;
 }
 
 export default Recipes;

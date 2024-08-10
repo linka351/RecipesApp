@@ -4,7 +4,6 @@ import Recipes from "../recipes/Recipes";
 import MealPlans from "../mealPlans/MealPlans";
 import AddRecipe from "../recipes/add/addRecipe/AddRecipe";
 import AddMealPlan from "../mealPlans/add/addMealPlan/AddMealPlan";
-import EditRecipe from "../recipes/edit/editRecipe/EditRecipe";
 import EditMealPlan from "../mealPlans/edit/editMealPlan/EditMealPlan";
 import LandingPage from "../../landing/landingPage/LandingPage";
 import SingleEditRecipe from "../recipes/edit/singleEditRecipe/SingleEditRecipe";
@@ -32,10 +31,6 @@ const router = createBrowserRouter([
 			{
 				path: "/app/recipes/add",
 				element: <AddRecipe />,
-			},
-			{
-				path: "/app/recipes/edit",
-				element: <EditRecipe />,
 			},
 			{
 				path: "/app/recipes/edit/:id",
