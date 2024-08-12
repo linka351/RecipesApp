@@ -3,9 +3,32 @@ import { Recipe } from "../../../../../types/editRecipe";
 import { recipeApi } from "../../../../../api/recipes";
 
 import "./addMealPlan.scss";
+import PlanInput from "./components/planInput/PlanInput";
+import PlanTextArea from "./components/planTextArea/PlanTextArea";
+import { DayName } from "../../../../../types/MealPlan";
+import MealTable from "./components/mealTable/MealTable";
+
+export type MealPlan = {
+	name: string;
+	description: string;
+	plan: { [key in DayName]: { [meal: string]: string } };
+};
 
 function AddMealPlan() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
+	const [mealPlanName, setMealPlanName] = useState("");
+	const [mealPlanDescription, setMealPlanDescription] = useState("");
+	const [mealPlan, setMealPlan] = useState<{
+		[key in DayName]: { [meal: string]: string };
+	}>({
+		Poniedziałek: {},
+		Wtorek: {},
+		Środa: {},
+		Czwartek: {},
+		Piątek: {},
+		Sobota: {},
+		Niedziela: {},
+	});
 
 	useEffect(() => {
 		async function fetchRecipes() {
@@ -16,112 +39,61 @@ function AddMealPlan() {
 		fetchRecipes();
 	}, []);
 
-	const selectOption = () => {
-		return (
-			<select>
-				{recipes.map(recipe => (
-					<option key={recipe.id} value={recipe.id}>
-						{recipe.name}
-					</option>
-				))}
-			</select>
-		);
+	const handleSelectChange = (day: DayName, meal: string, recipeId: string) => {
+		setMealPlan(prevState => ({
+			...prevState,
+			[day]: {
+				...prevState[day],
+				[meal]: recipeId,
+			},
+		}));
+	};
+
+	const handleSubmit = async (event: React.FormEvent) => {
+		event.preventDefault();
+
+		const mealPlanWithNames = Object.fromEntries(
+			Object.entries(mealPlan).map(([day, meals]) => [
+				day,
+				Object.fromEntries(
+					Object.entries(meals).map(([meal, recipeId]) => {
+						const recipeName =
+							recipes.find(recipe => recipe.id === recipeId)?.name || "";
+						return [meal, recipeName];
+					})
+				),
+			])
+		) as { [key in DayName]: { [meal: string]: string } };
+		try {
+			await recipeApi.addMealPlan({
+				name: mealPlanName,
+				description: mealPlanDescription,
+				plan: mealPlanWithNames,
+			});
+
+			alert("Plan posiłków został zapisany!");
+		} catch (error) {
+			alert("Wystąpił błąd przy zapisywaniu planu.");
+		}
 	};
 
 	return (
 		<div className='container'>
 			<p className='title'>Nowy Plan</p>
-			<form className='add-meal-plan-form'>
-				<label className='label'>
-					Nazwa Planu
-					<input type='text' className='plan-input' />
-				</label>
-				<label className='label'>
-					Opis Planu
-					<textarea className='plan-input plan-input-description' />
-				</label>
-				<table>
-					<thead>
-						<tr className='table-header'>
-							<th></th>
-							<th>Śniadanie</th>
-							<th>Drugie Śniadanie</th>
-							<th>Zupa</th>
-							<th>Drugie danie</th>
-							<th>kolacja</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th className='table-header'>Poniedziałek</th>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<th className='table-header'>Wtorek</th>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<th className='table-header'>Środa</th>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<th className='table-header'>Czwartek</th>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<th className='table-header'>Piątek</th>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<th className='table-header'>Sobota</th>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-						</tr>
-					</tbody>
-					<tbody>
-						<tr>
-							<th className='table-header'>Niedziela</th>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-							<td>{selectOption()}</td>
-						</tr>
-					</tbody>
-				</table>
+			<form className='add-meal-plan-form' onSubmit={handleSubmit}>
+				<PlanInput value={mealPlanName} onChange={setMealPlanName} />
+				<PlanTextArea
+					value={mealPlanDescription}
+					onChange={setMealPlanDescription}
+				/>
+				<MealTable
+					onChange={handleSelectChange}
+					mealPlan={mealPlan}
+					recipes={recipes}
+				/>
+				<button type='submit' className='submit-button'>
+					Zapisz Plan
+				</button>
 			</form>
 		</div>
 	);

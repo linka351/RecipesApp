@@ -1,52 +1,49 @@
 .container {
-	background-color: #265721;
-	margin: 10vh auto;
-	border-radius: 10px;
-	width: 90%;
+	padding: 20px;
+}
 
-	.title {
-		color: white;
-		font-size: 25px;
-		padding: 10px;
-	}
+.title {
+	font-size: 24px;
+	margin-bottom: 20px;
+}
 
-	.add-meal-plan-form {
-		display: flex;
-		flex-direction: column;
-	}
+.add-meal-plan-form {
+	display: flex;
+	flex-direction: column;
+}
 
-	.label {
-		color: white;
-		font-size: 20px;
-		padding: 10px 100px 10px;
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		:focus {
-			outline: none;
-		}
-	}
+.label {
+	margin-bottom: 15px;
+}
 
-	.plan-input-description {
-		height: 100px;
-		display: flex;
-		justify-content: flex-start;
-		align-items: flex-start;
-	}
+.plan-input {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+}
 
-	.plan-input {
-		width: 500px;
-		padding: 10px;
-		border-radius: 10px;
-		margin-left: 10px;
-		border: none;
-	}
+.plan-input-description {
+	height: 100px;
+}
 
-	.table-header {
-		color: white;
-		font-size: 18px;
-		text-transform: uppercase;
-		padding: 10px;
-	}
+.meal-plan-grid {
+	display: grid;
+	grid-template-columns: 150px repeat(5, 1fr); /* Kolumna dla dni + 5 kolumn na posiłki */
+	gap: 10px;
+}
+
+.meal-header {
+	font-weight: bold;
+	text-align: center;
+}
+
+.day-label {
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+}
+
+.meal-select {
+	display: flex;
+	justify-content: center;
 }
