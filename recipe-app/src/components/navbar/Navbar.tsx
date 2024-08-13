@@ -31,32 +31,41 @@ function Navbar() {
 						</Link>
 					</li>
 					<li>
-						<Link className='link' to={"/app/recipes"}>
+						<Link onClick={toggleMenu} className='link' to={"/app/recipes"}>
 							Przepisy
 						</Link>
 					</li>
 					<li>
-						<Link className='link' to={"/app/recipes/add"}>
+						<Link onClick={toggleMenu} className='link' to={"/app/recipes/add"}>
 							Dodaj Przepis
 						</Link>
 					</li>
 					<li>
-						<Link className='link' to={"/app/recipes/edit/:id"}>
+						<Link
+							onClick={toggleMenu}
+							className='link'
+							to={"/app/recipes/edit/:id"}>
 							Edytuj Przepis
 						</Link>
 					</li>
 					<li>
-						<Link className='link' to={"/app/meal-plans"}>
+						<Link onClick={toggleMenu} className='link' to={"/app/meal-plans"}>
 							Plany Żywnościowe
 						</Link>
 					</li>
 					<li>
-						<Link className='link' to={"/app/meal-plans/add"}>
+						<Link
+							onClick={toggleMenu}
+							className='link'
+							to={"/app/meal-plans/add"}>
 							Dodaj Plan Żywnościowy
 						</Link>
 					</li>
 					<li>
-						<Link className='link' to={"/app/meal-plans/edit/:id"}>
+						<Link
+							onClick={toggleMenu}
+							className='link'
+							to={"/app/meal-plans/edit/:id"}>
 							Edytuj Plan Żywnościowy
 						</Link>
 					</li>
