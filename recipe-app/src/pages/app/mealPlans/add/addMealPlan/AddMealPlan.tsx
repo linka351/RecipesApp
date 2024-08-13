@@ -1,6 +1,6 @@
 function AddMealPlan() {
 	return (
-		<div className='add-meal-plan'>
+		<div>
 			<h1>Dodaj Plan Żywnościowy</h1>
 		</div>
 	);

@@ -11,14 +11,14 @@ function Input({ placeholder, name, onChange, value, touched, errors }: Props) {
 	return (
 		<div className='recipe-box'>
 			<input
-				className='add-recipe-input'
+				className='recipe-input'
 				type='text'
 				placeholder={placeholder}
 				name={name}
 				onChange={onChange}
 				value={value}
 			/>
-			<div className='add-recipe-error'>{touched && errors}</div>
+			<div className='recipe-error'>{touched && errors}</div>
 		</div>
 	);
 }

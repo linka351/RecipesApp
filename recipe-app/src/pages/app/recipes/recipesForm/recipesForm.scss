@@ -20,13 +20,13 @@
 			padding: 15px;
 		}
 
-		.add-recipe-label {
-			color: white;
-			font-size: 20px;
-			padding-bottom: 5px;
-		}
+		// .add-recipe-label {
+		// 	color: white;
+		// 	font-size: 20px;
+		// 	padding-bottom: 5px;
+		// }
 
-		.add-recipe-input {
+		.recipe-input {
 			border: none;
 			outline: none;
 			width: 280px;
@@ -90,7 +90,7 @@
 	}
 }
 
-.add-recipe-error {
+.recipe-error {
 	margin-top: 5px;
 	color: red;
 }
