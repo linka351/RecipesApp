@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { recipeApi } from "../../../../../api/recipes";
-import RecipesForm, { FormValues } from "../../recipesForm/RecipesForm";
+import { recipeApi } from "../../../../api/recipes";
+import RecipesForm, { FormValues } from "../recipesForm/RecipesForm";
 
-function SingleEditRecipe() {
+function Edit() {
 	const { id } = useParams<{ id: string }>();
 	const [recipe, setRecipe] = useState<FormValues | null>(null);
 	const navigate = useNavigate();
@@ -28,4 +28,4 @@ function SingleEditRecipe() {
 	);
 }
 
-export default SingleEditRecipe;
+export default Edit;
