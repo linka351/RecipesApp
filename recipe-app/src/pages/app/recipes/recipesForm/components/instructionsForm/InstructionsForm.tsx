@@ -92,10 +92,12 @@ export default function InstructionsForm({
 							<button
 								type='button'
 								className='remove-button'
+								data-testid='remove-instruction'
 								onClick={() => onRemove(index)}>
 								<FaTrashAlt className='remove-element' />
 							</button>
 							<button
+								data-testid='edit-instruction'
 								type='button'
 								className='edit-button'
 								onClick={() => handleEditClick(index, instruction)}>

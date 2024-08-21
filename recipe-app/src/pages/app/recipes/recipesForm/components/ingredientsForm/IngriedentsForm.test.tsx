@@ -5,11 +5,13 @@ import IngredientsForm from "./IngredientsForm";
 
 const mockOnIngredientsAdded = jest.fn();
 const mockOnRemove = jest.fn();
+const mockOnIngredientEdited = jest.fn();
 
 describe("IngredientsForm", () => {
 	const setup = (propsOverrides = {}) => {
 		const initialProps = {
 			onIngredientsAdded: mockOnIngredientsAdded,
+			onIngredientEdited: mockOnIngredientEdited,
 			onRemove: mockOnRemove,
 			ingredients: [],
 			touched: false,
@@ -28,7 +30,7 @@ describe("IngredientsForm", () => {
 		setup();
 
 		expect(screen.getByLabelText("Dodaj Składnik")).toBeInTheDocument();
-		expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
+		expect(screen.getByRole("button", { name: "Dodaj" })).toBeDisabled();
 	});
 
 	test("enables add button when ingredient input is not empty", async () => {
@@ -37,13 +39,13 @@ describe("IngredientsForm", () => {
 
 		await userEvent.type(ingredientsInput, "Test ingredient");
 
-		expect(screen.getByRole("button", { name: "Add" })).not.toBeDisabled();
+		expect(screen.getByRole("button", { name: "Dodaj" })).not.toBeDisabled();
 	});
 
 	test("calls onIngredientsAdded when form is submitted", async () => {
 		setup();
 		const ingredientInput = screen.getByLabelText("Dodaj Składnik");
-		const addButton = screen.getByRole("button", { name: "Add" });
+		const addButton = screen.getByRole("button", { name: "Dodaj" });
 
 		await userEvent.type(ingredientInput, "Test ingredient");
 		await userEvent.click(addButton);
@@ -57,7 +59,7 @@ describe("IngredientsForm", () => {
 		const ingredientInput = screen.getByLabelText("Dodaj Składnik");
 
 		await userEvent.type(ingredientInput, "T");
-		const submitButton = screen.getByRole("button", { name: "Add" });
+		const submitButton = screen.getByRole("button", { name: "Dodaj" });
 		await userEvent.click(submitButton);
 
 		expect(
@@ -76,12 +78,36 @@ describe("IngredientsForm", () => {
 		).not.toBeInTheDocument();
 	});
 
-	test("displays form-level errors", () => {
+	test("allows ingredient to be edited", async () => {
 		setup({
-			touched: true,
-			errors: "Form error",
+			ingredients: ["Ingredient 1", "Ingredient 2"],
 		});
+		const editButton = screen.getAllByTestId("edit-ingredient")[0];
 
-		expect(screen.getByText("Form error")).toBeInTheDocument();
+		await userEvent.click(editButton);
+
+		const saveButton = screen.getByText("Zapisz");
+		const ingredientInput = screen.getByLabelText("Edytuj Składnik");
+
+		expect(ingredientInput).toHaveValue("Ingredient 1");
+
+		await userEvent.clear(ingredientInput);
+		await userEvent.type(ingredientInput, "Edited Ingredient");
+		await userEvent.click(saveButton);
+
+		expect(mockOnIngredientEdited).toHaveBeenCalledWith(0, "Edited Ingredient");
+		expect(mockOnIngredientEdited).toHaveBeenCalledTimes(1);
+	});
+
+	test("allows ingredient to be removed", async () => {
+		setup({
+			ingredients: ["Ingredient 1", "Ingredient 2"],
+		});
+		const removeButton = screen.getAllByTestId("remove-ingredient")[0];
+
+		await userEvent.click(removeButton);
+
+		expect(mockOnRemove).toHaveBeenCalledWith(0);
+		expect(mockOnRemove).toHaveBeenCalledTimes(1);
 	});
 });
