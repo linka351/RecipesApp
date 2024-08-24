@@ -1,8 +1,14 @@
 import "./navbar.scss";
 import { TiThMenuOutline } from "react-icons/ti";
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, NavLink } from "react-router-dom";
 import { GiRiceCooker } from "react-icons/gi";
+
+type NavLinkRenderProps = {
+	isActive: boolean;
+};
+
+const getClassName = ({ isActive }: NavLinkRenderProps) => isActive ? "selected link" : "link"
 
 function Navbar() {
 	const [open, setOpen] = useState<boolean>(true);
@@ -34,9 +40,7 @@ function Navbar() {
 				<ul>
 					<li>
 						<NavLink
-							className={({ isActive }) =>
-								isActive ? "selected link" : "link"
-							}
+							className={getClassName}
 							to={"/"}>
 							Strona Główna
 						</NavLink>
