@@ -4,12 +4,12 @@ import Recipes from "../recipes/Recipes";
 import MealPlans from "../mealPlans/MealPlans";
 import AddRecipe from "../recipes/add/addRecipe/AddRecipe";
 import AddMealPlan from "../mealPlans/add/addMealPlan/AddMealPlan";
-import EditRecipe from "../recipes/edit/editRecipe/EditRecipe";
 import EditMealPlan from "../mealPlans/edit/editMealPlan/EditMealPlan";
 import LandingPage from "../../landing/landingPage/LandingPage";
+import Edit from "../recipes/edit/Edit";
+import Layout from "../../../components/layout/Layout";
 
 import "./main.scss";
-import Layout from "../../../components/layout/Layout";
 
 const router = createBrowserRouter([
 	{
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/app/recipes/edit/:id",
-				element: <EditRecipe />,
+				element: <Edit />,
 			},
 			{
 				path: "/app/meal-plans",
@@ -56,7 +56,6 @@ function Main() {
 	return (
 		<>
 			<RouterProvider router={router} />
-			<ToastContainer position='top-center' />
 		</>
 	);
 }

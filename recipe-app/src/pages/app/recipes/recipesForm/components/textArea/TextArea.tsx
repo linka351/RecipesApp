@@ -24,7 +24,7 @@ function TextArea({
 				onChange={onChange}
 				value={value}
 			/>
-			<div className='add-recipe-error'>{touched && errors}</div>
+			<div className='recipe-error'>{touched && errors}</div>
 		</div>
 	);
 }
