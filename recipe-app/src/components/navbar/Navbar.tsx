@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { GiRiceCooker } from "react-icons/gi";
 
+const getClassName = ({ isActive }: { isActive: boolean }) =>
+	isActive ? "selected link" : "link";
+
 function Navbar() {
 	const [open, setOpen] = useState<boolean>(true);
 	const { pathname } = useLocation();
@@ -13,8 +16,6 @@ function Navbar() {
 	};
 
 	useEffect(() => {
-		console.log("effect", { pathname });
-
 		setOpen(false);
 	}, [pathname]);
 	return (
@@ -33,67 +34,37 @@ function Navbar() {
 			<nav className={`ofcanvas-menu ${open && "active"}`}>
 				<ul>
 					<li>
-						<NavLink
-							className={({ isActive }) =>
-								isActive ? "selected link" : "link"
-							}
-							to={"/"}>
+						<NavLink className={getClassName} to={"/"}>
 							Strona Główna
 						</NavLink>
 					</li>
 					<li>
-						<NavLink
-							className={({ isActive }) =>
-								isActive ? "selected link" : "link"
-							}
-							to={"/app/recipes"}
-							end>
+						<NavLink className={getClassName} to={"/app/recipes"} end>
 							Przepisy
 						</NavLink>
 					</li>
 					<li>
-						<NavLink
-							className={({ isActive }) =>
-								isActive ? "selected link" : "link"
-							}
-							to={"/app/recipes/add"}>
+						<NavLink className={getClassName} to={"/app/recipes/add"}>
 							Dodaj Przepis
 						</NavLink>
 					</li>
 					<li>
-						<NavLink
-							className={({ isActive }) =>
-								isActive ? "selected link" : "link"
-							}
-							to={"/app/recipes/edit/:id"}>
+						<NavLink className={getClassName} to={"/app/recipes/edit/:id"}>
 							Edytuj Przepis
 						</NavLink>
 					</li>
 					<li>
-						<NavLink
-							className={({ isActive }) =>
-								isActive ? "selected link" : "link"
-							}
-							to={"/app/meal-plans"}
-							end>
+						<NavLink className={getClassName} to={"/app/meal-plans"} end>
 							Plany Żywnościowe
 						</NavLink>
 					</li>
 					<li>
-						<NavLink
-							className={({ isActive }) =>
-								isActive ? "selected link" : "link"
-							}
-							to={"/app/meal-plans/add"}>
+						<NavLink className={getClassName} to={"/app/meal-plans/add"}>
 							Dodaj Plan Żywnościowy
 						</NavLink>
 					</li>
 					<li>
-						<NavLink
-							className={({ isActive }) =>
-								isActive ? "selected link" : "link"
-							}
-							to={"/app/meal-plans/edit/:id"}>
+						<NavLink className={getClassName} to={"/app/meal-plans/edit/:id"}>
 							Edytuj Plan Żywnościowy
 						</NavLink>
 					</li>
