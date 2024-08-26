@@ -4,6 +4,7 @@ import Edit from "./Edit";
 import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
 import { recipeApi } from "../../../../api/recipes";
+import { mockEdit } from "../../../../api/recipesMocks";
 
 jest.mock("../../../../api/recipes", () => ({
 	recipeApi: {
@@ -13,19 +14,9 @@ jest.mock("../../../../api/recipes", () => ({
 }));
 
 describe("Edit component", () => {
-	const mockEdit = {
-		id: "1",
-		name: "Recipe name",
-		description: "Recipe Description",
-		ingredients: ["Ingredient 1", "Ingredient 2", "Ingredient 3"],
-		instructions: ["Instruction 1", "Instruction 2", "Instruction 3"],
-	};
-
 	beforeEach(() => {
 		(recipeApi.getById as jest.Mock).mockResolvedValue(mockEdit);
 	});
-
-	
 
 	test("renders all form fields and buttons", async () => {
 		render(
@@ -76,5 +67,4 @@ describe("Edit component", () => {
 			})
 		);
 	});
-
 });
