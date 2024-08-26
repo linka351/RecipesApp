@@ -49,11 +49,6 @@ function Navbar() {
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className={getClassName} to={"/app/recipes/edit/:id"}>
-							Edytuj Przepis
-						</NavLink>
-					</li>
-					<li>
 						<NavLink className={getClassName} to={"/app/meal-plans"} end>
 							Plany Żywnościowe
 						</NavLink>

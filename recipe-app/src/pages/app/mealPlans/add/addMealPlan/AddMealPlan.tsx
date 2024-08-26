@@ -1,5 +1,9 @@
 function AddMealPlan() {
-	return <p>Add Meal Plan</p>;
+	return (
+		<div>
+			<h1>Dodaj Plan Żywnościowy</h1>
+		</div>
+	);
 }
 
 export default AddMealPlan;
