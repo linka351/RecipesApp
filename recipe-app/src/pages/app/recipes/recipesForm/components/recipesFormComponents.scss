@@ -2,6 +2,8 @@
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+	padding: 15px;
+	width: 100%;
 
 	.label {
 		color: white;
@@ -9,13 +11,13 @@
 		padding-bottom: 5px;
 	}
 	.input {
+		margin-top: 10px;
 		border: none;
 		outline: none;
-		width: 280px;
+		width: 500px;
 		height: 30px;
 		border-radius: 5px;
 		font-size: 16px;
-		padding: 5px;
 	}
 
 	.button {
@@ -49,11 +51,21 @@
 	margin: 10px;
 	font-size: 20px;
 	display: flex;
+	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	width: 280px;
+	width: 500px;
 	background-color: #287233;
-	min-height: 30px;
+	height: 40px;
 	padding: 5px;
 	color: white;
+}
+.recipe-input {
+	display: flex;
+}
+
+.recipe-list {
+	max-height: 120px;
+	overflow-y: auto;
+	width: 100%;
 }

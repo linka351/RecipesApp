@@ -51,29 +51,31 @@ export default function IngredientsForm({
 	};
 
 	return (
-		<>
-			<form className='container' onSubmit={formik.handleSubmit}>
+		<div className='container'>
+			<form onSubmit={formik.handleSubmit}>
 				<label htmlFor='ingredient' className='label'>
 					{editIngredient !== null ? "Edytuj Składnik" : "Dodaj Składnik"}
 				</label>
-				<input
-					className='input'
-					type='text'
-					name='ingredient'
-					id='ingredient'
-					onChange={formik.handleChange}
-					value={formik.values.ingredient}
-				/>
-				{formik.touched.ingredient && formik.errors.ingredient && (
-					<div className='error'>{formik.errors.ingredient}</div>
-				)}
-				<button
-					data-testid='add-ingredient'
-					type='submit'
-					className='button'
-					disabled={formik.values.ingredient === ""}>
-					{editIngredient !== null ? "Zapisz" : "Dodaj"}
-				</button>
+				<div className='recipe-input'>
+					<input
+						className='input'
+						type='text'
+						name='ingredient'
+						id='ingredient'
+						onChange={formik.handleChange}
+						value={formik.values.ingredient}
+					/>
+					{formik.touched.ingredient && formik.errors.ingredient && (
+						<div className='error'>{formik.errors.ingredient}</div>
+					)}
+					<button
+						data-testid='add-ingredient'
+						type='submit'
+						className='button'
+						disabled={formik.values.ingredient === ""}>
+						{editIngredient !== null ? "Zapisz" : "Dodaj"}
+					</button>
+				</div>
 				{editIngredient !== null && (
 					<button
 						type='button'
@@ -84,7 +86,7 @@ export default function IngredientsForm({
 				)}
 				<div className='error'>{touched && errors}</div>
 			</form>
-			<ul>
+			<ul className='recipe-list'>
 				{ingredients.map((ingredient, index) => (
 					<li key={index} className='recipe-element'>
 						{ingredient}
@@ -105,6 +107,6 @@ export default function IngredientsForm({
 					</li>
 				))}
 			</ul>
-		</>
+		</div>
 	);
 }
