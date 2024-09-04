@@ -68,22 +68,24 @@ export default function InstructionsForm({
 					{formik.touched.instruction && formik.errors.instruction && (
 						<div className='error'>{formik.errors.instruction}</div>
 					)}
-					<button
-						data-testid='add-instruction'
-						type='submit'
-						className='button'
-						disabled={formik.values.instruction === ""}>
-						{editInstruction !== null ? "Zapisz" : "Dodaj"}
-					</button>
+					<div className='button-position'>
+						<button
+							data-testid='add-instruction'
+							type='submit'
+							className='button'
+							disabled={formik.values.instruction === ""}>
+							{editInstruction !== null ? "Zapisz" : "Dodaj"}
+						</button>
+					</div>
+					{editInstruction !== null && (
+						<button
+							type='button'
+							className='button cancel-button'
+							onClick={handleExitEdit}>
+							Anuluj
+						</button>
+					)}
 				</div>
-				{editInstruction !== null && (
-					<button
-						type='button'
-						className='button cancel-button'
-						onClick={handleExitEdit}>
-						Anuluj
-					</button>
-				)}
 				<div className='error'>{touched && errors}</div>
 			</form>
 			<ul className='recipe-list'>

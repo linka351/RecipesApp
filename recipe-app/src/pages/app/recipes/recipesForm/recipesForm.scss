@@ -15,6 +15,7 @@
 		justify-content: row;
 		width: 100%;
 		justify-content: space-around;
+		align-items: flex-start;
 	}
 
 	.recipe {
@@ -28,7 +29,7 @@
 			flex-direction: row;
 			width: 95%;
 			justify-content: space-between;
-			padding: 15px;
+			padding: 5px;
 			align-items: center;
 			.label {
 				color: white;
@@ -49,7 +50,7 @@
 		.recipe-description {
 			outline: none;
 			border: none;
-			min-height: 120px;
+			min-height: 100px;
 			width: 80%;
 			border-radius: 5px;
 			font-size: 16px;
@@ -101,11 +102,25 @@
 }
 
 .recipe-error {
+	font-size: 20px;
 	margin-top: 5px;
 	color: red;
 }
-.button-position {
+.recipe-name {
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
-	justify-content: center;
+	padding: 15px;
+	position: relative;
+
+	&::after {
+		content: "";
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: 0;
+		width: 95%;
+		height: 2px;
+		background-color: rgb(192, 54, 54);
+	}
 }

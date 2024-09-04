@@ -1,6 +1,7 @@
 import {
 	addDoc,
 	collection,
+	deleteDoc,
 	doc,
 	getDoc,
 	getDocs,
@@ -35,9 +36,15 @@ const getById = async (id: string) => {
 	return { id: documentSnapshot.id, ...documentSnapshot.data() } as Recipe;
 };
 
+const remove = async (id: string) => {
+	const documentReference = doc(db, "recipes", id);
+	await deleteDoc(documentReference);
+};
+
 export const recipeApi = {
 	add,
 	getAll,
 	update,
 	getById,
+	remove
 };

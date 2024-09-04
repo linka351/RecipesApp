@@ -1,18 +1,43 @@
-.edit-container {
+.recipe-list-container {
 	background-color: #265721;
-	width: 80%;
+	width: 90%;
+	height: 75vh;
+	margin: 15px auto 0 auto;
 	border-radius: 10px;
-	margin: 50px auto 0 auto;
 
-	.recipe {
-		color: white;
-		font-size: 25px;
-		padding: 10px;
+	.search-recipe {
+		display: flex;
+		justify-content: space-between;
+		padding: 30px;
+		position: relative;
+		margin-bottom: 50px;
 
-		.recipe-button {
-			margin: 5px 0 10px 0;
-			width: 80px;
-			height: 30px;
+		&::after {
+			content: "";
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			bottom: 0;
+			width: 95%;
+			height: 2px;
+			background-color: rgb(192, 54, 54);
+		}
+
+		.list-recipe {
+			color: white;
+			font-size: 30px;
+		}
+
+		.search-input {
+			width: 400px;
+			border-radius: 5px;
+			border: none;
+			padding: 5px;
+		}
+
+		.add-recipe {
+			width: 150px;
+			height: 40px;
 			color: white;
 			background-color: #287233;
 			cursor: pointer;
@@ -23,5 +48,69 @@
 				background-color: lighten($color: #287233, $amount: 10);
 			}
 		}
+	}
+
+	.recipe {
+		color: white;
+		font-size: 25px;
+		padding: 10px;
+		display: flex;
+		justify-content: space-between;
+		width: 600px;
+		background-color: #287233;
+		margin: 0 0 10px 15px;
+		border-radius: 5px;
+
+		.recipe-button {
+			width: 80px;
+			height: 30px;
+			color: white;
+			background-color: #265721;
+			cursor: pointer;
+			border: none;
+			border-radius: 5px;
+			margin-left: 15px;
+
+			&:hover {
+				background-color: lighten($color: #287233, $amount: 10);
+			}
+		}
+		.delete-button {
+			width: 80px;
+			height: 30px;
+			margin-left: 10px;
+			color: white;
+			background-color: rgb(169, 20, 20);
+			cursor: pointer;
+			border: none;
+			border-radius: 5px;
+
+			&:hover {
+				background-color: lighten($color: rgb(169, 20, 20), $amount: 10);
+			}
+		}
+	}
+}
+
+.recipe-main {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 0;
+	height: 50vh;
+	width: 95%;
+
+	.image {
+		width: 35%;
+		height: 100%;
+		object-position: center;
+		object-fit: cover;
+		border-radius: 5px;
+		margin-right: 50px;
+	}
+
+	.list {
+		overflow-y: auto;
+		max-height: 50vh;
+		width: 50%;
 	}
 }

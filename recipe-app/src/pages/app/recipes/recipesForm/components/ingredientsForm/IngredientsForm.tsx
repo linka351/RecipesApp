@@ -68,22 +68,24 @@ export default function IngredientsForm({
 					{formik.touched.ingredient && formik.errors.ingredient && (
 						<div className='error'>{formik.errors.ingredient}</div>
 					)}
-					<button
-						data-testid='add-ingredient'
-						type='submit'
-						className='button'
-						disabled={formik.values.ingredient === ""}>
-						{editIngredient !== null ? "Zapisz" : "Dodaj"}
-					</button>
+					<div className='button-position'>
+						<button
+							data-testid='add-ingredient'
+							type='submit'
+							className='button'
+							disabled={formik.values.ingredient === ""}>
+							{editIngredient !== null ? "Zapisz" : "Dodaj"}
+						</button>
+					</div>
+					{editIngredient !== null && (
+						<button
+							type='button'
+							className='button cancel-button'
+							onClick={handleExitEdit}>
+							Anuluj
+						</button>
+					)}
 				</div>
-				{editIngredient !== null && (
-					<button
-						type='button'
-						className='button cancel-button'
-						onClick={handleExitEdit}>
-						Anuluj
-					</button>
-				)}
 				<div className='error'>{touched && errors}</div>
 			</form>
 			<ul className='recipe-list'>

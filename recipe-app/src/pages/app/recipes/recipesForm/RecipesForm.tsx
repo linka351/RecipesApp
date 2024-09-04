@@ -93,7 +93,16 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 
 	return (
 		<div className='recipe-container'>
-			<h2>{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}</h2>
+			<div className='recipe-name'>
+				<h2>{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}</h2>
+
+				<button
+					className='recipe-submit'
+					type='button'
+					onClick={formik.submitForm}>
+					Zapisz
+				</button>
+			</div>
 			<form className='recipe' onSubmit={formik.handleSubmit}>
 				<Input
 					name='name'
@@ -127,14 +136,6 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					touched={!!formik.touched.ingredients}
 					errors={formik.errors.ingredients || ""}
 				/>
-			</div>
-			<div className='button-position'>
-				<button
-					className='recipe-submit'
-					type='button'
-					onClick={formik.submitForm}>
-					Zapisz
-				</button>
 			</div>
 		</div>
 	);
