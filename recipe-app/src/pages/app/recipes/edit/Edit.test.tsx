@@ -4,18 +4,17 @@ import Edit from "./Edit";
 import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
 import { recipeApi } from "../../../../api/recipes";
-import { mockEdit } from "../../../../api/recipesMocks";
-
+import { editMocks } from "../../../../api/recipesMocks";
 jest.mock("../../../../api/recipes", () => ({
 	recipeApi: {
-		update: jest.fn(),
-		getById: jest.fn(),
+		update: jest.fn().mockImplementation(() => Promise.resolve()),
+		getById: jest.fn().mockImplementation(() => Promise.resolve(editMocks[0])),
 	},
 }));
 
 describe("Edit component", () => {
 	beforeEach(() => {
-		(recipeApi.getById as jest.Mock).mockResolvedValue(mockEdit);
+		jest.clearAllMocks();
 	});
 
 	test("renders all form fields and buttons", async () => {
@@ -60,7 +59,7 @@ describe("Edit component", () => {
 		await userEvent.click(saveButton);
 
 		expect(recipeApi.update).toHaveBeenCalledWith(
-			"1",
+			editMocks[0].id,
 			expect.objectContaining({
 				name: "New Recipe Name",
 				description: "New Recipe Description",

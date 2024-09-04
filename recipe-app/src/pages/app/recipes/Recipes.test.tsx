@@ -1,22 +1,18 @@
 import { render, screen } from "@testing-library/react";
 import Recipes from "./Recipes";
-import { recipeApi } from "../../../api/recipes";
 import { BrowserRouter } from "react-router-dom";
+import { recipesMocks } from "../../../api/recipesMocks";
+import "@testing-library/jest-dom";
 
 jest.mock("../../../api/recipes", () => ({
 	recipeApi: {
-		getAll: jest.fn(),
+		getAll: jest.fn().mockImplementation(() => Promise.resolve(recipesMocks)),
 	},
 }));
 
 describe("Recipes component", () => {
-	const mockRecipes = [
-		{ id: 1, name: "Recipe 1" },
-		{ id: 2, name: "Recipe 2" },
-	];
-
 	beforeEach(() => {
-		(recipeApi.getAll as jest.Mock).mockResolvedValue(mockRecipes);
+		jest.clearAllMocks();
 	});
 
 	test("should render Recipes component", () => {
@@ -52,6 +48,6 @@ describe("Recipes component", () => {
 
 		const buttons = await screen.findAllByText("Edytuj");
 
-		expect(buttons.length).toBe(mockRecipes.length);
+		expect(buttons.length).toBe(recipesMocks.length);
 	});
 });

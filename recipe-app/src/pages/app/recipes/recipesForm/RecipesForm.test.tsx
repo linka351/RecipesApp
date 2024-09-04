@@ -10,7 +10,6 @@ jest.mock("../../../../api/recipes", () => ({
 		add: jest.fn().mockImplementation(() => Promise.resolve()),
 	},
 }));
-
 describe("RecipesForm Component", () => {
 	test("renders the form with initial elements", () => {
 		render(<RecipesForm onSubmit={mockOnSubmit} />);
