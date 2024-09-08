@@ -3,6 +3,7 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { GiRiceCooker } from "react-icons/gi";
+import clsx from "clsx";
 
 const getClassName = ({ isActive }: { isActive: boolean }) =>
 	isActive ? "selected link" : "link";
@@ -11,16 +12,19 @@ function Navbar() {
 	const [open, setOpen] = useState<boolean>(true);
 	const { pathname } = useLocation();
 
+	useEffect(() => {
+		setOpen(false);
+	}, [pathname]);
+
 	const toggleMenu = () => {
 		setOpen(prev => !prev);
 	};
 
-	useEffect(() => {
-		setOpen(false);
-	}, [pathname]);
+	const navOffcanvasClass = clsx("offcanvas-menu", { active: open });
+
 	return (
 		<>
-			<div className='navbar'>
+			<nav className='navbar'>
 				<button onClick={toggleMenu} className='menu'>
 					<TiThMenuOutline className='menu-icon' />
 				</button>
@@ -30,8 +34,8 @@ function Navbar() {
 						<p>RecipesApp</p>
 					</div>
 				</Link>
-			</div>
-			<nav className={`ofcanvas-menu ${open && "active"}`}>
+			</nav>
+			<nav className={navOffcanvasClass}>
 				<ul>
 					<li>
 						<NavLink className={getClassName} to={"/"}>
