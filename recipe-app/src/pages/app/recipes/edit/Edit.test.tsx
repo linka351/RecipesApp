@@ -4,11 +4,13 @@ import Edit from "./Edit";
 import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
 import { recipeApi } from "../../../../api/recipes";
-import { editMocks } from "../../../../api/recipesMocks";
+import { recipesMocks } from "../../../../api/recipesMocks";
 jest.mock("../../../../api/recipes", () => ({
 	recipeApi: {
 		update: jest.fn().mockImplementation(() => Promise.resolve()),
-		getById: jest.fn().mockImplementation(() => Promise.resolve(editMocks[0])),
+		getById: jest
+			.fn()
+			.mockImplementation(() => Promise.resolve(recipesMocks[0])),
 	},
 }));
 
@@ -59,7 +61,7 @@ describe("Edit component", () => {
 		await userEvent.click(saveButton);
 
 		expect(recipeApi.update).toHaveBeenCalledWith(
-			editMocks[0].id,
+			recipesMocks[0].id,
 			expect.objectContaining({
 				name: "New Recipe Name",
 				description: "New Recipe Description",

@@ -31,9 +31,9 @@ describe("Recipes component", () => {
 			</BrowserRouter>
 		);
 
-		const firstRecipe = await screen.findByText("Recipe 1");
+		const firstRecipe = await screen.findByText("Recipe name");
 
-		const secondRecipe = await screen.findByText("Recipe 2");
+		const secondRecipe = await screen.findByText("Lorem Ipsum");
 
 		expect(firstRecipe).toBeInTheDocument();
 		expect(secondRecipe).toBeInTheDocument();
