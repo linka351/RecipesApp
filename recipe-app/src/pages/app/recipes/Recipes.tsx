@@ -57,7 +57,9 @@ function Recipes() {
 				<ul className='list'>
 					{filteredRecipes.map(recipe => (
 						<li className='recipe' key={recipe.id}>
-							<p>{recipe.name}</p>
+							<img src={image} className='image' />
+							<p className='name'>{recipe.name}</p>
+							<p className='description'>{recipe.description}</p>
 							<div className='recipe-buttons'>
 								<Link to={`/app/recipes/edit/${recipe.id}`}>
 									<button type='button' className='recipe-button'>
@@ -74,7 +76,6 @@ function Recipes() {
 						</li>
 					))}
 				</ul>
-				<img src={image} className='image' />
 			</div>
 		</div>
 	);
