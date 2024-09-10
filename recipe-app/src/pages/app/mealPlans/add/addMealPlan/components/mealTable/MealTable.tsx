@@ -1,5 +1,6 @@
 import { Recipe } from "../../../../../../../types/editRecipe";
 import { DayName } from "../../../../../../../types/MealPlan";
+import { Plan } from "../../types";
 
 const mealNames = [
 	"Śniadanie",
@@ -20,7 +21,7 @@ const days: DayName[] = [
 ];
 
 type MealNamesProps = {
-	mealPlan: { [key in DayName]: { [meal: string]: string } };
+	mealPlan: Plan;
 	onChange: (day: DayName, meal: string, recipeId: string) => void;
 	recipes: Recipe[];
 };
@@ -43,7 +44,10 @@ function MealTable({ mealPlan, onChange, recipes }: MealNamesProps) {
 					{mealNames.map(meal => (
 						<div key={`${day}-${meal}`} className='meal-select'>
 							<select
-								value={mealPlan[day][meal] || ""}
+								value={
+									mealPlan[day][meal as keyof (typeof mealPlan)[typeof day]] ||
+									""
+								}
 								onChange={e => onChange(day, meal, e.target.value)}>
 								<option value=''>Wybierz przepis</option>
 								{recipes.map(recipe => (

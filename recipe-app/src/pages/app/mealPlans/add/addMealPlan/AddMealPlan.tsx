@@ -1,35 +1,17 @@
+import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { Recipe } from "../../../../../types/editRecipe";
 import { recipeApi } from "../../../../../api/recipes";
+import { Recipe } from "../../../../../types/editRecipe";
+import { MealPlan } from "./types";
+import { initialValues } from "./mealPlanConst";
+import MealTable from "./components/mealTable/MealTable";
+import { DayName } from "../../../../../types/MealPlan";
 
 import "./addMealPlan.scss";
-import PlanInput from "./components/planInput/PlanInput";
-import PlanTextArea from "./components/planTextArea/PlanTextArea";
-import { DayName } from "../../../../../types/MealPlan";
-import MealTable from "./components/mealTable/MealTable";
-
-export type MealPlan = {
-	name: string;
-	description: string;
-	plan: { [key in DayName]: { [meal: string]: string } };
-};
+import DataInput from "./components/dataInput/DataInput";
 
 function AddMealPlan() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
-	const [mealPlanName, setMealPlanName] = useState("");
-	const [mealPlanDescription, setMealPlanDescription] = useState("");
-	const [mealPlan, setMealPlan] = useState<{
-		[key in DayName]: { [meal: string]: string };
-	}>({
-		Poniedziałek: {},
-		Wtorek: {},
-		Środa: {},
-		Czwartek: {},
-		Piątek: {},
-		Sobota: {},
-		Niedziela: {},
-	});
-
 	useEffect(() => {
 		async function fetchRecipes() {
 			const recipeList = await recipeApi.getAll();
@@ -39,58 +21,57 @@ function AddMealPlan() {
 		fetchRecipes();
 	}, []);
 
-	const handleSelectChange = (day: DayName, meal: string, recipeId: string) => {
-		setMealPlan(prevState => ({
-			...prevState,
-			[day]: {
-				...prevState[day],
-				[meal]: recipeId,
-			},
-		}));
-	};
-
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault();
-
-		const mealPlanWithNames = Object.fromEntries(
-			Object.entries(mealPlan).map(([day, meals]) => [
-				day,
-				Object.fromEntries(
-					Object.entries(meals).map(([meal, recipeId]) => {
-						const recipeName =
-							recipes.find(recipe => recipe.id === recipeId)?.name || "";
-						return [meal, recipeName];
-					})
-				),
-			])
-		) as { [key in DayName]: { [meal: string]: string } };
+	const onSubmit = async (values: MealPlan) => {
 		try {
-			await recipeApi.addMealPlan({
-				name: mealPlanName,
-				description: mealPlanDescription,
-				plan: mealPlanWithNames,
-			});
+			console.log({ values });
 
+			// @ts-expect-error do poprawy typowanie recipeApi.addMealPlan
+			await recipeApi.addMealPlan(values);
 			alert("Plan posiłków został zapisany!");
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
 		}
 	};
 
+	const formik = useFormik<MealPlan>({
+		initialValues,
+		onSubmit,
+	});
+
+	const handleSelectChange = (day: DayName, meal: string, recipeId: string) => {
+		formik.setFieldValue(`plan.${day}.${meal}`, recipeId);
+	};
+
 	return (
 		<div className='container'>
 			<p className='title'>Nowy Plan</p>
-			<form className='add-meal-plan-form' onSubmit={handleSubmit}>
-				<PlanInput value={mealPlanName} onChange={setMealPlanName} />
-				<PlanTextArea
-					value={mealPlanDescription}
-					onChange={setMealPlanDescription}
+			<form onSubmit={formik.handleSubmit} className='add-meal-plan-form'>
+				<input
+					name='name'
+					onChange={formik.handleChange}
+					value={formik.values.name}
 				/>
-				<MealTable
-					onChange={handleSelectChange}
-					mealPlan={mealPlan}
-					recipes={recipes}
+				<textarea
+					name='description'
+					onChange={formik.handleChange}
+					value={formik.values.description}
 				/>
+
+				<DataInput
+					name='dateFrom'
+					label='Wybierz tydzień'
+					type='week'
+					onChange={formik.handleChange}
+					value={formik.values.dateFrom}
+				/>
+				<div>
+					<MealTable
+						mealPlan={formik.values.plan}
+						onChange={handleSelectChange}
+						recipes={recipes}
+					/>
+				</div>
+
 				<button type='submit' className='submit-button'>
 					Zapisz Plan
 				</button>
