@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { recipeApi } from "../../../../../api/recipes";
 import { Recipe } from "../../../../../types/editRecipe";
 import { MealPlan } from "./types";
-import { initialValues } from "./mealPlanConst";
 import MealTable from "./components/mealTable/MealTable";
 import { DayName } from "../../../../../types/MealPlan";
 
 import "./addMealPlan.scss";
 import DataInput from "./components/dataInput/DataInput";
+import PlanInput from "./components/planInput/PlanInput";
+import PlanTextArea from "./components/planTextArea/PlanTextArea";
 
 function AddMealPlan() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -34,7 +35,12 @@ function AddMealPlan() {
 	};
 
 	const formik = useFormik<MealPlan>({
-		initialValues,
+		initialValues: {
+			name: "",
+			description: "",
+			dateFrom: "",
+			mealName: [],
+		},
 		onSubmit,
 	});
 
@@ -42,16 +48,20 @@ function AddMealPlan() {
 		formik.setFieldValue(`plan.${day}.${meal}`, recipeId);
 	};
 
+	const handleAddMealName = (newMeal: string) => {
+		formik.setFieldValue("mealName", [...formik.values.mealName, newMeal]);
+	};
+
 	return (
 		<div className='container'>
 			<p className='title'>Nowy Plan</p>
 			<form onSubmit={formik.handleSubmit} className='add-meal-plan-form'>
-				<input
+				<PlanInput
 					name='name'
 					onChange={formik.handleChange}
 					value={formik.values.name}
 				/>
-				<textarea
+				<PlanTextArea
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
@@ -66,7 +76,8 @@ function AddMealPlan() {
 				/>
 				<div>
 					<MealTable
-						mealPlan={formik.values.plan}
+						onAddMealName={handleAddMealName}
+						mealName={formik.values.mealName}
 						onChange={handleSelectChange}
 						recipes={recipes}
 					/>
@@ -79,5 +90,4 @@ function AddMealPlan() {
 		</div>
 	);
 }
-
 export default AddMealPlan;

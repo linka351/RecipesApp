@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from "react";
+import "./dataInput.scss";
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
 	name: string;
@@ -19,11 +20,13 @@ function DataInput({
 	...props
 }: Props) {
 	return (
-		<label className={labelClassName}>
-			{label}
-			<input name={name} {...props} type={type} />
-			{error && <div className={errorClassName}>{error}</div>}
-		</label>
+		<div className='data-container'>
+			<label className='data-label'>
+				{label}
+				<input className='data-input' name={name} {...props} type={type} />
+				{error && <div className={errorClassName}>{error}</div>}
+			</label>
+		</div>
 	);
 }
 
