@@ -90,14 +90,12 @@ export default function IngredientsForm({
 						{ingredient}
 						<div className='buttons'>
 							<button
-								data-testid='remove-ingredient'
 								type='button'
 								className='remove-button'
 								onClick={() => onRemove(index)}>
 								<FaTrashAlt className='remove-element' />
 							</button>
 							<button
-								data-testid='edit-ingredient'
 								type='button'
 								className='edit-button'
 								onClick={() => handleEditClick(index, ingredient)}>
