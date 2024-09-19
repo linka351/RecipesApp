@@ -1,18 +1,30 @@
 import "./navbar.scss";
 import { TiThMenuOutline } from "react-icons/ti";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { GiRiceCooker } from "react-icons/gi";
+import clsx from "clsx";
+
+const getClassName = ({ isActive }: { isActive: boolean }) =>
+	isActive ? "selected link" : "link";
 
 function Navbar() {
 	const [open, setOpen] = useState<boolean>(true);
+	const { pathname } = useLocation();
+
+	useEffect(() => {
+		setOpen(false);
+	}, [pathname]);
 
 	const toggleMenu = () => {
 		setOpen(prev => !prev);
 	};
+
+	const navOffcanvasClass = clsx("offcanvas-menu", { active: open });
+
 	return (
 		<>
-			<div className='navbar'>
+			<nav className='navbar'>
 				<button onClick={toggleMenu} className='menu'>
 					<TiThMenuOutline className='menu-icon' />
 				</button>
@@ -22,38 +34,38 @@ function Navbar() {
 						<p>RecipesApp</p>
 					</div>
 				</Link>
-			</div>
-			<nav className={`ofcanvas-menu ${!open && "active"}`}>
+			</nav>
+			<nav className={navOffcanvasClass}>
 				<ul>
 					<li>
-						<Link className='link' to={"/"}>
+						<NavLink className={getClassName} to={"/"}>
 							Strona Główna
-						</Link>
+						</NavLink>
 					</li>
 					<li>
-						<Link className='link' to={"/app/recipes"}>
+						<NavLink className={getClassName} to={"/app/recipes"} end>
 							Przepisy
-						</Link>
+						</NavLink>
 					</li>
 					<li>
-						<Link className='link' to={"/app/recipes/add"}>
+						<NavLink className={getClassName} to={"/app/recipes/add"}>
 							Dodaj Przepis
-						</Link>
+						</NavLink>
 					</li>
 					<li>
-						<Link className='link' to={"/app/meal-plans"}>
+						<NavLink className={getClassName} to={"/app/meal-plans"} end>
 							Plany Żywnościowe
-						</Link>
+						</NavLink>
 					</li>
 					<li>
-						<Link className='link' to={"/app/meal-plans/add"}>
+						<NavLink className={getClassName} to={"/app/meal-plans/add"}>
 							Dodaj Plan Żywnościowy
-						</Link>
+						</NavLink>
 					</li>
 					<li>
-						<Link className='link' to={"/app/meal-plans/edit/:id"}>
+						<NavLink className={getClassName} to={"/app/meal-plans/edit/:id"}>
 							Edytuj Plan Żywnościowy
-						</Link>
+						</NavLink>
 					</li>
 				</ul>
 			</nav>
