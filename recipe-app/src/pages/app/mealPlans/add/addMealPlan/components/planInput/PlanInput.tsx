@@ -3,7 +3,7 @@ import "./planInput.scss";
 interface PlanInputProps {
 	name: string;
 	value: string;
-	onChange: (newValue: string) => void;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function PlanInput({ name, value, onChange }: PlanInputProps) {
@@ -15,7 +15,7 @@ function PlanInput({ name, value, onChange }: PlanInputProps) {
 				type='text'
 				className='plan-input'
 				value={value}
-				onChange={e => onChange(e.target.value)}
+				onChange={onChange}
 			/>
 		</label>
 	);

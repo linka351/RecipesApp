@@ -78,8 +78,8 @@ function AddMealPlan() {
 					<MealTable
 						onAddMealName={handleAddMealName}
 						mealName={formik.values.mealName}
-						onChange={handleSelectChange}
 						recipes={recipes}
+						onChange={handleSelectChange}
 					/>
 				</div>
 

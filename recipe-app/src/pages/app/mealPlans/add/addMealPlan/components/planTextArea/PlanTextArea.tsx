@@ -1,7 +1,7 @@
 interface PlanTextAreaProps {
 	name: string;
 	value: string;
-	onChange: (newValue: string) => void;
+	onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 function PlanTextArea({ name, value, onChange }: PlanTextAreaProps) {
@@ -12,7 +12,7 @@ function PlanTextArea({ name, value, onChange }: PlanTextAreaProps) {
 				name={name}
 				className='plan-input plan-input-description'
 				value={value}
-				onChange={e => onChange(e.target.value)}
+				onChange={onChange}
 			/>
 		</label>
 	);
