@@ -17,7 +17,10 @@ type MealNamesProps = {
 	mealName: string[];
 	onAddMealName: (newMeal: string) => void;
 	recipes: Recipe[];
-	onChange: (day: DayName, meal: string, recipeId: string) => void; // Dodaj onChange
+	onChange: (day: DayName, meal: string, recipeId: string) => void;
+	selectedRecipes: {
+		[key in DayName]?: { [meal: string]: string };
+	};
 };
 
 const MealTable = ({
@@ -25,12 +28,10 @@ const MealTable = ({
 	onAddMealName,
 	recipes,
 	onChange,
+	selectedRecipes,
 }: MealNamesProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
-	const [selectedRecipes, setSelectedRecipes] = useState<{
-		[key: string]: string;
-	}>({});
-	//jak działają te stany
+
 	const [showRecipeList, setShowRecipeList] = useState<{
 		[key: string]: boolean;
 	}>({});
@@ -51,11 +52,6 @@ const MealTable = ({
 	};
 
 	const handleRecipeSelect = (day: DayName, meal: string, recipeId: string) => {
-		setSelectedRecipes(prevState => ({
-			...prevState,
-			[`${day}-${meal}`]: recipeId,
-		}));
-
 		onChange(day, meal, recipeId);
 
 		setShowRecipeList(prevState => ({
@@ -88,7 +84,7 @@ const MealTable = ({
 								{day}
 							</div>
 						))}
-						{/*Przerobić zeby był jeden div*/}
+
 						{mealName.map(meal => (
 							<>
 								<div key={meal} className='meal-header'>
@@ -96,24 +92,14 @@ const MealTable = ({
 								</div>
 								{days.map(day => (
 									<div key={`${day}-${meal}`} className='meal-select'>
-										{selectedRecipes[`${day}-${meal}`] ? (
-											<div
-												className='recipe-name'
-												onClick={() => toggleRecipeList(day, meal)}>
-												{
-													recipes.find(
-														recipe =>
-															recipe.id === selectedRecipes[`${day}-${meal}`]
-													)?.name
-												}
-											</div>
-										) : (
-											<div
-												className='recipe-name'
-												onClick={() => toggleRecipeList(day, meal)}>
-												Wybierz Przepis
-											</div>
-										)}
+										<div
+											className='recipe-name'
+											onClick={() => toggleRecipeList(day, meal)}>
+											{recipes.find(
+												recipe => recipe.id === selectedRecipes?.[day]?.[meal]
+											)?.name || "Wybierz Przepis"}
+										</div>
+
 										{showRecipeList[`${day}-${meal}`] && (
 											<div className='recipe-list'>
 												{recipes.map(recipe => (

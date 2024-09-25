@@ -7,7 +7,7 @@ import MealTable from "./components/mealTable/MealTable";
 import { DayName } from "../../../../../types/MealPlan";
 
 import "./addMealPlan.scss";
-import DataInput from "./components/dataInput/DataInput";
+import DateInput from "./components/dateInput/DateInput";
 import PlanInput from "./components/planInput/PlanInput";
 import PlanTextArea from "./components/planTextArea/PlanTextArea";
 
@@ -26,7 +26,6 @@ function AddMealPlan() {
 		try {
 			console.log({ values });
 
-			// @ts-expect-error do poprawy typowanie recipeApi.addMealPlan
 			await recipeApi.addMealPlan(values);
 			alert("Plan posiłków został zapisany!");
 		} catch (error) {
@@ -40,6 +39,7 @@ function AddMealPlan() {
 			description: "",
 			dateFrom: "",
 			mealName: [],
+			plan: {},
 		},
 		onSubmit,
 	});
@@ -67,21 +67,25 @@ function AddMealPlan() {
 					value={formik.values.description}
 				/>
 
-				<DataInput
+				<DateInput
 					name='dateFrom'
 					label='Wybierz tydzień'
 					type='week'
 					onChange={formik.handleChange}
 					value={formik.values.dateFrom}
 				/>
-				<div>
-					<MealTable
-						onAddMealName={handleAddMealName}
-						mealName={formik.values.mealName}
-						recipes={recipes}
-						onChange={handleSelectChange}
-					/>
-				</div>
+
+				<MealTable
+					onAddMealName={handleAddMealName}
+					mealName={formik.values.mealName}
+					recipes={recipes}
+					onChange={handleSelectChange}
+					selectedRecipes={
+						formik.values.plan as {
+							[key in DayName]?: { [key: string]: string };
+						}
+					}
+				/>
 
 				<button type='submit' className='submit-button'>
 					Zapisz Plan
