@@ -1,5 +1,4 @@
 type Props = {
-	placeholder: string;
 	name: string;
 	onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	value: string;
@@ -7,25 +6,20 @@ type Props = {
 	errors: string;
 };
 
-function TextArea({
-	placeholder,
-	name,
-	onChange,
-	value,
-	touched,
-	errors,
-}: Props) {
+function TextArea({ name, onChange, value, touched, errors }: Props) {
 	return (
-		<div className='recipe-box'>
-			<textarea
-				className='recipe-description'
-				placeholder={placeholder}
-				name={name}
-				onChange={onChange}
-				value={value}
-			/>
+		<>
+			<div className='recipe-label'>
+				<label className='label'>Opis przepisu</label>
+				<textarea
+					className='recipe-description'
+					name={name}
+					onChange={onChange}
+					value={value}
+				/>
+			</div>
 			<div className='recipe-error'>{touched && errors}</div>
-		</div>
+		</>
 	);
 }
 

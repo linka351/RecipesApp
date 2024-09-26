@@ -51,40 +51,44 @@ export default function InstructionsForm({
 	};
 
 	return (
-		<>
-			<form className='container' onSubmit={formik.handleSubmit}>
+		<div className='container'>
+			<form onSubmit={formik.handleSubmit}>
 				<label htmlFor='instruction' className='label'>
 					{editInstruction !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}
 				</label>
-				<input
-					className='input'
-					type='text'
-					name='instruction'
-					id='instruction'
-					onChange={formik.handleChange}
-					value={formik.values.instruction}
-				/>
-				{formik.touched.instruction && formik.errors.instruction && (
-					<div className='error'>{formik.errors.instruction}</div>
-				)}
-				<button
-					data-testid='add-instruction'
-					type='submit'
-					className='button'
-					disabled={formik.values.instruction === ""}>
-					{editInstruction !== null ? "Zapisz" : "Dodaj"}
-				</button>
-				{editInstruction !== null && (
-					<button
-						type='button'
-						className='button cancel-button'
-						onClick={handleExitEdit}>
-						Anuluj
-					</button>
-				)}
+				<div className='recipe-input'>
+					<input
+						className='input'
+						type='text'
+						name='instruction'
+						id='instruction'
+						onChange={formik.handleChange}
+						value={formik.values.instruction}
+					/>
+					{formik.touched.instruction && formik.errors.instruction && (
+						<div className='error'>{formik.errors.instruction}</div>
+					)}
+					<div className='button-position'>
+						<button
+							data-testid='add-instruction'
+							type='submit'
+							className='button'
+							disabled={formik.values.instruction === ""}>
+							{editInstruction !== null ? "Zapisz" : "Dodaj"}
+						</button>
+					</div>
+					{editInstruction !== null && (
+						<button
+							type='button'
+							className='button cancel-button'
+							onClick={handleExitEdit}>
+							Anuluj
+						</button>
+					)}
+				</div>
 				<div className='error'>{touched && errors}</div>
 			</form>
-			<ul>
+			<ul className='recipe-list'>
 				{instructions.map((instruction, index) => (
 					<li key={index} className='recipe-element'>
 						{instruction}
@@ -105,6 +109,6 @@ export default function InstructionsForm({
 					</li>
 				))}
 			</ul>
-		</>
+		</div>
 	);
 }

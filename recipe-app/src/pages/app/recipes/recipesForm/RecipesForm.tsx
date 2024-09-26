@@ -93,10 +93,18 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 
 	return (
 		<div className='recipe-container'>
-			<h2>{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}</h2>
+			<div className='recipe-name'>
+				<h2>{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}</h2>
+
+				<button
+					className='recipe-submit'
+					type='button'
+					onClick={formik.submitForm}>
+					Zapisz
+				</button>
+			</div>
 			<form className='recipe' onSubmit={formik.handleSubmit}>
 				<Input
-					placeholder='Nazwa przepisu'
 					name='name'
 					onChange={formik.handleChange}
 					value={formik.values.name}
@@ -104,7 +112,6 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					errors={formik.errors.name || ""}
 				/>
 				<TextArea
-					placeholder='Krótki opis przepisu'
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
@@ -112,28 +119,24 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					errors={formik.errors.description || ""}
 				/>
 			</form>
-			<InstructionsForm
-				onInstructionsAdded={handleAddInstruction}
-				onInstructionEdited={handleEditInstruction}
-				onRemove={index => handleRemoveElement(index, "instructions")}
-				instructions={formik.values.instructions}
-				touched={!!formik.touched.instructions}
-				errors={formik.errors.instructions || ""}
-			/>
-			<IngredientsForm
-				onIngredientsAdded={handleAddIngredient}
-				onIngredientEdited={handleEditIngredient}
-				onRemove={index => handleRemoveElement(index, "ingredients")}
-				ingredients={formik.values.ingredients}
-				touched={!!formik.touched.ingredients}
-				errors={formik.errors.ingredients || ""}
-			/>
-			<button
-				className='recipe-submit'
-				type='button'
-				onClick={formik.submitForm}>
-				Zapisz
-			</button>
+			<div className='row'>
+				<InstructionsForm
+					onInstructionsAdded={handleAddInstruction}
+					onInstructionEdited={handleEditInstruction}
+					onRemove={index => handleRemoveElement(index, "instructions")}
+					instructions={formik.values.instructions}
+					touched={!!formik.touched.instructions}
+					errors={formik.errors.instructions || ""}
+				/>
+				<IngredientsForm
+					onIngredientsAdded={handleAddIngredient}
+					onIngredientEdited={handleEditIngredient}
+					onRemove={index => handleRemoveElement(index, "ingredients")}
+					ingredients={formik.values.ingredients}
+					touched={!!formik.touched.ingredients}
+					errors={formik.errors.ingredients || ""}
+				/>
+			</div>
 		</div>
 	);
 }
