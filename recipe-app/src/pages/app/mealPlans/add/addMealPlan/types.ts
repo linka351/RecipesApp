@@ -4,7 +4,6 @@ export type MealPlan = {
 	name: string;
 	description: string;
 	dateFrom: string;
-	mealName: string[];
 	plan: {
 		[key in DayName]?: {
 			[mealName: string]: string;

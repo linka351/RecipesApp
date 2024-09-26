@@ -3,7 +3,7 @@ import { Recipe } from "../../../../../../../types/editRecipe";
 import { DayName } from "../../../../../../../types/MealPlan";
 import "./mealTable.scss";
 
-const days: DayName[] = [
+export const days: DayName[] = [
 	"Poniedziałek",
 	"Wtorek",
 	"Środa",

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { recipeApi } from "../../../../../api/recipes";
 import { Recipe } from "../../../../../types/editRecipe";
 import { MealPlan } from "./types";
-import MealTable from "./components/mealTable/MealTable";
+import MealTable, { days } from "./components/mealTable/MealTable";
 import { DayName } from "../../../../../types/MealPlan";
 
 import "./addMealPlan.scss";
@@ -38,7 +38,6 @@ function AddMealPlan() {
 			name: "",
 			description: "",
 			dateFrom: "",
-			mealName: [],
 			plan: {},
 		},
 		onSubmit,
@@ -49,8 +48,16 @@ function AddMealPlan() {
 	};
 
 	const handleAddMealName = (newMeal: string) => {
-		formik.setFieldValue("mealName", [...formik.values.mealName, newMeal]);
+		formik.setFieldValue("plan", days.reduce((acc, day) => {
+			acc[day] = {
+				...acc[day],
+				[newMeal]: "",
+			};
+			return acc;
+		}, formik.values.plan));
 	};
+
+	const mealName = [...new Set(Object.values(formik.values.plan).flatMap(meal => Object.keys(meal)))];
 
 	return (
 		<div className='container'>
@@ -77,7 +84,7 @@ function AddMealPlan() {
 
 				<MealTable
 					onAddMealName={handleAddMealName}
-					mealName={formik.values.mealName}
+					mealName={mealName}
 					recipes={recipes}
 					onChange={handleSelectChange}
 					selectedRecipes={
