@@ -1,0 +1,126 @@
+.recipe-list-container {
+	background-color: #265721;
+
+	.search-recipe {
+		display: flex;
+		justify-content: space-between;
+		padding: 30px;
+		position: relative;
+		margin-bottom: 50px;
+
+		&::after {
+			content: "";
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			bottom: 0;
+			width: 95%;
+			height: 2px;
+			background-color: rgb(192, 54, 54);
+		}
+
+		.list-recipe {
+			color: white;
+			font-size: 30px;
+		}
+
+		.search-input {
+			width: 400px;
+			border-radius: 5px;
+			border: none;
+			padding: 5px;
+			outline: none;
+		}
+
+		.add-recipe {
+			width: 150px;
+			height: 40px;
+			color: white;
+			background-color: #287233;
+			cursor: pointer;
+			border: none;
+			border-radius: 5px;
+
+			&:hover {
+				background-color: lighten($color: #287233, $amount: 10);
+			}
+		}
+	}
+
+	.recipe {
+		color: white;
+		font-size: 25px;
+		padding: 10px;
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		align-items: center;
+		background-color: #287233;
+		margin: 0 15px 10px 15px;
+		border-radius: 5px;
+
+		.name {
+			padding: 10px;
+		}
+
+		.description {
+			font-size: 18px;
+			padding-bottom: 10px;
+		}
+
+		.recipe-buttons {
+			margin-top: 10px;
+		}
+
+		.recipe-button {
+			width: 100px;
+			height: 40px;
+			color: white;
+			background-color: #265721;
+			cursor: pointer;
+			border: none;
+			border-radius: 5px;
+			margin-left: 15px;
+
+			&:hover {
+				background-color: lighten($color: #287233, $amount: 10);
+			}
+		}
+		.delete-button {
+			width: 100px;
+			height: 40px;
+			margin-left: 10px;
+			color: white;
+			background-color: rgb(169, 20, 20);
+			cursor: pointer;
+			border: none;
+			border-radius: 5px;
+
+			&:hover {
+				background-color: lighten($color: rgb(169, 20, 20), $amount: 10);
+			}
+		}
+	}
+}
+
+.recipe-main {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 0;
+
+	.image {
+		width: 400px;
+		height: 200px;
+		object-position: center;
+		object-fit: cover;
+		border-radius: 5px;
+	}
+}
+
+.list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+	gap: 10px;
+	grid-auto-rows: 1fr;
+	width: 100%;
+}

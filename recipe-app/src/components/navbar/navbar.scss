@@ -1,6 +1,6 @@
 .navbar {
 	width: 100%;
-	height: 80px;
+	height: 10vh;
 	background-color: rgb(192, 54, 54);
 	display: flex;
 	align-items: center;
@@ -41,13 +41,14 @@
 	}
 }
 
-.ofcanvas-menu {
+.offcanvas-menu {
 	position: absolute;
 	background-color: lighten($color: rgb(192, 54, 54), $amount: 10);
 	top: -100vh;
 	margin-top: 80px;
 	width: 300px;
 	transition: 0.5s;
+	z-index: 1;
 }
 
 .active {
@@ -60,7 +61,13 @@
 	color: white;
 	display: block;
 	padding: 10px 30px;
+	&:hover {
+		background-color: darken($color: rgb(192, 54, 54), $amount: 10);
+	}
 }
-.link:hover {
+.selected {
 	background-color: darken($color: rgb(192, 54, 54), $amount: 10);
+	&:hover {
+		background-color: rgb(192, 54, 54);
+	}
 }
