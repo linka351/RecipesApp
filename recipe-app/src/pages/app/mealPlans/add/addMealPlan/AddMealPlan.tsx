@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { recipeApi } from "../../../../../api/recipes";
 import { Recipe } from "../../../../../types/editRecipe";
-import { MealPlan } from "./types";
+import { WeeklyPlan } from "./types";
 import MealTable from "./components/mealTable/MealTable";
 import { DayName } from "../../../../../types/MealPlan";
 
@@ -22,10 +22,8 @@ function AddMealPlan() {
 		fetchRecipes();
 	}, []);
 
-	const onSubmit = async (values: MealPlan) => {
+	const onSubmit = async (values: WeeklyPlan) => {
 		try {
-			console.log({ values });
-
 			await recipeApi.addMealPlan(values);
 			alert("Plan posiłków został zapisany!");
 		} catch (error) {
@@ -33,7 +31,7 @@ function AddMealPlan() {
 		}
 	};
 
-	const formik = useFormik<MealPlan>({
+	const formik = useFormik<WeeklyPlan>({
 		initialValues: {
 			name: "",
 			description: "",
@@ -80,11 +78,7 @@ function AddMealPlan() {
 					mealName={formik.values.mealName}
 					recipes={recipes}
 					onChange={handleSelectChange}
-					selectedRecipes={
-						formik.values.plan as {
-							[key in DayName]?: { [key: string]: string };
-						}
-					}
+					selectedRecipes={formik.values.plan}
 				/>
 
 				<button type='submit' className='submit-button'>

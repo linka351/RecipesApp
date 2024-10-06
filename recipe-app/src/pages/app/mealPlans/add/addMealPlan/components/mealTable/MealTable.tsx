@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Recipe } from "../../../../../../../types/editRecipe";
 import { DayName } from "../../../../../../../types/MealPlan";
 import "./mealTable.scss";
+import { MealPlan } from "../../types";
 
 const days: DayName[] = [
 	"Poniedziałek",
@@ -18,9 +19,7 @@ type MealNamesProps = {
 	onAddMealName: (newMeal: string) => void;
 	recipes: Recipe[];
 	onChange: (day: DayName, meal: string, recipeId: string) => void;
-	selectedRecipes: {
-		[key in DayName]?: { [meal: string]: string };
-	};
+	selectedRecipes: MealPlan;
 };
 
 const MealTable = ({
