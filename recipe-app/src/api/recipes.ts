@@ -1,27 +1,20 @@
 import {
 	addDoc,
 	collection,
+	getDocs,
+	query,
 	deleteDoc,
 	doc,
 	getDoc,
-	getDocs,
-	query,
 	updateDoc,
 } from "firebase/firestore";
 import { FormValues } from "../pages/app/recipes/recipesForm/RecipesForm";
 import { db } from "../firebase/firebaseConfig";
 import { Recipe } from "../types/editRecipe";
+import { WeeklyPlan } from "../pages/app/mealPlans/add/addMealPlan/types";
 
 const add = async (values: FormValues) => {
 	return addDoc(collection(db, "recipes"), values);
-};
-const getAll = async () => {
-	const q = query(collection(db, "recipes"));
-	const snapShot = await getDocs(q);
-	return snapShot.docs.map(doc => ({
-		id: doc.id,
-		...doc.data(),
-	})) as Recipe[];
 };
 
 const update = async (docId: string, updatedData: Omit<Recipe, "id">) => {
@@ -41,10 +34,24 @@ const remove = async (id: string) => {
 	await deleteDoc(documentReference);
 };
 
+const getAll = async () => {
+	const q = query(collection(db, "recipes"));
+	const snapShot = await getDocs(q);
+	return snapShot.docs.map(doc => ({
+		id: doc.id,
+		...doc.data(),
+	})) as Recipe[];
+};
+
+const addMealPlan = async (mealPlan: WeeklyPlan) => {
+	return addDoc(collection(db, "mealPlans"), mealPlan);
+};
+
 export const recipeApi = {
 	add,
 	getAll,
 	update,
 	getById,
-	remove
+	remove,
+	addMealPlan,
 };

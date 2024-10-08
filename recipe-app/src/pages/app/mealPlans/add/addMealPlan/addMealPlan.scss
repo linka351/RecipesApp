@@ -1,0 +1,27 @@
+.container {
+	background-color: #265721;
+	width: 100%;
+	min-height: 80vh;
+
+	.title {
+		color: white;
+		font-size: 30px;
+		text-align: center;
+		padding-top: 10px;
+	}
+
+	.label {
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+	}
+	.plan-input {
+		width: 80%;
+		height: 30px;
+		border-radius: 5px;
+		outline: none;
+		border: none;
+		margin-top: 10px;
+	}
+}
