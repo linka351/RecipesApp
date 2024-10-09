@@ -7,6 +7,7 @@ export type MealPlan = {
 };
 
 export type WeeklyPlan = {
+	id?: string;
 	name: string;
 	description: string;
 	dateFrom: string;
