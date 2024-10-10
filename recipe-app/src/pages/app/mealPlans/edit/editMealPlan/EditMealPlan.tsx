@@ -5,7 +5,7 @@ import { recipeApi } from "../../../../../api/recipes";
 import { WeeklyPlan } from "../../add/addMealPlan/types";
 
 function EditMealPlan() {
-	const { id } = useParams();
+	const { id } = useParams<{ id: string }>();
 	const [initialValues, setInitialValues] = useState<WeeklyPlan | null>(null);
 
 	useEffect(() => {
@@ -21,15 +21,13 @@ function EditMealPlan() {
 		alert("Plan posiłków został zaktualizowany!");
 	};
 
-	if (!initialValues) return <p>Ładowanie...</p>;
-
-	return (
-		<div>
-			<MealPlansForm
-				initialValues={initialValues}
-				onSubmitSuccess={handleSuccess}
-			/>
-		</div>
+	return initialValues ? (
+		<MealPlansForm
+			initialValues={initialValues}
+			onSubmitSuccess={handleSuccess}
+		/>
+	) : (
+		<div>Loading ...</div>
 	);
 }
 

@@ -14,9 +14,11 @@ function MealPlans() {
 
 		fetchMealPlans();
 	}, []);
+
+	console.log(mealPlans);
 	return mealPlans.map(mealPlan => (
 		<div key={mealPlan.id}>
-			<Link to={`/app/meal-plan/edit/${mealPlan.id}`}>
+			<Link to={`/app/meal-plans/edit/${mealPlan.id}`}>
 				<p>{mealPlan.name}</p>
 			</Link>
 		</div>
