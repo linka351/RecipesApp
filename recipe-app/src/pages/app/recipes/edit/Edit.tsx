@@ -10,7 +10,7 @@ function Edit() {
 
 	useEffect(() => {
 		async function fetchRecipe() {
-			const singleRecipe = await recipeApi.getById(id!);
+			const singleRecipe = await recipeApi.get(id!);
 			setRecipe(singleRecipe);
 		}
 

@@ -62,11 +62,6 @@ function Navbar() {
 							Dodaj Plan Żywnościowy
 						</NavLink>
 					</li>
-					<li>
-						<NavLink className={getClassName} to={"/app/meal-plans/edit/:id"}>
-							Edytuj Plan Żywnościowy
-						</NavLink>
-					</li>
 				</ul>
 			</nav>
 		</>
