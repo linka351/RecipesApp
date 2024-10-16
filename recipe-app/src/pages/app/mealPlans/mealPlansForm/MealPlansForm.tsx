@@ -9,15 +9,12 @@ import PlanTextArea from "../add/addMealPlan/components/planTextArea/PlanTextAre
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
 
-interface AddEditMealPlanProps {
+type Props = {
 	initialValues?: WeeklyPlan;
-	onSubmitSuccess?: () => void;
-}
+	onSubmit?: (values: WeeklyPlan) => void;
+};
 
-function MealPlansForm({
-	initialValues,
-	onSubmitSuccess,
-}: AddEditMealPlanProps) {
+function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
 	useEffect(() => {
@@ -28,16 +25,9 @@ function MealPlansForm({
 		fetchRecipes();
 	}, []);
 
-	const onSubmit = async (values: WeeklyPlan) => {
+	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
-			if (initialValues?.id) {
-				await recipeApi.updateMealPlan(initialValues.id, values);
-				alert("Plan posiłków został zaktualizowany!");
-			} else {
-				await recipeApi.addMealPlan(values);
-				alert("Plan posiłków został zapisany!");
-			}
-			if (onSubmitSuccess) onSubmitSuccess();
+			if (submitHandler) submitHandler(values);
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
 		}
@@ -51,7 +41,7 @@ function MealPlansForm({
 			mealName: [],
 			plan: {},
 		},
-		onSubmit,
+		onSubmit: handleSubmit,
 	});
 
 	const handleSelectChange = (day: DayName, meal: string, recipeId: string) => {
