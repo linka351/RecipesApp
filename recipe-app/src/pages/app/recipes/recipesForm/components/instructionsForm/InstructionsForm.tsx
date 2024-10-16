@@ -4,6 +4,7 @@ import { instructionSchema } from "../../RecipeForm.validation";
 
 import "../recipesFormComponents.scss";
 import { useState } from "react";
+import Input from "../../../../../../api/commonComponentsnazwadozmianyigdziewstawic/Input";
 
 type Props = {
 	onInstructionsAdded: (instruction: string) => void;
@@ -57,7 +58,7 @@ export default function InstructionsForm({
 					{editInstruction !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}
 				</label>
 				<div className='recipe-input'>
-					<input
+					<Input
 						className='input'
 						type='text'
 						name='instruction'
