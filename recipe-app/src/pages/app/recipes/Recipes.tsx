@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import image from "../../../images/StockCake-Healthy Meal Prep_1725388250.jpg";
 
 import "./recipes.scss";
+import Input from "../../../api/commonComponentsnazwadozmianyigdziewstawic/Input";
 
 function Recipes() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -42,7 +43,8 @@ function Recipes() {
 		<div className='recipe-list-container'>
 			<div className='search-recipe'>
 				<p className='list-recipe'>Lista Przepisów</p>
-				<input
+				<Input
+					name='searchRecipe'
 					type='text'
 					placeholder='Wyszukaj przepisy...'
 					value={searchRecipe}

@@ -3,11 +3,10 @@ import { useEffect, useState } from "react";
 import { recipeApi } from "../../../../api/recipes";
 import MealTable from "../add/addMealPlan/components/mealTable/MealTable";
 import { DayName } from "../../../../types/MealPlan";
-import DateInput from "../add/addMealPlan/components/dateInput/DateInput";
-import PlanInput from "../add/addMealPlan/components/planInput/PlanInput";
-import PlanTextArea from "../add/addMealPlan/components/planTextArea/PlanTextArea";
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
+import Input from "../../../../api/commonComponentsnazwadozmianyigdziewstawic/Input";
+import TextArea from "../../../../api/commonComponentsnazwadozmianyigdziewstawic/TextArea";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -56,18 +55,18 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		<div className='container'>
 			<p className='title'>{initialValues?.id ? "Edytuj Plan" : "Nowy Plan"}</p>
 			<form onSubmit={formik.handleSubmit} className='add-meal-plan-form'>
-				<PlanInput
+				<Input
 					name='name'
 					onChange={formik.handleChange}
 					value={formik.values.name}
 				/>
-				<PlanTextArea
+				<TextArea
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
 				/>
 
-				<DateInput
+				<Input
 					name='dateFrom'
 					label='Wybierz tydzień'
 					type='week'
