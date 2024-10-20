@@ -17,13 +17,17 @@ function EditMealPlan() {
 		fetchMealPlan();
 	}, [id]);
 
-	const handleSuccess = async (values: WeeklyPlan) => {
-		await mealPlansApi.update(id!, values!);
-		alert("Plan posiłków został zaktualizowany!");
+	const handleSubmit = async (values: WeeklyPlan) => {
+		try {
+			await mealPlansApi.update(id!, values!);
+			alert("Plan posiłków został zaktualizowany!");
+		} catch (error) {
+			alert("Wystąpił błąd podczas aktualizacji planu posiłków");
+		}
 	};
 
 	return initialValues ? (
-		<MealPlansForm initialValues={initialValues} onSubmit={handleSuccess} />
+		<MealPlansForm initialValues={initialValues} onSubmit={handleSubmit} />
 	) : (
 		<div>Loading ...</div>
 	);
