@@ -4,7 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { ingredientSchema } from "../../RecipeForm.validation";
 import "../recipesFormComponents.scss";
 import { useState } from "react";
-import Input from "../../../../../../api/commonComponentsnazwadozmianyigdziewstawic/Input";
+import Input from "../../../../../../components/inputs/Input";
 
 type Props = {
 	onIngredientsAdded: (ingredient: string) => void;

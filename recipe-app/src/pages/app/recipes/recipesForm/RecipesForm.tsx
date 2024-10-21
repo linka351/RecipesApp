@@ -1,8 +1,8 @@
 import { FormikHelpers, useFormik } from "formik";
 import InstructionsForm from "./components/instructionsForm/InstructionsForm";
 import IngredientsForm from "./components/ingredientsForm/IngredientsForm";
-import Input from "../../../../api/commonComponentsnazwadozmianyigdziewstawic/Input";
-import TextArea from "../../../../api/commonComponentsnazwadozmianyigdziewstawic/TextArea";
+import Input from "../../../../components/inputs/Input";
+import TextArea from "../../../../components/textAreas/TextArea";
 import { recipeApi } from "../../../../api/recipes";
 import { validationSchema } from "./RecipeForm.validation";
 

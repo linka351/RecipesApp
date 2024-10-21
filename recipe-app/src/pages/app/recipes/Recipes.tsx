@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import image from "../../../images/StockCake-Healthy Meal Prep_1725388250.jpg";
 
 import "./recipes.scss";
-import Input from "../../../api/commonComponentsnazwadozmianyigdziewstawic/Input";
+import Input from "../../../components/inputs/Input";
 
 function Recipes() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);

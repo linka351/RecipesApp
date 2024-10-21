@@ -3,7 +3,7 @@ import { Recipe } from "../../../../../../../types/editRecipe";
 import { DayName } from "../../../../../../../types/MealPlan";
 import "./mealTable.scss";
 import { MealPlan } from "../../types";
-import Input from "../../../../../../../api/commonComponentsnazwadozmianyigdziewstawic/Input";
+import Input from "../../../../../../../components/inputs/Input";
 
 const days: DayName[] = [
 	"Poniedziałek",

@@ -4,7 +4,7 @@ import { instructionSchema } from "../../RecipeForm.validation";
 
 import "../recipesFormComponents.scss";
 import { useState } from "react";
-import Input from "../../../../../../api/commonComponentsnazwadozmianyigdziewstawic/Input";
+import Input from "../../../../../../components/inputs/Input";
 
 type Props = {
 	onInstructionsAdded: (instruction: string) => void;

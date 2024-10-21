@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { WeeklyPlan } from "./add/addMealPlan/types";
 import { Link } from "react-router-dom";
 import { mealPlansApi } from "../../../api/mealPlans";
-import Input from "../../../api/commonComponentsnazwadozmianyigdziewstawic/Input";
+import Input from "../../../components/inputs/Input";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
