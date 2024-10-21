@@ -1,5 +1,4 @@
 import { InputHTMLAttributes } from "react";
-import "./dateInput.scss";
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
 	name: string;
@@ -10,24 +9,22 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
 	type?: string;
 };
 
-function DateInput({
+function Input({
+	name,
 	label,
 	labelClassName,
 	error,
 	errorClassName,
 	type,
-	name,
 	...props
 }: Props) {
 	return (
-		<div className='data-container'>
-			<label className='data-label'>
-				{label}
-				<input className='data-input' name={name} {...props} type={type} />
-				{error && <div className={errorClassName}>{error}</div>}
-			</label>
-		</div>
+		<label className={labelClassName}>
+			{label}
+			<input name={name} {...props} type={type} />
+			{error && <p className={errorClassName}>{error}</p>}
+		</label>
 	);
 }
 
-export default DateInput;
+export default Input;
