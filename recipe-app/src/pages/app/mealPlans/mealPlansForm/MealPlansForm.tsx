@@ -8,6 +8,7 @@ import PlanInput from "../add/addMealPlan/components/planInput/PlanInput";
 import PlanTextArea from "../add/addMealPlan/components/planTextArea/PlanTextArea";
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
+import { validationSchema } from "./MealPlansForm.validation";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -41,6 +42,7 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 			mealName: [],
 			plan: {},
 		},
+		validationSchema,
 		onSubmit: handleSubmit,
 	});
 
@@ -60,11 +62,15 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					name='name'
 					onChange={formik.handleChange}
 					value={formik.values.name}
+					touched={!!formik.touched.name}
+					errors={formik.errors.name || ""}
 				/>
 				<PlanTextArea
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
+					touched={!!formik.touched.name}
+					errors={formik.errors.name || ""}
 				/>
 
 				<DateInput
@@ -73,6 +79,8 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					type='week'
 					onChange={formik.handleChange}
 					value={formik.values.dateFrom}
+					touched={!!formik.touched.name}
+					errors={formik.errors.name || ""}
 				/>
 
 				<MealTable
