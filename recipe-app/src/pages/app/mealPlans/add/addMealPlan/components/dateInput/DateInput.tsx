@@ -5,18 +5,20 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
 	name: string;
 	label?: string;
 	labelClassName?: string;
-	error?: string;
-	errorClassName?: string;
+	errors?: string;
+	errorsClassName?: string;
 	type?: string;
+	touched?: boolean;
 };
 
 function DateInput({
 	label,
 	labelClassName,
-	error,
-	errorClassName,
+	errors,
+	errorsClassName,
 	type,
 	name,
+	touched,
 	...props
 }: Props) {
 	return (
@@ -24,7 +26,7 @@ function DateInput({
 			<label className='data-label'>
 				{label}
 				<input className='data-input' name={name} {...props} type={type} />
-				{error && <div className={errorClassName}>{error}</div>}
+				<div className={errorsClassName}>{touched && errors}</div>
 			</label>
 		</div>
 	);
