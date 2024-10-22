@@ -1,8 +1,8 @@
 import { FormikHelpers, useFormik } from "formik";
 import InstructionsForm from "./components/instructionsForm/InstructionsForm";
 import IngredientsForm from "./components/ingredientsForm/IngredientsForm";
-import Input from "./components/input/Input";
-import TextArea from "./components/textArea/TextArea";
+import Input from "../../../../components/inputs/Input";
+import TextArea from "../../../../components/textAreas/TextArea";
 import { recipeApi } from "../../../../api/recipes";
 import { validationSchema } from "./RecipeForm.validation";
 
@@ -108,15 +108,13 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					name='name'
 					onChange={formik.handleChange}
 					value={formik.values.name}
-					touched={!!formik.touched.name}
-					errors={formik.errors.name || ""}
+					error={formik.errors.name || ""}
 				/>
 				<TextArea
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
-					touched={!!formik.touched.description}
-					errors={formik.errors.description || ""}
+					error={formik.errors.description || ""}
 				/>
 			</form>
 			<div className='row'>

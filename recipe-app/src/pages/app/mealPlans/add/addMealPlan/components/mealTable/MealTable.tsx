@@ -3,6 +3,7 @@ import { Recipe } from "../../../../../../../types/editRecipe";
 import { DayName } from "../../../../../../../types/MealPlan";
 import "./mealTable.scss";
 import { MealPlan } from "../../types";
+import Input from "../../../../../../../components/inputs/Input";
 
 const days: DayName[] = [
 	"Poniedziałek",
@@ -63,7 +64,8 @@ const MealTable = ({
 		<>
 			<div className='meal-table-container'>
 				<div className='add-meal'>
-					<input
+					<Input
+						name='mealName'
 						className='input'
 						type='text'
 						value={inputValue}

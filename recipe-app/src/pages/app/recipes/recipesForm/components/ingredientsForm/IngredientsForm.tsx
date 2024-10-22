@@ -4,6 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { ingredientSchema } from "../../RecipeForm.validation";
 import "../recipesFormComponents.scss";
 import { useState } from "react";
+import Input from "../../../../../../components/inputs/Input";
 
 type Props = {
 	onIngredientsAdded: (ingredient: string) => void;
@@ -57,7 +58,7 @@ export default function IngredientsForm({
 					{editIngredient !== null ? "Edytuj Składnik" : "Dodaj Składnik"}
 				</label>
 				<div className='recipe-input'>
-					<input
+					<Input
 						className='input'
 						type='text'
 						name='ingredient'
