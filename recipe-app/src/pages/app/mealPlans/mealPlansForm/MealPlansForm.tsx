@@ -17,6 +17,7 @@ type Props = {
 
 function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
+	const [newMeal, setNewMeal] = useState<string>("");
 
 	useEffect(() => {
 		async function fetchRecipes() {
@@ -50,10 +51,22 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		formik.setFieldValue(`plan.${day}.${meal}`, recipeId);
 	};
 
-	const handleAddMealName = (newMeal: string) => {
-		formik.setFieldValue("mealName", [...formik.values.mealName, newMeal]);
+	const handleAddMealName = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		if (newMeal.trim() !== "") {
+			formik.setFieldValue("mealName", [
+				...formik.values.mealName,
+				newMeal.trim(),
+			]);
+			setNewMeal("");
+		}
 	};
 
+	const handleNewMealChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setNewMeal(e.target.value);
+	};
+
+	console.log(formik.values.mealName);
 	return (
 		<div className='container'>
 			<p className='title'>{initialValues?.id ? "Edytuj Plan" : "Nowy Plan"}</p>
@@ -70,7 +83,7 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					onChange={formik.handleChange}
 					value={formik.values.description}
 					touched={!!formik.touched.name}
-					errors={formik.errors.name || ""}
+					errors={formik.errors.description || ""}
 				/>
 
 				<DateInput
@@ -80,11 +93,22 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					onChange={formik.handleChange}
 					value={formik.values.dateFrom}
 					touched={!!formik.touched.name}
-					errors={formik.errors.name || ""}
+					errors={formik.errors.dateFrom || ""}
 				/>
-
+				<div className='add-meal'>
+					<input
+						className='input'
+						type='text'
+						value={newMeal}
+						onChange={handleNewMealChange}
+						placeholder='Wpisz nazwę posiłku'
+					/>
+					<button onClick={handleAddMealName}>Add</button>
+					{formik.touched.mealName && formik.errors.mealName && (
+						<div>{formik.errors.mealName}</div>
+					)}
+				</div>
 				<MealTable
-					onAddMealName={handleAddMealName}
 					mealName={formik.values.mealName}
 					recipes={recipes}
 					onChange={handleSelectChange}
@@ -98,5 +122,4 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		</div>
 	);
 }
-
 export default MealPlansForm;
