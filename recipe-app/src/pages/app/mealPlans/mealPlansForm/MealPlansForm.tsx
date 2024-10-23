@@ -8,6 +8,7 @@ import PlanInput from "../add/addMealPlan/components/planInput/PlanInput";
 import PlanTextArea from "../add/addMealPlan/components/planTextArea/PlanTextArea";
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
+import SubmitButton from "../../../../components/buttons/SubmitButton";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -28,8 +29,11 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
 			if (submitHandler) submitHandler(values);
+			formik.resetForm();
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
+		} finally {
+			formik.setSubmitting(false);
 		}
 	};
 
@@ -83,9 +87,14 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					selectedRecipes={formik.values.plan}
 				/>
 
-				<button type='submit' className='submit-button'>
+				{/* <button type='submit' className='submit-button'>
 					{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz Plan"}
-				</button>
+				</button> */}
+				<SubmitButton
+					isSubmitting={formik.isSubmitting}
+					disabled={!formik.dirty || !formik.isValid}
+					children={"dodaj"}
+				/>
 			</form>
 		</div>
 	);
