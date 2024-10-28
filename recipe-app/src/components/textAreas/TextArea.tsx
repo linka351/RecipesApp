@@ -22,10 +22,10 @@ function TextArea({
 		<label htmlFor={name} className={`label ${labelClassName}`}>
 			{label}
 			<textarea
+				{...props}
 				className={`textArea ${textAreaClassName}`}
 				id={name}
 				name={name}
-				{...props}
 			/>
 			{error && <p className={`error ${errorClassName}`}>{error}</p>}
 		</label>

@@ -22,10 +22,10 @@ function Input({
 		<label htmlFor={name} className={`label ${labelClassName}`}>
 			{label}
 			<input
+				{...props}
 				className={`input ${inputClassName}`}
 				id={name}
 				name={name}
-				{...props}
 			/>
 			{error && <p className={`error ${errorClassName}`}>{error}</p>}
 		</label>
