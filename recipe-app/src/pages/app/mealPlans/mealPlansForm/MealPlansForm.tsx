@@ -10,14 +10,17 @@ import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
 import { validationSchema } from "./MealPlansForm.validation";
 
+type FormikData = WeeklyPlan & {
+	newMealName: string;
+};
+
 type Props = {
-	initialValues?: WeeklyPlan;
+	initialValues?: FormikData;
 	onSubmit?: (values: WeeklyPlan) => void;
 };
 
 function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
-	const [newMeal, setNewMeal] = useState<string>("");
 
 	useEffect(() => {
 		async function fetchRecipes() {
@@ -27,7 +30,7 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		fetchRecipes();
 	}, []);
 
-	const handleSubmit = async (values: WeeklyPlan) => {
+	const handleSubmit = async ({ newMealName, ...values }: FormikData) => {
 		try {
 			if (submitHandler) submitHandler(values);
 		} catch (error) {
@@ -35,12 +38,13 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		}
 	};
 
-	const formik = useFormik<WeeklyPlan>({
+	const formik = useFormik<FormikData>({
 		initialValues: initialValues || {
 			name: "",
 			description: "",
 			dateFrom: "",
 			mealName: [],
+			newMealName: "",
 			plan: {},
 		},
 		validationSchema,
@@ -51,22 +55,19 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		formik.setFieldValue(`plan.${day}.${meal}`, recipeId);
 	};
 
-	const handleAddMealName = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		if (newMeal.trim() !== "") {
-			formik.setFieldValue("mealName", [
-				...formik.values.mealName,
-				newMeal.trim(),
-			]);
-			setNewMeal("");
-		}
+	const handleAddMealName = () => {
+		formik.setFieldTouched("newMealName", true);
+
+		validationSchema.validateSyncAt("newMealName", formik.values);
+
+		formik.setFieldValue("mealName", [
+			...formik.values.mealName,
+			formik.values.newMealName,
+		]);
+		formik.setFieldTouched("newMealName", false);
+		formik.setFieldValue("newMealName", "");
 	};
 
-	const handleNewMealChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setNewMeal(e.target.value);
-	};
-
-	console.log(formik.values.mealName);
 	return (
 		<div className='container'>
 			<p className='title'>{initialValues?.id ? "Edytuj Plan" : "Nowy Plan"}</p>
@@ -82,7 +83,7 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
-					touched={!!formik.touched.name}
+					touched={!!formik.touched.description}
 					errors={formik.errors.description || ""}
 				/>
 
@@ -92,20 +93,24 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					type='week'
 					onChange={formik.handleChange}
 					value={formik.values.dateFrom}
-					touched={!!formik.touched.name}
+					touched={!!formik.touched.dateFrom}
 					errors={formik.errors.dateFrom || ""}
 				/>
 				<div className='add-meal'>
 					<input
+						name='newMealName'
 						className='input'
 						type='text'
-						value={newMeal}
-						onChange={handleNewMealChange}
+						value={formik.values.newMealName}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
 						placeholder='Wpisz nazwę posiłku'
 					/>
-					<button onClick={handleAddMealName}>Add</button>
-					{formik.touched.mealName && formik.errors.mealName && (
-						<div>{formik.errors.mealName}</div>
+					<button type='button' onClick={handleAddMealName}>
+						Add
+					</button>
+					{formik.touched.newMealName && formik.errors.newMealName && (
+						<div>{formik.errors.newMealName}</div>
 					)}
 				</div>
 				<MealTable
