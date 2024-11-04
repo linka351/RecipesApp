@@ -4,6 +4,7 @@ import { DayName } from "../../../../../../../types/MealPlan";
 import "./mealTable.scss";
 import { MealPlan } from "../../types";
 import Input from "../../../../../../../components/inputs/Input";
+import { Link } from "react-router-dom";
 
 const days: DayName[] = [
 	"Poniedziałek",
@@ -32,9 +33,9 @@ const MealTable = ({
 }: MealNamesProps) => {
 	const [inputValue, setInputValue] = useState<string>("");
 
-	const [showRecipeList, setShowRecipeList] = useState<{
-		[key: string]: boolean;
-	}>({});
+	// const [showRecipeList, setShowRecipeList] = useState<{
+	// 	[key: string]: boolean;
+	// }>({});
 
 	const addMealName = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -44,21 +45,21 @@ const MealTable = ({
 		}
 	};
 
-	const toggleRecipeList = (day: DayName, meal: string) => {
-		setShowRecipeList(prevState => ({
-			...prevState,
-			[`${day}-${meal}`]: !prevState[`${day}-${meal}`],
-		}));
-	};
+	// const toggleRecipeList = (day: DayName, meal: string) => {
+	// 	setShowRecipeList(prevState => ({
+	// 		...prevState,
+	// 		[`${day}-${meal}`]: !prevState[`${day}-${meal}`],
+	// 	}));
+	// };
 
-	const handleRecipeSelect = (day: DayName, meal: string, recipeId: string) => {
-		onChange(day, meal, recipeId);
+	// const handleRecipeSelect = (day: DayName, meal: string, recipeId: string) => {
+	// 	onChange(day, meal, recipeId);
 
-		setShowRecipeList(prevState => ({
-			...prevState,
-			[`${day}-${meal}`]: false,
-		}));
-	};
+	// 	setShowRecipeList(prevState => ({
+	// 		...prevState,
+	// 		[`${day}-${meal}`]: false,
+	// 	}));
+	// };
 
 	return (
 		<>
@@ -66,7 +67,6 @@ const MealTable = ({
 				<div className='add-meal'>
 					<Input
 						name='mealName'
-						className='input'
 						type='text'
 						value={inputValue}
 						onChange={e => setInputValue(e.target.value)}
@@ -93,28 +93,13 @@ const MealTable = ({
 								</div>
 								{days.map(day => (
 									<div key={`${day}-${meal}`} className='meal-select'>
-										<div
-											className='recipe-name'
-											onClick={() => toggleRecipeList(day, meal)}>
-											{recipes.find(
-												recipe => recipe.id === selectedRecipes?.[day]?.[meal]
-											)?.name || "Wybierz Przepis"}
-										</div>
-
-										{showRecipeList[`${day}-${meal}`] && (
-											<div className='recipe-list'>
-												{recipes.map(recipe => (
-													<div
-														className='recipe-name'
-														key={recipe.id}
-														onClick={() =>
-															handleRecipeSelect(day, meal, recipe.id)
-														}>
-														<p className='recipe-name'>{recipe.name}</p>
-													</div>
-												))}
+										<Link to='/app/recipes'>
+											<div className='recipe-name'>
+												{recipes.find(
+													recipe => recipe.id === selectedRecipes?.[day]?.[meal]
+												)?.name || "Wybierz Przepis"}
 											</div>
-										)}
+										</Link>
 									</div>
 								))}
 							</>
