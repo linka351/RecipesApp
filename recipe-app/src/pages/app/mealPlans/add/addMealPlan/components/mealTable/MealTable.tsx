@@ -3,6 +3,7 @@ import { Recipe } from "../../../../../../../types/editRecipe";
 import { DayName } from "../../../../../../../types/MealPlan";
 import "./mealTable.scss";
 import { MealPlan } from "../../types";
+import Input from "../../../../../../../components/inputs/Input";
 
 const days: DayName[] = [
 	"Poniedziałek",
@@ -16,6 +17,7 @@ const days: DayName[] = [
 
 type MealNamesProps = {
 	mealName: string[];
+	onAddMealName: (newMeal: string) => void;
 	recipes: Recipe[];
 	onChange: (day: DayName, meal: string, recipeId: string) => void;
 	selectedRecipes: MealPlan;
@@ -23,13 +25,24 @@ type MealNamesProps = {
 
 const MealTable = ({
 	mealName,
+	onAddMealName,
 	recipes,
 	onChange,
 	selectedRecipes,
 }: MealNamesProps) => {
+	const [inputValue, setInputValue] = useState<string>("");
+
 	const [showRecipeList, setShowRecipeList] = useState<{
 		[key: string]: boolean;
 	}>({});
+
+	const addMealName = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		if (inputValue.trim()) {
+			onAddMealName(inputValue.trim());
+			setInputValue("");
+		}
+	};
 
 	const toggleRecipeList = (day: DayName, meal: string) => {
 		setShowRecipeList(prevState => ({
@@ -50,6 +63,17 @@ const MealTable = ({
 	return (
 		<>
 			<div className='meal-table-container'>
+				<div className='add-meal'>
+					<Input
+						name='mealName'
+						type='text'
+						value={inputValue}
+						onChange={e => setInputValue(e.target.value)}
+						placeholder='Wpisz nazwę posiłku'
+					/>
+					<button onClick={addMealName}>Add</button>
+				</div>
+
 				{mealName.length > 0 && (
 					<div className='meal-plan-grid'>
 						<div className='header-cell'>
