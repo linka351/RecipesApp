@@ -2,10 +2,6 @@ import { ButtonHTMLAttributes } from "react";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 	isSubmitting: boolean;
-	disabled?: boolean;
-	children?: React.ReactNode;
-	type?: string;
-	className?: string;
 };
 const Button = ({
 	isSubmitting,
