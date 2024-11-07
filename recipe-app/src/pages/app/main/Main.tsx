@@ -10,6 +10,8 @@ import Edit from "../recipes/edit/Edit";
 import Layout from "../../../components/layout/Layout";
 
 import "./main.scss";
+import { Provider } from "react-redux";
+import { store } from "../../../redux/store";
 
 const router = createBrowserRouter([
 	{
@@ -54,9 +56,9 @@ const router = createBrowserRouter([
 
 function Main() {
 	return (
-		<>
+		<Provider store={store} >
 			<RouterProvider router={router} />
-		</>
+		</Provider>
 	);
 }
 
