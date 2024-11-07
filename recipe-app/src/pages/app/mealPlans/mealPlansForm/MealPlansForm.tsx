@@ -76,14 +76,14 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					onChange={formik.handleChange}
 					value={formik.values.name}
 					touched={!!formik.touched.name}
-					errors={formik.errors.name || ""}
+					error={formik.errors.name || ""}
 				/>
 				<TextArea
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
 					touched={!!formik.touched.description}
-					errors={formik.errors.description || ""}
+					error={formik.errors.description || ""}
 				/>
 
 				<Input
@@ -93,7 +93,7 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					onChange={formik.handleChange}
 					value={formik.values.dateFrom}
 					touched={!!formik.touched.dateFrom}
-					errors={formik.errors.dateFrom || ""}
+					error={formik.errors.dateFrom || ""}
 				/>
 
 				<MealTable

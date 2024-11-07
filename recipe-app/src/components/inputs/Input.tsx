@@ -1,12 +1,12 @@
 import { InputHTMLAttributes } from "react";
 
 type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "className"> & {
-	name: string;
 	label?: string;
 	labelClassName?: string;
 	error?: string;
 	errorClassName?: string;
 	inputClassName?: string;
+	touched?: boolean;
 };
 
 function Input({
