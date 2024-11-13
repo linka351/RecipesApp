@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Recipe } from "../../../../../../types/editRecipe";
+import Modal from "../../../../../../components/modal/Modal";
 
 type MealPlanModalProps = {
+	isOpen: boolean;
 	recipes: Recipe[];
 	onClose: () => void;
 	onSelectRecipe: (recipeId: string) => void;
 };
 
 const MealPlanModal = ({
+	isOpen,
 	recipes,
 	onClose,
 	onSelectRecipe,
@@ -21,11 +24,7 @@ const MealPlanModal = ({
 		: recipes;
 
 	return (
-		<div className='meal-plan-modal'>
-			<button onClick={onClose} className='close-modal'>
-				X
-			</button>
-
+		<Modal isOpen={isOpen} onClose={onClose} text='Wybierz przepis'>
 			<div className='search-input'>
 				<input
 					type='text'
@@ -45,7 +44,7 @@ const MealPlanModal = ({
 					</div>
 				))}
 			</div>
-		</div>
+		</Modal>
 	);
 };
 
