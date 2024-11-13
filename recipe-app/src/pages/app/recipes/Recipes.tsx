@@ -49,7 +49,6 @@ function Recipes() {
 					placeholder='Wyszukaj przepisy...'
 					value={searchRecipe}
 					onChange={handleSearch}
-					className='search-input'
 				/>
 				<Link to={"/app/recipes/add"}>
 					<button className='add-recipe'>Dodaj Przepis</button>
@@ -73,6 +72,9 @@ function Recipes() {
 									className='delete-button'
 									onClick={() => handleDelete(recipe.id)}>
 									Usuń
+								</button>
+								<button type='button' className='recipe-button'>
+									Dodaj do planu
 								</button>
 							</div>
 						</li>
