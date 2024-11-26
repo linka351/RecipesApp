@@ -7,7 +7,7 @@ import { recipeApi } from "../../../../api/recipes";
 import { validationSchema } from "./RecipeForm.validation";
 
 import "./recipesForm.scss";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface FormValues {
 	id?: string;
@@ -27,6 +27,12 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const [imageUpload, setImageUpload] = useState<File | null>(null);
 	const [previewImage, setPreviewImage] = useState<string | null>(null);
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+	useEffect(() => {
+		if (initialValues?.image) {
+			setPreviewImage(initialValues.image); // Ustaw podgląd na podstawie początkowych danych
+		}
+	}, [initialValues]);
 
 	const defaultValues: FormValues = {
 		name: "",
@@ -72,10 +78,11 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		formikHelpers: FormikHelpers<FormValues>
 	) {
 		try {
-			let imageUrl = "";
+			let imageUrl = values.image || "";
 			if (imageUpload) {
 				imageUrl = await uploadImage(imageUpload);
 			}
+
 			if (values.id) {
 				await recipeApi.update(values.id, {
 					...values,
@@ -87,6 +94,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					image: imageUrl,
 				});
 			}
+
 			formikHelpers.resetForm();
 			setPreviewImage(null);
 			setImageUpload(null);
