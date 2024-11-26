@@ -12,6 +12,7 @@ type Props = Omit<InputHTMLAttributes<HTMLTextAreaElement>, "className"> & {
 function TextArea({
 	name,
 	label,
+	touched,
 	labelClassName,
 	error,
 	errorClassName,
@@ -27,7 +28,7 @@ function TextArea({
 				id={name}
 				name={name}
 			/>
-			{error && <p className={`error ${errorClassName}`}>{error}</p>}
+			{touched && error && <p className={`error ${errorClassName}`}>{error}</p>}
 		</label>
 	);
 }

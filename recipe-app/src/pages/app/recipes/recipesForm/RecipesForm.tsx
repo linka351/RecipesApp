@@ -107,12 +107,16 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 				<Input
 					name='name'
 					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					touched={formik.touched.name}
 					value={formik.values.name}
 					error={formik.errors.name || ""}
 				/>
 				<TextArea
 					name='description'
 					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					touched={formik.touched.description}
 					value={formik.values.description}
 					error={formik.errors.description || ""}
 				/>

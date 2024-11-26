@@ -63,29 +63,24 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 
 	const handleAddMealName = () => {
 		try {
-			// Sprawdzamy walidację newMealName
 			newMealNameValidationSchema.validateSync({
 				newMealName: formik.values.newMealName,
 			});
 
-			// Dodajemy posiłek do mealName
 			formik.setFieldValue("mealName", [
 				...formik.values.mealName,
 				formik.values.newMealName,
 			]);
 
-			// Czyścimy pole newMealName i resetujemy dotknięcie oraz błąd
 			formik.setFieldValue("newMealName", "");
 			formik.setFieldTouched("newMealName", false);
 			formik.setFieldError("newMealName", "");
 		} catch (error) {
 			if (error instanceof Error) {
-				// Ustawiamy błąd w formik.errors.newMealName
 				formik.setFieldError("newMealName", error.message);
 			} else {
 				formik.setFieldError("newMealName", "An unknown error occurred");
 			}
-			// Ustawiamy pole jako dotknięte, aby wyświetlić błąd
 			formik.setFieldTouched("newMealName", true, false);
 		}
 	};
