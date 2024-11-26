@@ -1,14 +1,13 @@
-// import { FormikHelpers, useFormik } from "formik";
-// import InstructionsForm from "./components/instructionsForm/InstructionsForm";
-// import IngredientsForm from "./components/ingredientsForm/IngredientsForm";
+import { FormikHelpers, useFormik } from "formik";
+import InstructionsForm from "./components/instructionsForm/InstructionsForm";
+import IngredientsForm from "./components/ingredientsForm/IngredientsForm";
 import Input from "../../../../components/inputs/Input";
-// import TextArea from "../../../../components/textAreas/TextArea";
-// import { recipeApi } from "../../../../api/recipes";
-// import { validationSchema } from "./RecipeForm.validation";
+import TextArea from "../../../../components/textAreas/TextArea";
+import { recipeApi } from "../../../../api/recipes";
+import { validationSchema } from "./RecipeForm.validation";
+
 import "./recipesForm.scss";
-import { useState } from "react";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../../../firebase/firebaseConfig";
+import { useRef, useState } from "react";
 
 export interface FormValues {
 	id?: string;
@@ -24,139 +23,130 @@ interface RecipesFormProps {
 	onSubmit?: () => void;
 }
 
-function RecipesForm({}: RecipesFormProps) {
+function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const [imageUpload, setImageUpload] = useState<File | null>(null);
+	const [previewImage, setPreviewImage] = useState<string | null>(null);
+	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-	const uploadImage = async () => {
-		if (!imageUpload) {
-			alert("Najpierw wybierz zdjęcie!");
-			return;
-		}
+	const defaultValues: FormValues = {
+		name: "",
+		description: "",
+		instructions: [],
+		ingredients: [],
+		image: "",
+	};
 
-		const imageRef = ref(storage, `images/${imageUpload.name}`);
-
+	const uploadImage = async (file: File): Promise<string> => {
 		try {
-			await uploadBytes(imageRef, imageUpload);
+			const formData = new FormData();
+			formData.append("image", file);
 
-			const downloadURL = await getDownloadURL(imageRef);
+			const response = await fetch(
+				"https://api.imgbb.com/1/upload?key=b3ac6f5037e59ed8c19ca6407f24f2b5",
+				{
+					method: "POST",
+					body: formData,
+				}
+			);
 
-			alert("Zdjęcie zostało dodane!");
-			console.log("Download URL:", downloadURL);
+			const data = await response.json();
+			if (data.success) {
+				return data.data.display_url;
+			} else {
+				throw new Error("Błąd podczas przesyłania zdjęcia.");
+			}
 		} catch (error) {
 			console.error("Błąd podczas przesyłania zdjęcia:", error);
-			alert("Wystąpił problem z przesłaniem zdjęcia. Spróbuj ponownie.");
+			throw error;
 		}
 	};
 
-	// const defaultValues: FormValues = {
-	// 	name: "",
-	// 	description: "",
-	// 	instructions: [],
-	// 	ingredients: [],
-	// };
+	const formik = useFormik<FormValues>({
+		initialValues: initialValues || defaultValues,
+		validationSchema,
+		onSubmit: handleSubmit,
+	});
 
-	// const formik = useFormik<FormValues>({
-	// 	initialValues: initialValues || defaultValues,
-	// 	validationSchema,
-	// 	onSubmit: handleSubmit,
-	// });
+	async function handleSubmit(
+		values: FormValues,
+		formikHelpers: FormikHelpers<FormValues>
+	) {
+		try {
+			let imageUrl = "";
+			if (imageUpload) {
+				imageUrl = await uploadImage(imageUpload);
+			}
+			if (values.id) {
+				await recipeApi.update(values.id, {
+					...values,
+					image: imageUrl,
+				});
+			} else {
+				await recipeApi.add({
+					...values,
+					image: imageUrl,
+				});
+			}
+			formikHelpers.resetForm();
+			setPreviewImage(null);
+			setImageUpload(null);
+			if (fileInputRef.current) {
+				fileInputRef.current.value = "";
+			}
+			if (onSubmit) onSubmit();
+		} catch (error) {
+			console.error("Błąd podczas zapisywania przepisu:", error);
+		}
+	}
 
-	// async function handleSubmit(
-	// 	values: FormValues,
-	// 	formikHelpers: FormikHelpers<FormValues>
-	// ) {
-	// 	try {
-	// 		if (values.id) {
-	// 			await recipeApi.update(values.id!, {
-	// 				name: values.name,
-	// 				description: values.description,
-	// 				instructions: values.instructions,
-	// 				ingredients: values.ingredients,
-	// 				image: imageUrl,
-	// 			});
-	// 		} else {
-	// 			await recipeApi.add(values);
-	// 		}
-	// 		formikHelpers.resetForm();
-	// 		if (onSubmit) onSubmit();
-	// 	} catch (e: any) {
-	// 		console.log({ e });
-	// 	}
-	// }
+	const handleAddInstruction = (instruction: string): void => {
+		formik.setFieldValue("instructions", [
+			...formik.values.instructions,
+			instruction,
+		]);
+	};
 
-	// const handleAddInstruction = (instruction: string): void => {
-	// 	formik.setFieldValue("instructions", [
-	// 		...formik.values.instructions,
-	// 		instruction,
-	// 	]);
-	// };
+	const handleAddIngredient = (ingredient: string): void => {
+		formik.setFieldValue("ingredients", [
+			...formik.values.ingredients,
+			ingredient,
+		]);
+	};
 
-	// const handleAddIngredient = (ingredient: string): void => {
-	// 	formik.setFieldValue("ingredients", [
-	// 		...formik.values.ingredients,
-	// 		ingredient,
-	// 	]);
-	// };
+	const handleRemoveElement = (
+		index: number,
+		element: "instructions" | "ingredients"
+	): void => {
+		const updatedElements = [...formik.values[element]];
+		updatedElements.splice(index, 1);
+		formik.setFieldValue(element, updatedElements);
+	};
 
-	// const handleRemoveElement = (
-	// 	index: number,
-	// 	element: "instructions" | "ingredients"
-	// ): void => {
-	// 	const updatedElements = [...formik.values[element]];
-	// 	updatedElements.splice(index, 1);
-	// 	formik.setFieldValue(element, updatedElements);
-	// };
+	const handleEditIngredient = (index: number, ingredient: string) => {
+		const updatedIngredients = [...formik.values.ingredients];
+		updatedIngredients[index] = ingredient;
+		formik.setFieldValue("ingredients", updatedIngredients);
+	};
+	const handleEditInstruction = (index: number, instruction: string) => {
+		const updatedInstructions = [...formik.values.instructions];
+		updatedInstructions[index] = instruction;
+		formik.setFieldValue("instructions", updatedInstructions);
+	};
 
-	// const handleEditIngredient = (index: number, ingredient: string) => {
-	// 	const updatedIngredients = [...formik.values.ingredients];
-	// 	updatedIngredients[index] = ingredient;
-	// 	formik.setFieldValue("ingredients", updatedIngredients);
-	// };
-	// const handleEditInstruction = (index: number, instruction: string) => {
-	// 	const updatedInstructions = [...formik.values.instructions];
-	// 	updatedInstructions[index] = instruction;
-	// 	formik.setFieldValue("instructions", updatedInstructions);
-	// };
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			setImageUpload(file);
+			setPreviewImage(URL.createObjectURL(file));
+			console.log("Wybrano plik:", file.name);
+		}
+	};
 
-	// const handleFileUpload = (
-	// 	event: React.ChangeEvent<HTMLInputElement>
-	// ): void => {
-	// 	const file = event.target.files?.[0];
-	// 	if (file) {
-	// 		const reader = new FileReader();
-
-	// 		reader.onload = (e: ProgressEvent<FileReader>) => {
-	// 			if (e.target?.result) {
-	// 				setImageUrl(e.target.result as string);
-	// 			}
-	// 		};
-
-	// 		reader.readAsDataURL(file);
-	// 	}
-	// };
+	//dodac do buttona zeby zapisał sie tylko raz + loader
 
 	return (
 		<div className='recipe-container'>
-			<Input
-				type='file'
-				name='image'
-				onChange={e => {
-					const file = e.target.files?.[0];
-					if (file) {
-						setImageUpload(file);
-						console.log("Wybrano plik:", file.name);
-					}
-				}}
-			/>
-			<button onClick={uploadImage}>Upload</button>
-			{/* {imageUrl && (
-				<img
-					style={{ height: "200px", width: "200px" }}
-					src={imageUrl}
-					alt='Uploaded preview'
-				/>
-			)} */}
-			{/* <div className='recipe-name'>
+			<div className='recipe-name'>
 				<h2>{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}</h2>
 
 				<button
@@ -167,6 +157,21 @@ function RecipesForm({}: RecipesFormProps) {
 				</button>
 			</div>
 			<form className='recipe' onSubmit={formik.handleSubmit}>
+				<Input
+					type='file'
+					name='image'
+					onChange={handleFileChange}
+					ref={fileInputRef}
+				/>
+				{previewImage && (
+					<div className='image-preview'>
+						<img
+							src={previewImage}
+							alt='Podgląd zdjęcia'
+							style={{ maxWidth: "200px", height: "200px", marginTop: "10px" }}
+						/>
+					</div>
+				)}
 				<Input
 					name='name'
 					onChange={formik.handleChange}
@@ -197,7 +202,7 @@ function RecipesForm({}: RecipesFormProps) {
 					touched={!!formik.touched.ingredients}
 					errors={formik.errors.ingredients || ""}
 				/>
-			</div> */}
+			</div>
 		</div>
 	);
 }
