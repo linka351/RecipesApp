@@ -34,9 +34,12 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 
 	const handleSubmit = async ({ newMealName, ...values }: FormikData) => {
 		try {
-			if (submitHandler) submitHandler(values);
+			if (submitHandler) await submitHandler(values);
+			formik.resetForm();
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
+		} finally {
+			formik.setSubmitting(false);
 		}
 	};
 
