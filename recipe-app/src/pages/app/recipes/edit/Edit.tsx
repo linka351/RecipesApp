@@ -17,6 +17,8 @@ function Edit() {
 		fetchRecipe();
 	}, [id]);
 
+	console.log(recipe);
+
 	async function handleFormSubmit() {
 		navigate("/app/recipes");
 	}
