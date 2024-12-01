@@ -53,7 +53,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			formikHelpers.resetForm();
 			if (onSubmit) onSubmit();
 		} catch (e: any) {
-			console.log({ e });
+			alert(`wystąpił bład: ${e.message}`);
 		}
 	}
 

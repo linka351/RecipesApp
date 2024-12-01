@@ -56,10 +56,6 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		onSubmit: handleSubmit,
 	});
 
-	console.log("Formik values:", formik.values);
-	console.log("Formik touched:", formik.touched);
-	console.log("Formik errors:", formik.errors);
-
 	const handleSelectChange = (day: DayName, meal: string, recipeId: string) => {
 		formik.setFieldValue(`plan.${day}.${meal}`, recipeId);
 	};
