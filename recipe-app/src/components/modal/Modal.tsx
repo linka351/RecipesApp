@@ -1,26 +1,34 @@
 import { ReactNode } from "react";
+import { createPortal } from "react-dom";
 
+import "./modal.scss";
 
-type ModalProps = {
-	isOpen: boolean;
-	onClose: () => void;
+const portals = document.getElementById("portals")!;
+
+type Props = {
+	close: () => void;
 	children: ReactNode;
-	text?: string;
+	headerText?: string;
 };
 
-const Modal = ({ isOpen, onClose, children, text }: ModalProps) => {
-	if (!isOpen) return null;
+const Modal = ({ close, children, headerText }: Props) => {
+	const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (e.target === e.currentTarget) {
+			close();
+		}
+	};
 
-	return (
-		<div className='modal'>
+	return createPortal(
+		<div className='modal' onClick={handleBackgroundClick}>
 			<div className='modal-content'>
-				{text && <h2 className='modal-text'>{text}</h2>}
-				<button onClick={onClose} className='modal-close'>
+				{headerText && <h2 className='modal-text'>{headerText}</h2>}
+				<button onClick={close} className='modal-close'>
 					X
 				</button>
 				<div className='modal-body'>{children}</div>
 			</div>
-		</div>
+		</div>,
+		portals
 	);
 };
 

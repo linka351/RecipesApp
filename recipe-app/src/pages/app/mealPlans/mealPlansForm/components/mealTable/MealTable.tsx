@@ -109,7 +109,6 @@ const MealTable = ({
 
 			{isModalOpen && (
 				<MealPlanModal
-					isOpen={isModalOpen}
 					recipes={recipes}
 					onClose={() => setIsModalOpen(false)}
 					onSelectRecipe={handleRecipeSelect}
