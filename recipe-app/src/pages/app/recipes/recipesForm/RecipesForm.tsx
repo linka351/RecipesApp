@@ -9,6 +9,7 @@ import { Oval } from "react-loader-spinner";
 
 import "./recipesForm.scss";
 import { useEffect, useRef, useState } from "react";
+import ImageUploader from "./components/uploadImage/ImageUploader";
 
 export interface FormValues {
 	id?: string;
@@ -27,13 +28,13 @@ interface RecipesFormProps {
 function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const [imageUpload, setImageUpload] = useState<File | null>(null);
 	const [previewImage, setPreviewImage] = useState<string | null>(null);
-	const [isUploading, setIsUploading] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+	const imageUploaderRef = useRef<{ clear: () => void } | null>(null);
 
 	useEffect(() => {
 		if (initialValues?.image) {
-			setPreviewImage(initialValues.image); // Ustaw podgląd na podstawie początkowych danych
+			setPreviewImage(initialValues.image);
 		}
 	}, [initialValues]);
 
@@ -47,7 +48,6 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 
 	const uploadImage = async (file: File): Promise<string> => {
 		try {
-			setIsUploading(true);
 			const formData = new FormData();
 			formData.append("image", file);
 
@@ -63,13 +63,12 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			if (data.success) {
 				return data.data.display_url;
 			} else {
-				throw new Error("Błąd podczas przesyłania zdjęcia.");
+				console.log("Błąd podczas przesyłania zdjęcia.");
+				return "";
 			}
 		} catch (error) {
 			console.error("Błąd podczas przesyłania zdjęcia:", error);
-			throw error;
-		} finally {
-			setIsUploading(false);
+			return "";
 		}
 	};
 
@@ -105,8 +104,8 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			formikHelpers.resetForm();
 			setPreviewImage(null);
 			setImageUpload(null);
-			if (fileInputRef.current) {
-				fileInputRef.current.value = "";
+			if (imageUploaderRef.current) {
+				imageUploaderRef.current.clear();
 			}
 			if (onSubmit) onSubmit();
 		} catch (error) {
@@ -153,14 +152,10 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
 		if (file) {
-			setIsUploading(false);
 			setImageUpload(file);
 			setPreviewImage(URL.createObjectURL(file));
-			console.log("Wybrano plik:", file.name);
 		}
 	};
-
-	//dodac dopytac czy loader dobrze działa do buttona zeby zapisał sie tylko raz + loader
 
 	return (
 		<div className='recipe-container'>
@@ -187,25 +182,9 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 				</button>
 			</div>
 			<form className='recipe' onSubmit={formik.handleSubmit}>
-				<Input
-					type='file'
-					name='image'
-					onChange={handleFileChange}
-					ref={fileInputRef}
-				/>
-				{isUploading ? (
-					<div className='loader'>
-						<Oval
-							height={50}
-							width={50}
-							color='#4fa94d'
-							ariaLabel='Ładowanie obrazu'
-							secondaryColor='#4fa94d'
-							strokeWidth={2}
-							strokeWidthSecondary={2}
-						/>
-					</div>
-				) : previewImage ? (
+				<ImageUploader ref={imageUploaderRef} onChange={handleFileChange} />
+
+				{previewImage && (
 					<div className='image-preview'>
 						<img
 							src={previewImage}
@@ -213,7 +192,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 							style={{ maxWidth: "200px", height: "200px", marginTop: "10px" }}
 						/>
 					</div>
-				) : null}
+				)}
 				<Input
 					name='name'
 					onChange={formik.handleChange}
