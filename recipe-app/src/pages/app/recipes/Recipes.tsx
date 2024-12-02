@@ -49,7 +49,6 @@ function Recipes() {
 					placeholder='Wyszukaj przepisy...'
 					value={searchRecipe}
 					onChange={handleSearch}
-					className='search-input'
 				/>
 				<Link to={"/app/recipes/add"}>
 					<button className='add-recipe'>Dodaj Przepis</button>

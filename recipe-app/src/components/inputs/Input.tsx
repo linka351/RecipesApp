@@ -1,17 +1,18 @@
 import { InputHTMLAttributes } from "react";
 
 type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "className"> & {
-	name: string;
 	label?: string;
 	labelClassName?: string;
 	error?: string;
 	errorClassName?: string;
 	inputClassName?: string;
+	touched?: boolean;
 };
 
 function Input({
 	name,
 	label,
+	touched,
 	labelClassName,
 	error,
 	errorClassName,
@@ -27,7 +28,7 @@ function Input({
 				id={name}
 				name={name}
 			/>
-			{error && <p className={`error ${errorClassName}`}>{error}</p>}
+			{touched && error && <p className={`error ${errorClassName}`}>{error}</p>}
 		</label>
 	);
 }

@@ -5,13 +5,20 @@ import MealTable from "../add/addMealPlan/components/mealTable/MealTable";
 import { DayName } from "../../../../types/MealPlan";
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
-import Button from "../../../../components/buttons/Button";
+import {
+	newMealNameValidationSchema,
+	validationSchema,
+} from "./MealPlansForm.validation";
 import Input from "../../../../components/inputs/Input";
 import TextArea from "../../../../components/textAreas/TextArea";
 
+type FormikData = WeeklyPlan & {
+	newMealName: string;
+};
+
 type Props = {
-	initialValues?: WeeklyPlan;
-	onSubmit?: (values: WeeklyPlan) => Promise<void>;
+	initialValues?: FormikData;
+	onSubmit?: (values: WeeklyPlan) => void;
 };
 
 function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
@@ -25,7 +32,7 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		fetchRecipes();
 	}, []);
 
-	const handleSubmit = async (values: WeeklyPlan) => {
+	const handleSubmit = async ({ newMealName, ...values }: FormikData) => {
 		try {
 			if (submitHandler) await submitHandler(values);
 			formik.resetForm();
@@ -36,14 +43,16 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		}
 	};
 
-	const formik = useFormik<WeeklyPlan>({
+	const formik = useFormik<FormikData>({
 		initialValues: initialValues || {
 			name: "",
 			description: "",
 			dateFrom: "",
 			mealName: [],
+			newMealName: "",
 			plan: {},
 		},
+		validationSchema,
 		onSubmit: handleSubmit,
 	});
 
@@ -51,8 +60,28 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		formik.setFieldValue(`plan.${day}.${meal}`, recipeId);
 	};
 
-	const handleAddMealName = (newMeal: string) => {
-		formik.setFieldValue("mealName", [...formik.values.mealName, newMeal]);
+	const handleAddMealName = () => {
+		try {
+			newMealNameValidationSchema.validateSync({
+				newMealName: formik.values.newMealName,
+			});
+
+			formik.setFieldValue("mealName", [
+				...formik.values.mealName,
+				formik.values.newMealName,
+			]);
+
+			formik.setFieldValue("newMealName", "");
+			formik.setFieldTouched("newMealName", false);
+			formik.setFieldError("newMealName", "");
+		} catch (error) {
+			if (error instanceof Error) {
+				formik.setFieldError("newMealName", error.message);
+			} else {
+				formik.setFieldError("newMealName", "An unknown error occurred");
+			}
+			formik.setFieldTouched("newMealName", true, false);
+		}
 	};
 
 	return (
@@ -63,11 +92,17 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					name='name'
 					onChange={formik.handleChange}
 					value={formik.values.name}
+					touched={formik.touched.name}
+					error={formik.errors.name || ""}
+					onBlur={formik.handleBlur}
 				/>
 				<TextArea
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
+					touched={formik.touched.description}
+					error={formik.errors.description || ""}
+					onBlur={formik.handleBlur}
 				/>
 
 				<Input
@@ -76,25 +111,40 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					type='week'
 					onChange={formik.handleChange}
 					value={formik.values.dateFrom}
+					touched={formik.touched.dateFrom}
+					error={formik.errors.dateFrom || ""}
+					onBlur={formik.handleBlur}
 				/>
-
+				<div className='add-meal'>
+					<Input
+						name='newMealName'
+						type='text'
+						value={formik.values.newMealName}
+						onChange={formik.handleChange}
+						placeholder='Wpisz nazwę posiłku'
+					/>
+					<button type='button' onClick={handleAddMealName}>
+						Add
+					</button>
+					{formik.touched.newMealName && formik.errors.newMealName && (
+						<div className='error-message'>{formik.errors.newMealName}</div>
+					)}
+				</div>
 				<MealTable
-					onAddMealName={handleAddMealName}
 					mealName={formik.values.mealName}
 					recipes={recipes}
 					onChange={handleSelectChange}
 					selectedRecipes={formik.values.plan}
 				/>
+				{formik.touched.mealName && formik.errors.mealName && (
+					<div>{formik.errors.mealName}</div>
+				)}
 
-				<Button
-					type='submit'
-					isSubmitting={formik.isSubmitting}
-					disabled={!formik.dirty || !formik.isValid}>
-					Dodaj
-				</Button>
+				<button type='submit' className='submit-button'>
+					{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz Plan"}
+				</button>
 			</form>
 		</div>
 	);
 }
-
 export default MealPlansForm;

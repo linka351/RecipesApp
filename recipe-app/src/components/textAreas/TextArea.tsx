@@ -1,17 +1,18 @@
 import { InputHTMLAttributes } from "react";
 
 type Props = Omit<InputHTMLAttributes<HTMLTextAreaElement>, "className"> & {
-	name: string;
 	label?: string;
 	labelClassName?: string;
 	error?: string;
 	errorClassName?: string;
 	textAreaClassName?: string;
+	touched?: boolean;
 };
 
 function TextArea({
 	name,
 	label,
+	touched,
 	labelClassName,
 	error,
 	errorClassName,
@@ -27,7 +28,7 @@ function TextArea({
 				id={name}
 				name={name}
 			/>
-			{error && <p className={`error ${errorClassName}`}>{error}</p>}
+			{touched && error && <p className={`error ${errorClassName}`}>{error}</p>}
 		</label>
 	);
 }
