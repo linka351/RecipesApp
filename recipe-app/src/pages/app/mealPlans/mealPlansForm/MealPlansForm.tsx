@@ -5,16 +5,12 @@ import MealTable from "../add/addMealPlan/components/mealTable/MealTable";
 import { DayName } from "../../../../types/MealPlan";
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
-import {
-	newMealNameValidationSchema,
-	validationSchema,
-} from "./MealPlansForm.validation";
+import { validationSchema } from "./MealPlansForm.validation";
 import Input from "../../../../components/inputs/Input";
 import TextArea from "../../../../components/textAreas/TextArea";
+import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
 
-type FormikData = WeeklyPlan & {
-	newMealName: string;
-};
+type FormikData = WeeklyPlan;
 
 type Props = {
 	initialValues?: FormikData;
@@ -32,9 +28,9 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		fetchRecipes();
 	}, []);
 
-	const handleSubmit = async ({ newMealName, ...values }: FormikData) => {
+	const handleSubmit = async (values: FormikData) => {
 		try {
-			if (submitHandler) await submitHandler(values);
+			if (submitHandler) submitHandler(values);
 			formik.resetForm();
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
@@ -49,7 +45,6 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 			description: "",
 			dateFrom: "",
 			mealName: [],
-			newMealName: "",
 			plan: {},
 		},
 		validationSchema,
@@ -60,28 +55,8 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		formik.setFieldValue(`plan.${day}.${meal}`, recipeId);
 	};
 
-	const handleAddMealName = () => {
-		try {
-			newMealNameValidationSchema.validateSync({
-				newMealName: formik.values.newMealName,
-			});
-
-			formik.setFieldValue("mealName", [
-				...formik.values.mealName,
-				formik.values.newMealName,
-			]);
-
-			formik.setFieldValue("newMealName", "");
-			formik.setFieldTouched("newMealName", false);
-			formik.setFieldError("newMealName", "");
-		} catch (error) {
-			if (error instanceof Error) {
-				formik.setFieldError("newMealName", error.message);
-			} else {
-				formik.setFieldError("newMealName", "An unknown error occurred");
-			}
-			formik.setFieldTouched("newMealName", true, false);
-		}
+	const handleAddMealName = (mealName: string) => {
+		formik.setFieldValue("mealName", [...formik.values.mealName, mealName]);
 	};
 
 	return (
@@ -115,21 +90,9 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					error={formik.errors.dateFrom || ""}
 					onBlur={formik.handleBlur}
 				/>
-				<div className='add-meal'>
-					<Input
-						name='newMealName'
-						type='text'
-						value={formik.values.newMealName}
-						onChange={formik.handleChange}
-						placeholder='Wpisz nazwę posiłku'
-					/>
-					<button type='button' onClick={handleAddMealName}>
-						Add
-					</button>
-					{formik.touched.newMealName && formik.errors.newMealName && (
-						<div className='error-message'>{formik.errors.newMealName}</div>
-					)}
-				</div>
+
+				<NewMealName onAdd={handleAddMealName} />
+
 				<MealTable
 					mealName={formik.values.mealName}
 					recipes={recipes}
@@ -147,4 +110,5 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		</div>
 	);
 }
+
 export default MealPlansForm;

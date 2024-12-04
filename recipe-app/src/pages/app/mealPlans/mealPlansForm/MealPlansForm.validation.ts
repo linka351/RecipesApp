@@ -13,11 +13,8 @@ export const validationSchema = yup.object({
 	mealName: yup
 		.array()
 		.min(1, "Musisz dodać przynajmniej jeden posiłek do planu"),
-});
-
-export const newMealNameValidationSchema = yup.object({
 	newMealName: yup
 		.string()
-		.required("Nazwa posiłku jest wymagana")
-		.min(3, "Nazwa musi mieć co najmniej 3 znaki"),
+		.required("Nazwa posiłku jest wymagana.")
+		.min(3, "Nazwa posiłku musi mieć przynajmniej 3 znaki."),
 });
