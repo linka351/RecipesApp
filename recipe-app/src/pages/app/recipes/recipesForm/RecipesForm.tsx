@@ -46,7 +46,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		image: "",
 	};
 
-	const uploadImage = async (file: File): Promise<string> => {
+	const uploadImage = async (file: File): Promise<string | undefined> => {
 		try {
 			const formData = new FormData();
 			formData.append("image", file);
@@ -60,15 +60,12 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			);
 
 			const data = await response.json();
-			if (data.success) {
-				return data.data.display_url;
-			} else {
-				console.log("Błąd podczas przesyłania zdjęcia.");
-				return "";
+			if (!data.success) {
+				throw new Error("Błąd podczas przesyłania zdjęcia");
 			}
+			return data.data.display_url;
 		} catch (error) {
 			console.error("Błąd podczas przesyłania zdjęcia:", error);
-			return "";
 		}
 	};
 
@@ -86,7 +83,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			setIsSubmitting(true);
 			let imageUrl = values.image || "";
 			if (imageUpload) {
-				imageUrl = await uploadImage(imageUpload);
+				imageUrl = (await uploadImage(imageUpload)) || "";
 			}
 
 			if (values.id) {
