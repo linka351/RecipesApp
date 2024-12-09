@@ -41,11 +41,14 @@ const MealTable = ({
 	useEffect(() => {
 		if (isModalOpen) {
 			document.body.classList.add("modal-open");
+			document.documentElement.classList.add("no-scroll");
 		} else {
 			document.body.classList.remove("modal-open");
+			document.documentElement.classList.remove("no-scroll");
 		}
 		return () => {
 			document.body.classList.remove("modal-open");
+			document.documentElement.classList.remove("no-scroll");
 		};
 	}, [isModalOpen]);
 
