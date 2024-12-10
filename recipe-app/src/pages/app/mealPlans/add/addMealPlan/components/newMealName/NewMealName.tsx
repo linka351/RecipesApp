@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import * as yup from "yup";
 import Input from "../../../../../../../components/inputs/Input";
+import { newMealNameValidationSchema } from "../../../../mealPlansForm/MealPlansForm.validation";
 
 type NewMealNameInputProps = {
 	onAdd: (mealName: string) => void;
@@ -7,16 +9,43 @@ type NewMealNameInputProps = {
 
 const NewMealNameInput: React.FC<NewMealNameInputProps> = ({ onAdd }) => {
 	const [newMealName, setNewMealName] = useState("");
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = useState<string>("");
+	const [touched, setTouched] = useState(false);
+
+	const handleBlur = () => {
+		setTouched(true);
+		try {
+			newMealNameValidationSchema.validateSync({ newMealName });
+			setError("");
+		} catch (err) {
+			if (err instanceof yup.ValidationError) {
+				setError(err.message);
+			}
+		}
+	};
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setNewMealName(e.target.value);
+		if (touched) {
+			try {
+				newMealNameValidationSchema.validateSync({
+					newMealName: e.target.value,
+				});
+				setError("");
+			} catch (err) {
+				if (err instanceof yup.ValidationError) {
+					setError(err.message);
+				}
+			}
+		}
+	};
 
 	const handleAddMealName = () => {
-		if (!newMealName.trim()) {
-			setError("Nazwa posiłku nie może być pusta.");
-			return;
+		if (!error && newMealName.trim()) {
+			onAdd(newMealName);
+			setNewMealName("");
+			setTouched(false);
 		}
-		onAdd(newMealName);
-		setNewMealName("");
-		setError(null);
 	};
 
 	return (
@@ -25,13 +54,18 @@ const NewMealNameInput: React.FC<NewMealNameInputProps> = ({ onAdd }) => {
 				name='newMealName'
 				type='text'
 				value={newMealName}
-				onChange={e => setNewMealName(e.target.value)}
+				onChange={handleChange}
+				onBlur={handleBlur}
 				placeholder='Wpisz nazwę posiłku'
+				error={error}
+				touched={touched}
 			/>
-			<button type='button' onClick={handleAddMealName}>
+			<button
+				type='button'
+				onClick={handleAddMealName}
+				disabled={Boolean(error || !newMealName.trim())}>
 				Add
 			</button>
-			{error && <div className='error-message'>{error}</div>}
 		</div>
 	);
 };
