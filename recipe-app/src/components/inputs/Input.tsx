@@ -31,7 +31,7 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 				id={name}
 				name={name}
 			/>
-			{error && <p className={`error ${errorClassName}`}>{error}</p>}
+			{touched && error && <p className={`error ${errorClassName}`}>{error}</p>}
 		</label>
 	);
 });
