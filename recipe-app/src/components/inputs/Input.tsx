@@ -17,6 +17,7 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 		error,
 		errorClassName,
 		inputClassName,
+		touched,
 		...props
 	},
 	ref
