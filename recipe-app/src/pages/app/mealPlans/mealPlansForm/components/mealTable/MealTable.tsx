@@ -18,7 +18,6 @@ const days: DayName[] = [
 
 type MealNamesProps = {
 	mealName: string[];
-	onAddMealName: (newMeal: string) => void;
 	recipes: Recipe[];
 	onChange: (day: DayName, meal: string, recipeId: string) => void;
 	selectedRecipes: MealPlan;
@@ -26,7 +25,6 @@ type MealNamesProps = {
 
 const MealTable = ({
 	mealName,
-	onAddMealName,
 	recipes,
 	onChange,
 	selectedRecipes,
