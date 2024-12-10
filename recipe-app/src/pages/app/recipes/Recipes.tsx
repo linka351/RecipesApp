@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Recipe } from "../../../types/editRecipe";
 import { recipeApi } from "../../../api/recipes";
 import { Link } from "react-router-dom";
-import image from "../../../images/StockCake-Healthy Meal Prep_1725388250.jpg";
 
 import "./recipes.scss";
 import Input from "../../../components/inputs/Input";
@@ -58,7 +57,7 @@ function Recipes() {
 				<ul className='list'>
 					{filteredRecipes.map(recipe => (
 						<li className='recipe' key={recipe.id}>
-							<img src={image} className='image' />
+							<img src={recipe.image} className='image' />
 							<p className='name'>{recipe.name}</p>
 							<p className='description'>{recipe.description}</p>
 							<div className='recipe-buttons'>
