@@ -73,6 +73,9 @@ function Recipes() {
 									onClick={() => handleDelete(recipe.id)}>
 									Usuń
 								</button>
+								<button type='button' className='recipe-button'>
+									Dodaj do planu
+								</button>
 							</div>
 						</li>
 					))}
