@@ -1,7 +1,8 @@
 import { ButtonHTMLAttributes } from "react";
+import "./button.scss";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-	isSubmitting: boolean;
+	isSubmitting?: boolean;
 };
 const Button = ({
 	isSubmitting,

@@ -6,6 +6,7 @@ import image from "../../../images/StockCake-Healthy Meal Prep_1725388250.jpg";
 
 import "./recipes.scss";
 import Input from "../../../components/inputs/Input";
+import Button from "../../../components/buttons/Button";
 
 function Recipes() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -43,17 +44,17 @@ function Recipes() {
 		<div className='recipe-list-container'>
 			<div className='search-recipe'>
 				<p className='list-recipe'>Lista Przepisów</p>
-				<Input
-					name='searchRecipe'
-					type='text'
-					placeholder='Wyszukaj przepisy...'
-					value={searchRecipe}
-					onChange={handleSearch}
-				/>
-				<Link to={"/app/recipes/add"}>
-					<button className='add-recipe'>Dodaj Przepis</button>
+				<Link className='add-recipe-link' to={"/app/recipes/add"}>
+					<Button className='add-recipe'>Dodaj Przepis</Button>
 				</Link>
 			</div>
+			<Input
+				name='searchRecipe'
+				type='text'
+				placeholder='Wyszukaj przepisy...'
+				value={searchRecipe}
+				onChange={handleSearch}
+			/>
 			<div className='recipe-main'>
 				<ul className='list'>
 					{filteredRecipes.map(recipe => (
@@ -63,16 +64,16 @@ function Recipes() {
 							<p className='description'>{recipe.description}</p>
 							<div className='recipe-buttons'>
 								<Link to={`/app/recipes/edit/${recipe.id}`}>
-									<button type='button' className='recipe-button'>
+									<Button type='button' className='edit-button'>
 										Edytuj
-									</button>
+									</Button>
 								</Link>
-								<button
+								<Button
 									type='button'
 									className='delete-button'
 									onClick={() => handleDelete(recipe.id)}>
 									Usuń
-								</button>
+								</Button>
 							</div>
 						</li>
 					))}

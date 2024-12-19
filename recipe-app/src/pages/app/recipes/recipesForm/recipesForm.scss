@@ -1,124 +1,42 @@
-.recipe-container {
-	background-color: #265721;
-	width: 100%;
-	min-height: 80vh;
-
-	h2 {
-		color: white;
-		text-align: center;
-		padding: 10px;
-	}
-	.row {
-		display: flex;
-		justify-content: row;
-		width: 100%;
-		justify-content: space-around;
-		align-items: flex-start;
-	}
-
-	.recipe {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		align-items: center;
-
-		.recipe-label {
-			display: flex;
-			flex-direction: row;
-			width: 95%;
-			justify-content: space-between;
-			padding: 5px;
-			align-items: center;
-			.label {
-				color: white;
-				font-size: 25px;
-			}
-		}
-
-		.recipe-input {
-			border: none;
-			outline: none;
-			width: 80%;
-			height: 40px;
-			border-radius: 5px;
-			font-size: 16px;
-			padding: 5px;
-		}
-
-		.recipe-description {
-			outline: none;
-			border: none;
-			min-height: 100px;
-			width: 80%;
-			border-radius: 5px;
-			font-size: 16px;
-			padding: 5px;
-		}
-	}
-
-	.buttons {
-		display: flex;
-		gap: 10px;
-	}
-
-	.remove-button {
-		background: none;
-		border: none;
-		cursor: pointer;
-		font-size: 20px;
-		.remove-element {
-			color: red;
-		}
-	}
-
-	.edit-button {
-		background: none;
-		border: none;
-		cursor: pointer;
-		font-size: 20px;
-
-		.edit-element {
-			color: rgb(247, 170, 26);
-		}
-	}
-}
-
-.recipe-submit {
-	border: none;
-	width: 200px;
-	height: 40px;
-	margin: 10px;
-	background-color: #287233;
-	color: white;
-	font-weight: bold;
-	cursor: pointer;
-	border-radius: 5px;
-
-	&:hover {
-		background-color: lighten($color: #287233, $amount: 10);
-	}
-}
-
-.recipe-error {
-	font-size: 20px;
-	margin-top: 5px;
-	color: red;
-}
-.recipe-name {
+.recipe-form-name {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 15px;
-	position: relative;
+	margin: 20px 0 20px 0;
 
-	&::after {
-		content: "";
-		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
-		bottom: 0;
-		width: 95%;
-		height: 2px;
-		background-color: rgb(192, 54, 54);
+	.new-recipe {
+		flex: 1;
+		text-align: center;
+		font-size: 2rem;
+		font-weight: bold;
 	}
+
+	.recipe-submit {
+		margin-right: 20px;
+		padding: 10px 20px;
+		background-color: #4caf50;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		width: 150px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: bold;
+		transition: filter 0.2s ease;
+
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}
+
+.recipe-textarea {
+	margin-top: 20px;
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
 }

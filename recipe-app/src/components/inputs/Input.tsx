@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from "react";
+import "./input.scss";
 
 type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "className"> & {
 	label?: string;

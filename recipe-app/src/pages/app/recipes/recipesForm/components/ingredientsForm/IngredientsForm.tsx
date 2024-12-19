@@ -5,6 +5,7 @@ import { ingredientSchema } from "../../RecipeForm.validation";
 import "../recipesFormComponents.scss";
 import { useState } from "react";
 import Input from "../../../../../../components/inputs/Input";
+import Button from "../../../../../../components/buttons/Button";
 
 type Props = {
 	onIngredientsAdded: (ingredient: string) => void;
@@ -59,7 +60,7 @@ export default function IngredientsForm({
 				</label>
 				<div className='recipe-input'>
 					<Input
-						className='input'
+						inputClassName='input'
 						type='text'
 						name='ingredient'
 						id='ingredient'
@@ -70,21 +71,21 @@ export default function IngredientsForm({
 						<div className='error'>{formik.errors.ingredient}</div>
 					)}
 					<div className='button-position'>
-						<button
+						<Button
 							data-testid='add-ingredient'
 							type='submit'
 							className='button'
 							disabled={formik.values.ingredient === ""}>
 							{editIngredient !== null ? "Zapisz" : "Dodaj"}
-						</button>
+						</Button>
 					</div>
 					{editIngredient !== null && (
-						<button
+						<Button
 							type='button'
 							className='button cancel-button'
 							onClick={handleExitEdit}>
 							Anuluj
-						</button>
+						</Button>
 					)}
 				</div>
 				<div className='error'>{touched && errors}</div>
@@ -94,18 +95,18 @@ export default function IngredientsForm({
 					<li key={index} className='recipe-element'>
 						{ingredient}
 						<div className='buttons'>
-							<button
+							<Button
 								type='button'
 								className='remove-button'
 								onClick={() => onRemove(index)}>
 								<FaTrashAlt className='remove-element' />
-							</button>
-							<button
+							</Button>
+							<Button
 								type='button'
 								className='edit-button'
 								onClick={() => handleEditClick(index, ingredient)}>
 								<FaRegEdit className='edit-element' />
-							</button>
+							</Button>
 						</div>
 					</li>
 				))}

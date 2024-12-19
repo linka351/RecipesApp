@@ -7,6 +7,7 @@ import { recipeApi } from "../../../../api/recipes";
 import { validationSchema } from "./RecipeForm.validation";
 
 import "./recipesForm.scss";
+import Button from "../../../../components/buttons/Button";
 
 export interface FormValues {
 	id?: string;
@@ -93,18 +94,21 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 
 	return (
 		<div className='recipe-container'>
-			<div className='recipe-name'>
-				<h2>{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}</h2>
+			<div className='recipe-form-name'>
+				<h2 className='new-recipe'>
+					{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}
+				</h2>
 
-				<button
+				<Button
 					className='recipe-submit'
 					type='button'
 					onClick={formik.submitForm}>
 					Zapisz
-				</button>
+				</Button>
 			</div>
 			<form className='recipe' onSubmit={formik.handleSubmit}>
 				<Input
+					placeholder='Nazwa przepisu'
 					name='name'
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
@@ -113,6 +117,8 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					error={formik.errors.name || ""}
 				/>
 				<TextArea
+					textAreaClassName='recipe-textarea'
+					placeholder='Opis przepisu'
 					name='description'
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
