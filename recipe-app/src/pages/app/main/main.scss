@@ -3,3 +3,11 @@
 	margin: 0;
 	padding: 0;
 }
+
+html.no-scroll {
+	overflow: hidden;
+
+	body {
+		padding-right: 17px;
+	}
+}

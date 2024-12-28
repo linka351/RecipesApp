@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 import "./modal.scss";
@@ -12,6 +12,14 @@ type Props = {
 };
 
 const Modal = ({ close, children, headerText }: Props) => {
+	useEffect(() => {
+		document.documentElement.classList.add("no-scroll");
+
+		return () => {
+			document.documentElement.classList.remove("no-scroll");
+		};
+	}, []);
+
 	const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		if (e.target === e.currentTarget) {
 			close();

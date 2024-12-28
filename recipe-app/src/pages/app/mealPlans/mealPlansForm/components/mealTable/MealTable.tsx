@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DayName } from "../../../../../../types/MealPlan";
 import { Recipe } from "../../../../../../types/editRecipe";
 import { MealPlan } from "../../../add/addMealPlan/types";
-import Input from "../../../../../../components/inputs/Input";
 import MealPlanModal from "../mealPlanModal/MealPlanModal";
 import "./mealTable.scss";
 
@@ -29,34 +28,11 @@ const MealTable = ({
 	onChange,
 	selectedRecipes,
 }: MealNamesProps) => {
-	const [inputValue, setInputValue] = useState<string>("");
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedDayMeal, setSelectedDayMeal] = useState<{
 		day: DayName;
 		meal: string;
 	} | null>(null);
-
-	useEffect(() => {
-		if (isModalOpen) {
-			document.body.classList.add("modal-open");
-			document.documentElement.classList.add("no-scroll");
-		} else {
-			document.body.classList.remove("modal-open");
-			document.documentElement.classList.remove("no-scroll");
-		}
-		return () => {
-			document.body.classList.remove("modal-open");
-			document.documentElement.classList.remove("no-scroll");
-		};
-	}, [isModalOpen]);
-
-	const addMealName = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		if (inputValue.trim()) {
-			onAddMealName(inputValue.trim());
-			setInputValue("");
-		}
-	};
 
 	const openModal = (day: DayName, meal: string) => {
 		setSelectedDayMeal({ day, meal });
@@ -73,17 +49,6 @@ const MealTable = ({
 	return (
 		<>
 			<div className='meal-table-container'>
-				<div className='add-meal'>
-					<Input
-						name='mealName'
-						type='text'
-						value={inputValue}
-						onChange={e => setInputValue(e.target.value)}
-						placeholder='Wpisz nazwę posiłku'
-					/>
-					<button onClick={addMealName}>Add</button>
-				</div>
-
 				{mealName.length > 0 && (
 					<div className='meal-plan-grid'>
 						<div className='header-cell'>
