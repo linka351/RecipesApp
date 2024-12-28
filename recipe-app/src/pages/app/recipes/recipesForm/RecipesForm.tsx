@@ -81,9 +81,12 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	) {
 		try {
 			setIsSubmitting(true);
-			let imageUrl = values.image || "";
+			let imageUrl = "";
 			if (imageUpload) {
-				imageUrl = (await uploadImage(imageUpload)) || "";
+				const uploadedImageUrl = await uploadImage(imageUpload);
+				if (uploadedImageUrl) {
+					imageUrl = uploadedImageUrl;
+				}
 			}
 
 			if (values.id) {
@@ -111,7 +114,6 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			setIsSubmitting(false);
 		}
 	}
-
 	const handleAddInstruction = (instruction: string): void => {
 		formik.setFieldValue("instructions", [
 			...formik.values.instructions,
