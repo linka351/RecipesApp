@@ -10,10 +10,8 @@ import Input from "../../../../components/inputs/Input";
 import TextArea from "../../../../components/textAreas/TextArea";
 import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
 
-type FormikData = WeeklyPlan;
-
 type Props = {
-	initialValues?: FormikData;
+	initialValues?: WeeklyPlan;
 	onSubmit?: (values: WeeklyPlan) => void;
 };
 
@@ -28,7 +26,7 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		fetchRecipes();
 	}, []);
 
-	const handleSubmit = async (values: FormikData) => {
+	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
 			if (submitHandler) submitHandler(values);
 			formik.resetForm();
@@ -39,7 +37,7 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 		}
 	};
 
-	const formik = useFormik<FormikData>({
+	const formik = useFormik<WeeklyPlan>({
 		initialValues: initialValues || {
 			name: "",
 			description: "",

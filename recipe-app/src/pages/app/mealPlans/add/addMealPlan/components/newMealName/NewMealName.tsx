@@ -12,42 +12,39 @@ const NewMealNameInput: React.FC<NewMealNameInputProps> = ({ onAdd }) => {
 	const [error, setError] = useState<string>("");
 	const [touched, setTouched] = useState(false);
 
-	const handleBlur = () => {
-		setTouched(true);
+	const validateNewMealName = (value: string): boolean => {
 		try {
-			newMealNameValidationSchema.validateSync({ newMealName });
+			newMealNameValidationSchema.validateSync({ newMealName: value });
 			setError("");
+			return true;
 		} catch (err) {
 			if (err instanceof yup.ValidationError) {
 				setError(err.message);
 			}
+			return false;
 		}
+	};
+
+	const handleBlur = () => {
+		setTouched(true);
+		validateNewMealName(newMealName);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setNewMealName(e.target.value);
-		if (touched) {
-			try {
-				newMealNameValidationSchema.validateSync({
-					newMealName: e.target.value,
-				});
-				setError("");
-			} catch (err) {
-				if (err instanceof yup.ValidationError) {
-					setError(err.message);
-				}
-			}
-		}
+		const value = e.target.value;
+		setNewMealName(value);
+		validateNewMealName(value);
 	};
 
 	const handleAddMealName = () => {
-		if (!error && newMealName.trim()) {
+		setTouched(true);
+
+		if (validateNewMealName(newMealName)) {
 			onAdd(newMealName);
 			setNewMealName("");
 			setTouched(false);
 		}
 	};
-
 	return (
 		<div className='add-meal'>
 			<Input
