@@ -54,6 +54,7 @@ function Recipes() {
 				placeholder='Wyszukaj przepisy...'
 				value={searchRecipe}
 				onChange={handleSearch}
+				inputClassName='recipe-input'
 			/>
 			<div className='recipe-main'>
 				<ul className='list'>
@@ -63,10 +64,10 @@ function Recipes() {
 							<p className='name'>{recipe.name}</p>
 							<p className='description'>{recipe.description}</p>
 							<div className='recipe-buttons'>
-								<Link to={`/app/recipes/edit/${recipe.id}`}>
-									<Button type='button' className='edit-button'>
-										Edytuj
-									</Button>
+								<Link
+									to={`/app/recipes/edit/${recipe.id}`}
+									className='edit-button'>
+									Edytuj
 								</Link>
 								<Button
 									type='button'

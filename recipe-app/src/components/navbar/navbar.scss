@@ -5,7 +5,9 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: relative;
+	position: sticky;
+	top: 0;
+	z-index: 1;
 
 	.menu {
 		border: none;
@@ -42,10 +44,10 @@
 }
 
 .offcanvas-menu {
-	position: absolute;
+	position: fixed;
 	background-color: lighten($color: rgb(192, 54, 54), $amount: 10);
 	top: -100vh;
-	margin-top: 80px;
+	margin-top: 10vh;
 	width: 300px;
 	transition: 0.5s;
 	z-index: 1;
@@ -53,7 +55,7 @@
 
 .active {
 	transform: translateY(100vh);
-	height: calc(100vh - 160px);
+	height: 90vh;
 }
 
 .link {

@@ -5,6 +5,7 @@ import { instructionSchema } from "../../RecipeForm.validation";
 import "../recipesFormComponents.scss";
 import { useState } from "react";
 import Input from "../../../../../../components/inputs/Input";
+import Button from "../../../../../../components/buttons/Button";
 
 type Props = {
 	onInstructionsAdded: (instruction: string) => void;
@@ -59,34 +60,34 @@ export default function InstructionsForm({
 				</label>
 				<div className='recipe-input'>
 					<Input
-						className='input'
+						inputClassName='input'
 						type='text'
 						name='instruction'
 						id='instruction'
 						onChange={formik.handleChange}
 						value={formik.values.instruction}
 					/>
-					{formik.touched.instruction && formik.errors.instruction && (
-						<div className='error'>{formik.errors.instruction}</div>
-					)}
+
 					<div className='button-position'>
-						<button
+						<Button
 							data-testid='add-instruction'
 							type='submit'
-							className='button'
 							disabled={formik.values.instruction === ""}>
 							{editInstruction !== null ? "Zapisz" : "Dodaj"}
-						</button>
+						</Button>
 					</div>
 					{editInstruction !== null && (
-						<button
+						<Button
 							type='button'
-							className='button cancel-button'
+							className='cancel-button'
 							onClick={handleExitEdit}>
 							Anuluj
-						</button>
+						</Button>
 					)}
 				</div>
+				{formik.touched.instruction && formik.errors.instruction && (
+					<div className='error'>{formik.errors.instruction}</div>
+				)}
 				<div className='error'>{touched && errors}</div>
 			</form>
 			<ul className='recipe-list'>
@@ -94,18 +95,18 @@ export default function InstructionsForm({
 					<li key={index} className='recipe-element'>
 						{instruction}
 						<div className='buttons'>
-							<button
+							<Button
 								type='button'
 								className='remove-button'
 								onClick={() => onRemove(index)}>
 								<FaTrashAlt className='remove-element' />
-							</button>
-							<button
+							</Button>
+							<Button
 								type='button'
 								className='edit-button'
 								onClick={() => handleEditClick(index, instruction)}>
 								<FaRegEdit className='edit-element' />
-							</button>
+							</Button>
 						</div>
 					</li>
 				))}

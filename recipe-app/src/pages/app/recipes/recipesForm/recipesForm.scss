@@ -1,8 +1,14 @@
 .recipe-form-name {
-	display: flex;
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
 	justify-content: space-between;
 	align-items: center;
 	margin: 20px 0 20px 0;
+
+	&:before {
+		content: "";
+		display: block;
+	}
 
 	.new-recipe {
 		flex: 1;
@@ -13,7 +19,8 @@
 
 	.recipe-submit {
 		margin-right: 20px;
-		padding: 10px 20px;
+		padding: 16px 32px;
+		font-size: 14px;
 		background-color: #4caf50;
 		color: white;
 		border: none;
@@ -25,6 +32,7 @@
 		justify-content: center;
 		font-weight: bold;
 		transition: filter 0.2s ease;
+		justify-self: flex-end;
 
 		&:hover {
 			filter: brightness(1.1);
