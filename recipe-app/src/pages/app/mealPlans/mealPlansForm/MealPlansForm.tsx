@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { recipeApi } from "../../../../api/recipes";
-import MealTable from "../add/addMealPlan/components/mealTable/MealTable";
 import { DayName } from "../../../../types/MealPlan";
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
@@ -11,6 +10,7 @@ import {
 } from "./MealPlansForm.validation";
 import Input from "../../../../components/inputs/Input";
 import TextArea from "../../../../components/textAreas/TextArea";
+import MealTable from "./components/mealTable/MealTable";
 
 type FormikData = WeeklyPlan & {
 	newMealName: string;
