@@ -1,5 +1,6 @@
+@use "sass:color";
 .navbar {
-	width: 100%;
+	width: 100vw;
 	height: 10vh;
 	background-color: rgb(192, 54, 54);
 	display: flex;
@@ -64,11 +65,11 @@
 	display: block;
 	padding: 10px 30px;
 	&:hover {
-		background-color: darken($color: rgb(192, 54, 54), $amount: 10);
+		background-color: color.adjust(rgb(192, 54, 54), $lightness: -10%);
 	}
 }
 .selected {
-	background-color: darken($color: rgb(192, 54, 54), $amount: 10);
+	background-color: color.adjust(rgb(192, 54, 54), $lightness: -10%);
 	&:hover {
 		background-color: rgb(192, 54, 54);
 	}

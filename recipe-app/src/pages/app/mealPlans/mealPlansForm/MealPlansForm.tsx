@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { recipeApi } from "../../../../api/recipes";
-import MealTable from "../add/addMealPlan/components/mealTable/MealTable";
 import { DayName } from "../../../../types/MealPlan";
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
@@ -11,6 +10,7 @@ import {
 } from "./MealPlansForm.validation";
 import Input from "../../../../components/inputs/Input";
 import TextArea from "../../../../components/textAreas/TextArea";
+import MealTable from "./components/mealTable/MealTable";
 
 type FormikData = WeeklyPlan & {
 	newMealName: string;
@@ -34,12 +34,9 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 
 	const handleSubmit = async ({ newMealName, ...values }: FormikData) => {
 		try {
-			if (submitHandler) await submitHandler(values);
-			formik.resetForm();
+			if (submitHandler) submitHandler(values);
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
-		} finally {
-			formik.setSubmitting(false);
 		}
 	};
 

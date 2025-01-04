@@ -35,14 +35,13 @@ function MealPlans() {
 		setSearchMealPlan(e.target.value);
 	};
 
+	const filteredMealPlans = mealPlans.filter(mealPlan =>
+		mealPlan.name.toLowerCase().includes(searchMealPlan.toLowerCase())
+	);
+
 	return (
-		<div className='meal-plan-container'>
-			<div className='search-meal-plan'>
-				<p className='meal-plan'>Lista Planów</p>
-				<Link className='add-meal-plan' to={"/app/meal-plans/add/"}>
-					Dodaj Plan
-				</Link>
-			</div>
+		<>
+			<p>Lista Planów</p>
 			<Input
 				name='searchMealPlan'
 				type='text'
@@ -50,28 +49,28 @@ function MealPlans() {
 				value={searchMealPlan}
 				onChange={handleSearch}
 			/>
-			<ul className='meal-plan-list'>
-				{mealPlans.map(mealPlan => (
-					<li className='plan-list' key={mealPlan.id}>
-						<div className='plan-list-container'>
-							<p>{mealPlan.name}</p>
-							<div className='plan-buttons'>
-								<Link
-									className='edit-meal-plan'
-									to={`/app/meal-plans/edit/${mealPlan.id}`}>
-									Edytuj
+			<Link to={"/app/meal-plans/add/"}>
+				<button>Dodaj Plan</button>
+			</Link>
+			{filteredMealPlans.map(mealPlan => (
+				<div key={mealPlan.id}>
+					<ul>
+						<li>
+							{mealPlan.name}
+							<div>
+								<Link to={`/app/meal-plans/edit/${mealPlan.id}`}>
+									<button>Edytuj</button>
 								</Link>
-								<Button
-									className='delete-meal-plan'
+								<button
 									onClick={() => mealPlan.id && handleDelete(mealPlan.id)}>
 									Usuń
-								</Button>
+								</button>
 							</div>
-						</div>
-					</li>
-				))}
-			</ul>
-		</div>
+						</li>
+					</ul>
+				</div>
+			))}
+		</>
 	);
 }
 export default MealPlans;

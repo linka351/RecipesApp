@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import { forwardRef, InputHTMLAttributes } from "react";
 import "./input.scss";
 
 type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "className"> & {
@@ -10,21 +10,25 @@ type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "className"> & {
 	touched?: boolean;
 };
 
-function Input({
-	name,
-	label,
-	touched,
-	labelClassName,
-	error,
-	errorClassName,
-	inputClassName,
-	...props
-}: Props) {
+const Input = forwardRef<HTMLInputElement, Props>(function Input(
+	{
+		name,
+		label,
+		labelClassName,
+		error,
+		errorClassName,
+		inputClassName,
+		touched,
+		...props
+	},
+	ref
+) {
 	return (
 		<label htmlFor={name} className={`label ${labelClassName}`}>
 			{label}
 			<input
 				{...props}
+				ref={ref}
 				className={`input ${inputClassName}`}
 				id={name}
 				name={name}
@@ -32,6 +36,6 @@ function Input({
 			{touched && error && <p className={`error ${errorClassName}`}>{error}</p>}
 		</label>
 	);
-}
+});
 
 export default Input;
