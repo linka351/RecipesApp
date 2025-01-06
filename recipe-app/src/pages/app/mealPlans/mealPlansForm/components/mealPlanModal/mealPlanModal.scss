@@ -1,0 +1,13 @@
+.recipe-list {
+	margin-top: 10px;
+	gap: 10px;
+}
+
+.recipe-item {
+	font-size: 20px;
+	padding: 10px 20px;
+	background-color: white;
+	cursor: pointer;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Dodaje lekki cień dla stylu */
+}

@@ -160,9 +160,9 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	return (
 		<div className='recipe-container'>
 			<div className='recipe-form-name'>
-				<h2 className='new-recipe'>
+				<p className='new-recipe'>
 					{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}
-				</h2>
+				</p>
 
 				<Button
 					className='recipe-submit'
@@ -181,20 +181,9 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					) : (
 						"Zapisz"
 					)}
-				</button>
+				</Button>
 			</div>
 			<form className='recipe' onSubmit={formik.handleSubmit}>
-				<ImageUploader ref={imageUploaderRef} onChange={handleFileChange} />
-
-				{previewImage && (
-					<div className='image-preview'>
-						<img
-							src={previewImage}
-							alt='Podgląd zdjęcia'
-							style={{ maxWidth: "200px", height: "200px", marginTop: "10px" }}
-						/>
-					</div>
-				)}
 				<Input
 					placeholder='Nazwa przepisu'
 					name='name'
@@ -215,6 +204,17 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					error={formik.errors.description || ""}
 				/>
 			</form>
+			<div className='image-container'>
+				<div className='image-preview'>
+					{previewImage && (
+						<div>
+							<img className='image' src={previewImage} alt='Podgląd zdjęcia' />
+						</div>
+					)}
+					<ImageUploader ref={imageUploaderRef} onChange={handleFileChange} />
+				</div>
+			</div>
+
 			<div className='row'>
 				<InstructionsForm
 					onInstructionsAdded={handleAddInstruction}

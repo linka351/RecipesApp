@@ -16,11 +16,20 @@ function Navbar() {
 		setOpen(false);
 	}, [pathname]);
 
+	useEffect(() => {
+		if (open) {
+			document.documentElement.classList.add("no-scroll");
+		} else {
+			document.documentElement.classList.remove("no-scroll");
+		}
+	}, [open]);
+
 	const toggleMenu = () => {
 		setOpen(prev => !prev);
 	};
 
 	const navOffcanvasClass = clsx("offcanvas-menu", { active: open });
+	const overlayClass = clsx("overlay", { active: open });
 
 	return (
 		<>
@@ -35,8 +44,12 @@ function Navbar() {
 					</div>
 				</Link>
 			</nav>
+			<div className={overlayClass} onClick={toggleMenu}></div>
 			<nav className={navOffcanvasClass}>
-				<ul>
+				<button onClick={toggleMenu} className='menu'>
+					<TiThMenuOutline className='menu-icon' />
+				</button>
+				<ul className='menu-links'>
 					<li>
 						<NavLink className={getClassName} to={"/"}>
 							Strona Główna

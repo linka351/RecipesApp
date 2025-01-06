@@ -1,4 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import "./imageUploader.scss";
 import Input from "../../../../../../components/inputs/Input";
 
 interface ImageUploaderProps {
@@ -18,7 +19,18 @@ const ImageUploader = forwardRef<{ clear: () => void }, ImageUploaderProps>(
 		}));
 
 		return (
-			<Input type='file' name='image' onChange={onChange} ref={fileInputRef} />
+			<div className='custom-file-uploader'>
+				<Input
+					label='Dodaj zdjęcie'
+					labelClassName='custom-file-label'
+					id='fileInput'
+					inputClassName='file-input'
+					type='file'
+					name='image'
+					onChange={onChange}
+					ref={fileInputRef}
+				/>
+			</div>
 		);
 	}
 );

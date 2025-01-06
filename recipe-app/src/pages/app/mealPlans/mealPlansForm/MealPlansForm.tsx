@@ -11,6 +11,8 @@ import {
 import Input from "../../../../components/inputs/Input";
 import TextArea from "../../../../components/textAreas/TextArea";
 import MealTable from "./components/mealTable/MealTable";
+import "./mealPlansForm.scss";
+import Button from "../../../../components/buttons/Button";
 
 type FormikData = WeeklyPlan & {
 	newMealName: string;
@@ -82,10 +84,18 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 	};
 
 	return (
-		<div className='container'>
-			<p className='title'>{initialValues?.id ? "Edytuj Plan" : "Nowy Plan"}</p>
+		<div className='meal-container'>
+			<div className='meal-form-name'>
+				<p className='title'>
+					{initialValues?.id ? "Edytuj Plan" : "Nowy Plan"}
+				</p>
+				<Button type='submit' className='meal-submit'>
+					{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz"}
+				</Button>
+			</div>
 			<form onSubmit={formik.handleSubmit} className='add-meal-plan-form'>
 				<Input
+					placeholder='Wpisz nazwę planu'
 					name='name'
 					onChange={formik.handleChange}
 					value={formik.values.name}
@@ -94,6 +104,8 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					onBlur={formik.handleBlur}
 				/>
 				<TextArea
+					placeholder='Opis planu'
+					textAreaClassName='meal-textarea'
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
@@ -101,32 +113,40 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 					error={formik.errors.description || ""}
 					onBlur={formik.handleBlur}
 				/>
-
-				<Input
-					name='dateFrom'
-					label='Wybierz tydzień'
-					type='week'
-					onChange={formik.handleChange}
-					value={formik.values.dateFrom}
-					touched={formik.touched.dateFrom}
-					error={formik.errors.dateFrom || ""}
-					onBlur={formik.handleBlur}
-				/>
+				<div className='date-position'>
+					<Input
+						inputClassName='date'
+						name='dateFrom'
+						labelClassName='date-label'
+						label='Wybierz tydzień'
+						type='week'
+						onChange={formik.handleChange}
+						value={formik.values.dateFrom}
+						touched={formik.touched.dateFrom}
+						error={formik.errors.dateFrom || ""}
+						onBlur={formik.handleBlur}
+					/>
+				</div>
 				<div className='add-meal'>
 					<Input
+						inputClassName='new-meal-input'
 						name='newMealName'
 						type='text'
 						value={formik.values.newMealName}
 						onChange={formik.handleChange}
 						placeholder='Wpisz nazwę posiłku'
 					/>
-					<button type='button' onClick={handleAddMealName}>
+					<Button
+						type='button'
+						onClick={handleAddMealName}
+						className='new-meal-submit'>
 						Add
-					</button>
-					{formik.touched.newMealName && formik.errors.newMealName && (
-						<div className='error-message'>{formik.errors.newMealName}</div>
-					)}
+					</Button>
 				</div>
+				{formik.touched.newMealName && formik.errors.newMealName && (
+					<div className='error-message'>{formik.errors.newMealName}</div>
+				)}
+
 				<MealTable
 					mealName={formik.values.mealName}
 					recipes={recipes}
@@ -136,10 +156,6 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 				{formik.touched.mealName && formik.errors.mealName && (
 					<div>{formik.errors.mealName}</div>
 				)}
-
-				<button type='submit' className='submit-button'>
-					{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz Plan"}
-				</button>
 			</form>
 		</div>
 	);

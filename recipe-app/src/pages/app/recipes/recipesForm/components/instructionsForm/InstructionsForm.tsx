@@ -53,7 +53,7 @@ export default function InstructionsForm({
 	};
 
 	return (
-		<div className='container'>
+		<div className='recipe-details-container'>
 			<form onSubmit={formik.handleSubmit}>
 				<label htmlFor='instruction' className='label'>
 					{editInstruction !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}

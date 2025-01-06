@@ -53,7 +53,7 @@ export default function IngredientsForm({
 	};
 
 	return (
-		<div className='container'>
+		<div className='recipe-details-container'>
 			<form onSubmit={formik.handleSubmit}>
 				<label htmlFor='ingredient' className='label'>
 					{editIngredient !== null ? "Edytuj Składnik" : "Dodaj Składnik"}

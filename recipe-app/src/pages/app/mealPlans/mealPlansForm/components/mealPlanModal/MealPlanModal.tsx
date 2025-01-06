@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Recipe } from "../../../../../../types/editRecipe";
 import Modal from "../../../../../../components/modal/Modal";
+import Input from "../../../../../../components/inputs/Input";
+
+import "./mealPlanModal.scss";
 
 type MealPlanModalProps = {
 	recipes: Recipe[];
@@ -24,7 +27,7 @@ const MealPlanModal = ({
 	return (
 		<Modal close={onClose} headerText='Wybierz przepis'>
 			<div className='search-input'>
-				<input
+				<Input
 					type='text'
 					placeholder='Wyszukaj przepis...'
 					value={searchTerm}
