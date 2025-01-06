@@ -15,7 +15,7 @@ type Props = {
 	onSubmit?: (values: WeeklyPlan) => void;
 };
 
-function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
+function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
 	useEffect(() => {
@@ -28,7 +28,7 @@ function MealPlansForm({ initialValues, onSubmit: submitHandler }: Props) {
 
 	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
-			if (submitHandler) submitHandler(values);
+			if (onSubmit) onSubmit(values);
 			formik.resetForm();
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
