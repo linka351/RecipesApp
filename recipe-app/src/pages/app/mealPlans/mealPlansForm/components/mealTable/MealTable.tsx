@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Recipe } from "../../../../../../../types/editRecipe";
-import { DayName } from "../../../../../../../types/MealPlan";
+import { DayName } from "../../../../../../types/MealPlan";
+import { Recipe } from "../../../../../../types/editRecipe";
+import { MealPlan } from "../../../add/addMealPlan/types";
+import MealPlanModal from "../mealPlanModal/MealPlanModal";
 import "./mealTable.scss";
-import { MealPlan } from "../../types";
 
 const days: DayName[] = [
 	"Poniedziałek",
@@ -27,24 +28,22 @@ const MealTable = ({
 	onChange,
 	selectedRecipes,
 }: MealNamesProps) => {
-	const [showRecipeList, setShowRecipeList] = useState<{
-		[key: string]: boolean;
-	}>({});
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedDayMeal, setSelectedDayMeal] = useState<{
+		day: DayName;
+		meal: string;
+	} | null>(null);
 
-	const toggleRecipeList = (day: DayName, meal: string) => {
-		setShowRecipeList(prevState => ({
-			...prevState,
-			[`${day}-${meal}`]: !prevState[`${day}-${meal}`],
-		}));
+	const openModal = (day: DayName, meal: string) => {
+		setSelectedDayMeal({ day, meal });
+		setIsModalOpen(true);
 	};
 
-	const handleRecipeSelect = (day: DayName, meal: string, recipeId: string) => {
-		onChange(day, meal, recipeId);
-
-		setShowRecipeList(prevState => ({
-			...prevState,
-			[`${day}-${meal}`]: false,
-		}));
+	const handleRecipeSelect = (recipeId: string) => {
+		if (selectedDayMeal) {
+			onChange(selectedDayMeal.day, selectedDayMeal.meal, recipeId);
+		}
+		setIsModalOpen(false);
 	};
 
 	return (
@@ -70,26 +69,11 @@ const MealTable = ({
 									<div key={`${day}-${meal}`} className='meal-select'>
 										<div
 											className='recipe-name'
-											onClick={() => toggleRecipeList(day, meal)}>
+											onClick={() => openModal(day, meal)}>
 											{recipes.find(
 												recipe => recipe.id === selectedRecipes?.[day]?.[meal]
 											)?.name || "Wybierz Przepis"}
 										</div>
-
-										{showRecipeList[`${day}-${meal}`] && (
-											<div className='recipe-list'>
-												{recipes.map(recipe => (
-													<div
-														className='recipe-name'
-														key={recipe.id}
-														onClick={() =>
-															handleRecipeSelect(day, meal, recipe.id)
-														}>
-														<p className='recipe-name'>{recipe.name}</p>
-													</div>
-												))}
-											</div>
-										)}
 									</div>
 								))}
 							</>
@@ -97,6 +81,14 @@ const MealTable = ({
 					</div>
 				)}
 			</div>
+
+			{isModalOpen && (
+				<MealPlanModal
+					recipes={recipes}
+					onClose={() => setIsModalOpen(false)}
+					onSelectRecipe={handleRecipeSelect}
+				/>
+			)}
 		</>
 	);
 };

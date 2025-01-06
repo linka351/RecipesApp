@@ -1,13 +1,13 @@
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { recipeApi } from "../../../../api/recipes";
-import MealTable from "../add/addMealPlan/components/mealTable/MealTable";
 import { DayName } from "../../../../types/MealPlan";
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { Recipe } from "../../../../types/editRecipe";
 import { validationSchema } from "./MealPlansForm.validation";
 import Input from "../../../../components/inputs/Input";
 import TextArea from "../../../../components/textAreas/TextArea";
+import MealTable from "./components/mealTable/MealTable";
 import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
 
 type Props = {
@@ -32,8 +32,6 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 			formik.resetForm();
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
-		} finally {
-			formik.setSubmitting(false);
 		}
 	};
 
