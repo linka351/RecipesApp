@@ -59,43 +59,20 @@
 	flex-direction: column;
 	justify-content: center;
 }
-
-.add-meal {
-	margin-top: 20px;
-	display: flex;
-	gap: 10px;
-	justify-content: space-between;
-	width: 100%;
-	.new-meal-input {
-		width: 900px;
-	}
-
-	//dlaczego nie moge tego ustawic np na flex
-
-	.new-meal-submit {
-		height: 50px;
-		margin-right: 20px;
-		padding: 16px 32px;
-		font-size: 14px;
-		background-color: #4caf50;
-		color: white;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-		width: 150px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-weight: bold;
-		transition: filter 0.2s ease;
-		justify-self: flex-end;
-
-		&:hover {
-			filter: brightness(1.1);
-		}
-	}
+.meal-table-error {
+	color: red;
+	margin-bottom: 10px;
 }
 
-.error-message {
-	color: red;
+.full-page-loader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
 }

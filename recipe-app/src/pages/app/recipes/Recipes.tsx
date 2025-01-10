@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./recipes.scss";
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/buttons/Button";
+import image from "../../../images/22204570_6605525.jpg";
 
 function Recipes() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -44,7 +45,7 @@ function Recipes() {
 			<div className='search-recipe'>
 				<p className='list-recipe'>Lista Przepisów</p>
 				<Link className='add-recipe-link' to={"/app/recipes/add"}>
-					<Button className='add-recipe'>Dodaj Przepis</Button>
+					Dodaj Przepis
 				</Link>
 			</div>
 			<Input
@@ -59,7 +60,11 @@ function Recipes() {
 				<ul className='list'>
 					{filteredRecipes.map(recipe => (
 						<li className='recipe' key={recipe.id}>
-							<img src={recipe.image} className='image' />
+							{recipe.image === "https://via.placeholder.com/150" ? (
+								<img src={image} className='image' />
+							) : (
+								<img src={recipe.image} className='image' />
+							)}
 							<p className='name'>{recipe.name}</p>
 							<p className='description'>{recipe.description}</p>
 							<div className='recipe-buttons'>

@@ -30,49 +30,84 @@
 		}
 
 		.meal-plan {
-			font-size: 2rem;
+			font-size: 1.8rem;
 			font-weight: bold;
+			color: #333;
 		}
 	}
+
 	.meal-plan-list {
 		margin-top: 20px;
+		margin-bottom: 20px;
 		list-style-type: none;
+		padding: 0;
 
 		.plan-list {
-			font-size: 24px;
-			background-color: #f0e3e3;
+			background-color: #f9f9f9;
 			margin-top: 20px;
-			padding: 25px 30px;
-			border-radius: 5px;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
 			.plan-list-container {
 				display: flex;
 				justify-content: space-between;
-				align-items: center;
+				align-items: flex-start;
+				gap: 20px;
+
+				.meal-plans-description {
+					display: flex;
+					flex-direction: column;
+					width: 70%;
+					gap: 10px;
+
+					.plan-list-name {
+						font-size: 18px;
+						font-weight: bold;
+						color: #333;
+
+						.meal-plan-name {
+							margin: 0;
+							font-size: 20px;
+							color: #4caf50;
+						}
+
+						.meal-plan-specification {
+							margin: 0;
+							font-size: 16px;
+							color: #999;
+						}
+					}
+
+					p {
+						font-size: 14px;
+						color: #666;
+						line-height: 1.5;
+					}
+				}
 
 				.plan-buttons {
-					width: 250px;
 					display: flex;
-					justify-content: space-around;
+					flex-direction: row;
+					gap: 10px;
 
 					.edit-meal-plan,
 					.delete-meal-plan {
+						display: inline-block;
 						padding: 10px 20px;
 						color: white;
-						transition: filter 0.2s ease;
-						width: 100px;
+						font-weight: bold;
+						border-radius: 5px;
+						text-align: center;
+						font-size: 14px;
+						text-decoration: none;
+						cursor: pointer;
 
 						&.edit-meal-plan {
 							background-color: #4caf50;
-							font-weight: bold;
-							text-decoration: none;
-							border-radius: 5px;
-							text-align: center;
-							font-size: 15px;
 						}
 						&.delete-meal-plan {
 							background-color: #f44336;
-							font-weight: bold;
 						}
 
 						&:hover {

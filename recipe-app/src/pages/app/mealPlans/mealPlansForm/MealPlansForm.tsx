@@ -11,6 +11,7 @@ import MealTable from "./components/mealTable/MealTable";
 import "./mealPlansForm.scss";
 import Button from "../../../../components/buttons/Button";
 import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
+import { Oval } from "react-loader-spinner";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -19,6 +20,7 @@ type Props = {
 
 function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	useEffect(() => {
 		async function fetchRecipes() {
@@ -30,10 +32,13 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 
 	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
+			setIsSubmitting(true);
 			if (onSubmit) onSubmit(values);
 			formik.resetForm();
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 
@@ -59,15 +64,28 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 
 	return (
 		<div className='meal-container'>
-			<div className='meal-form-name'>
-				<p className='title'>
-					{initialValues?.id ? "Edytuj Plan" : "Nowy Plan"}
-				</p>
-				<Button type='submit' className='meal-submit'>
-					{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz"}
-				</Button>
-			</div>
+			{isSubmitting && (
+				<div className='full-page-loader'>
+					<Oval
+						height={100}
+						width={100}
+						color='#ffffff'
+						ariaLabel='Zapisywanie przepisu'
+						secondaryColor='#ffffff'
+						strokeWidth={2}
+						strokeWidthSecondary={2}
+					/>
+				</div>
+			)}
 			<form onSubmit={formik.handleSubmit} className='add-meal-plan-form'>
+				<div className='meal-form-name'>
+					<p className='title'>
+						{initialValues?.id ? "Edytuj Plan" : "Nowy Plan"}
+					</p>
+					<Button type='submit' className='meal-submit'>
+						{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz"}
+					</Button>
+				</div>
 				<Input
 					placeholder='Wpisz nazwę planu'
 					name='name'
@@ -88,16 +106,20 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 					onBlur={formik.handleBlur}
 				/>
 
-				<Input
-					name='dateFrom'
-					label='Wybierz tydzień'
-					type='week'
-					onChange={formik.handleChange}
-					value={formik.values.dateFrom}
-					touched={formik.touched.dateFrom}
-					error={formik.errors.dateFrom || ""}
-					onBlur={formik.handleBlur}
-				/>
+				<div className='date-position'>
+					<Input
+						inputClassName='date'
+						name='dateFrom'
+						labelClassName='date-label'
+						label='Wybierz tydzień'
+						type='week'
+						onChange={formik.handleChange}
+						value={formik.values.dateFrom}
+						touched={formik.touched.dateFrom}
+						error={formik.errors.dateFrom || ""}
+						onBlur={formik.handleBlur}
+					/>
+				</div>
 
 				<NewMealName onAdd={handleAddMealName} />
 
@@ -108,7 +130,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 					selectedRecipes={formik.values.plan}
 				/>
 				{formik.touched.mealName && formik.errors.mealName && (
-					<div>{formik.errors.mealName}</div>
+					<div className='meal-table-error'>{formik.errors.mealName}</div>
 				)}
 			</form>
 		</div>

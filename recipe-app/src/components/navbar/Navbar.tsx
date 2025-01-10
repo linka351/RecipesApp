@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { GiRiceCooker } from "react-icons/gi";
 import clsx from "clsx";
+import Button from "../buttons/Button";
 
 const getClassName = ({ isActive }: { isActive: boolean }) =>
 	isActive ? "selected link" : "link";
@@ -34,9 +35,9 @@ function Navbar() {
 	return (
 		<>
 			<nav className='navbar'>
-				<button onClick={toggleMenu} className='menu'>
+				<Button onClick={toggleMenu} className='menu'>
 					<TiThMenuOutline className='menu-icon' />
-				</button>
+				</Button>
 				<Link className='logo-link' to={"/"}>
 					<div className='logo'>
 						<GiRiceCooker className='icon' />
@@ -46,9 +47,9 @@ function Navbar() {
 			</nav>
 			<div className={overlayClass} onClick={toggleMenu}></div>
 			<nav className={navOffcanvasClass}>
-				<button onClick={toggleMenu} className='menu'>
+				<Button onClick={toggleMenu} className='menu'>
 					<TiThMenuOutline className='menu-icon' />
-				</button>
+				</Button>
 				<ul className='menu-links'>
 					<li>
 						<NavLink className={getClassName} to={"/"}>

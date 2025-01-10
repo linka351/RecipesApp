@@ -58,7 +58,15 @@ function MealPlans() {
 				{filteredMealPlans.map(mealPlan => (
 					<li className='plan-list' key={mealPlan.id}>
 						<div className='plan-list-container'>
-							<p>{mealPlan.name}</p>
+							<div className='meal-plans-description'>
+								<div className='plan-list-name'>
+									<p className='meal-plan-name'>{mealPlan.name}</p>
+									<p>{mealPlan.dateFrom}</p>
+								</div>
+								<p className='meal-plan-specification'>
+									{mealPlan.description}
+								</p>
+							</div>
 							<div className='plan-buttons'>
 								<Link
 									className='edit-meal-plan'

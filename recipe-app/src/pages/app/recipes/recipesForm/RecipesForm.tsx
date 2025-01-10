@@ -159,6 +159,19 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 
 	return (
 		<div className='recipe-container'>
+			{isSubmitting && (
+				<div className='full-page-loader'>
+					<Oval
+						height={100}
+						width={100}
+						color='#ffffff'
+						ariaLabel='Zapisywanie przepisu'
+						secondaryColor='#ffffff'
+						strokeWidth={2}
+						strokeWidthSecondary={2}
+					/>
+				</div>
+			)}
 			<div className='recipe-form-name'>
 				<p className='new-recipe'>
 					{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}
@@ -168,19 +181,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					className='recipe-submit'
 					type='button'
 					onClick={formik.submitForm}>
-					{isSubmitting ? (
-						<Oval
-							height={20}
-							width={20}
-							color='#ffffff'
-							ariaLabel='Zapisywanie przepisu'
-							secondaryColor='#ffffff'
-							strokeWidth={2}
-							strokeWidthSecondary={2}
-						/>
-					) : (
-						"Zapisz"
-					)}
+					Zapisz
 				</Button>
 			</div>
 			<form className='recipe' onSubmit={formik.handleSubmit}>
