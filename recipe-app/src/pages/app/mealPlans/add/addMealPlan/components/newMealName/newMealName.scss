@@ -1,0 +1,34 @@
+.add-meal {
+	margin-top: 20px;
+	display: flex;
+	gap: 10px;
+	justify-content: space-between;
+	width: 100%;
+	.new-meal-name {
+		width: 1200px;
+		//dlaczego nie moge tego ustawic np na flex
+	}
+
+	.new-meal-submit {
+		height: 50px;
+		margin-right: 20px;
+		padding: 16px 32px;
+		font-size: 14px;
+		background-color: #4caf50;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		width: 150px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: bold;
+		transition: filter 0.2s ease;
+		justify-self: flex-end;
+
+		&:hover {
+			filter: brightness(1.1);
+		}
+	}
+}

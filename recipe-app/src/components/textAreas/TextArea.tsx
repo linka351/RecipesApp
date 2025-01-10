@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from "react";
+import "./textArea.scss";
 
 type Props = Omit<InputHTMLAttributes<HTMLTextAreaElement>, "className"> & {
 	label?: string;

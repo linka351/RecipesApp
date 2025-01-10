@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { GiRiceCooker } from "react-icons/gi";
 import clsx from "clsx";
+import Button from "../buttons/Button";
 
 const getClassName = ({ isActive }: { isActive: boolean }) =>
 	isActive ? "selected link" : "link";
@@ -16,18 +17,27 @@ function Navbar() {
 		setOpen(false);
 	}, [pathname]);
 
+	useEffect(() => {
+		if (open) {
+			document.documentElement.classList.add("no-scroll");
+		} else {
+			document.documentElement.classList.remove("no-scroll");
+		}
+	}, [open]);
+
 	const toggleMenu = () => {
 		setOpen(prev => !prev);
 	};
 
 	const navOffcanvasClass = clsx("offcanvas-menu", { active: open });
+	const overlayClass = clsx("overlay", { active: open });
 
 	return (
 		<>
 			<nav className='navbar'>
-				<button onClick={toggleMenu} className='menu'>
+				<Button onClick={toggleMenu} className='menu'>
 					<TiThMenuOutline className='menu-icon' />
-				</button>
+				</Button>
 				<Link className='logo-link' to={"/"}>
 					<div className='logo'>
 						<GiRiceCooker className='icon' />
@@ -35,8 +45,12 @@ function Navbar() {
 					</div>
 				</Link>
 			</nav>
+			<div className={overlayClass} onClick={toggleMenu}></div>
 			<nav className={navOffcanvasClass}>
-				<ul>
+				<Button onClick={toggleMenu} className='menu'>
+					<TiThMenuOutline className='menu-icon' />
+				</Button>
+				<ul className='menu-links'>
 					<li>
 						<NavLink className={getClassName} to={"/"}>
 							Strona Główna

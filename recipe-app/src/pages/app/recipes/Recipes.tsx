@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 import "./recipes.scss";
 import Input from "../../../components/inputs/Input";
+import Button from "../../../components/buttons/Button";
+import image from "../../../images/22204570_6605525.jpg";
 
 function Recipes() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -42,39 +44,41 @@ function Recipes() {
 		<div className='recipe-list-container'>
 			<div className='search-recipe'>
 				<p className='list-recipe'>Lista Przepisów</p>
-				<Input
-					name='searchRecipe'
-					type='text'
-					placeholder='Wyszukaj przepisy...'
-					value={searchRecipe}
-					onChange={handleSearch}
-				/>
-				<Link to={"/app/recipes/add"}>
-					<button className='add-recipe'>Dodaj Przepis</button>
+				<Link className='add-recipe-link' to={"/app/recipes/add"}>
+					Dodaj Przepis
 				</Link>
 			</div>
+			<Input
+				name='searchRecipe'
+				type='text'
+				placeholder='Wyszukaj przepisy...'
+				value={searchRecipe}
+				onChange={handleSearch}
+				inputClassName='recipe-input'
+			/>
 			<div className='recipe-main'>
 				<ul className='list'>
 					{filteredRecipes.map(recipe => (
 						<li className='recipe' key={recipe.id}>
-							<img src={recipe.image} className='image' />
+							{recipe.image === "https://via.placeholder.com/150" ? (
+								<img src={image} className='image' />
+							) : (
+								<img src={recipe.image} className='image' />
+							)}
 							<p className='name'>{recipe.name}</p>
 							<p className='description'>{recipe.description}</p>
 							<div className='recipe-buttons'>
-								<Link to={`/app/recipes/edit/${recipe.id}`}>
-									<button type='button' className='recipe-button'>
-										Edytuj
-									</button>
+								<Link
+									to={`/app/recipes/edit/${recipe.id}`}
+									className='edit-button'>
+									Edytuj
 								</Link>
-								<button
+								<Button
 									type='button'
 									className='delete-button'
 									onClick={() => handleDelete(recipe.id)}>
 									Usuń
-								</button>
-								<button type='button' className='recipe-button'>
-									Dodaj do planu
-								</button>
+								</Button>
 							</div>
 						</li>
 					))}
