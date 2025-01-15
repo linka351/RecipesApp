@@ -4,10 +4,23 @@
 	padding: 0;
 }
 
+body {
+	font-family: Arial, sans-serif;
+}
+
+a {
+	color: inherit;
+	font-family: inherit;
+	font-size: 14px;
+}
+
 html.no-scroll {
 	overflow: hidden;
+	height: 100%;
 
 	body {
-		padding-right: 17px;
+		position: relative;
+		overflow: hidden;
+		height: 100%;
 	}
 }

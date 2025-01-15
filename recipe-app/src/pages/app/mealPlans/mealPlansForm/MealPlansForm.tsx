@@ -94,6 +94,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 					touched={formik.touched.name}
 					error={formik.errors.name || ""}
 					onBlur={formik.handleBlur}
+					inputClassName='meal-plans-form-input'
 				/>
 				<TextArea
 					placeholder='Opis planu'

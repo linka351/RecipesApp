@@ -53,6 +53,7 @@ function MealPlans() {
 				placeholder='Wyszukaj plan...'
 				value={searchMealPlan}
 				onChange={handleSearch}
+				inputClassName='meal-plan-input'
 			/>
 			<ul className='meal-plan-list'>
 				{filteredMealPlans.map(mealPlan => (

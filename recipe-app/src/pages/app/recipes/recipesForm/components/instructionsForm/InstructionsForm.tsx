@@ -58,7 +58,7 @@ export default function InstructionsForm({
 				<label htmlFor='instruction' className='label'>
 					{editInstruction !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}
 				</label>
-				<div className='recipe-input'>
+				<div className='recipe-components-input'>
 					<Input
 						inputClassName='input'
 						type='text'
@@ -67,23 +67,24 @@ export default function InstructionsForm({
 						onChange={formik.handleChange}
 						value={formik.values.instruction}
 					/>
-
-					<div className='button-position'>
-						<Button
-							data-testid='add-instruction'
-							type='submit'
-							disabled={formik.values.instruction === ""}>
-							{editInstruction !== null ? "Zapisz" : "Dodaj"}
-						</Button>
+					<div className='buttons-container'>
+						<div className='button-position'>
+							<Button
+								data-testid='add-instruction'
+								type='submit'
+								disabled={formik.values.instruction === ""}>
+								{editInstruction !== null ? "Zapisz" : "Dodaj"}
+							</Button>
+							{editInstruction !== null && (
+								<Button
+									type='button'
+									className='cancel-button'
+									onClick={handleExitEdit}>
+									Anuluj
+								</Button>
+							)}
+						</div>
 					</div>
-					{editInstruction !== null && (
-						<Button
-							type='button'
-							className='cancel-button'
-							onClick={handleExitEdit}>
-							Anuluj
-						</Button>
-					)}
 				</div>
 				{formik.touched.instruction && formik.errors.instruction && (
 					<div className='error'>{formik.errors.instruction}</div>

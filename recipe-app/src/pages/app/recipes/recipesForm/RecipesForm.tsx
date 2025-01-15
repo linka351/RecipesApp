@@ -11,6 +11,7 @@ import "./recipesForm.scss";
 import Button from "../../../../components/buttons/Button";
 import { useEffect, useRef, useState } from "react";
 import ImageUploader from "./components/uploadImage/ImageUploader";
+import { IoCloudUploadOutline } from "react-icons/io5";
 
 export interface FormValues {
 	id?: string;
@@ -82,7 +83,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	) {
 		try {
 			setIsSubmitting(true);
-			let imageUrl = "";
+			let imageUrl = values.image;
 			if (imageUpload) {
 				const uploadedImageUrl = await uploadImage(imageUpload);
 				if (uploadedImageUrl) {
@@ -184,39 +185,52 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					Zapisz
 				</Button>
 			</div>
-			<form className='recipe' onSubmit={formik.handleSubmit}>
-				<Input
-					placeholder='Nazwa przepisu'
-					name='name'
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					touched={formik.touched.name}
-					value={formik.values.name}
-					error={formik.errors.name || ""}
-				/>
-				<TextArea
-					textAreaClassName='recipe-textarea'
-					placeholder='Opis przepisu'
-					name='description'
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					touched={formik.touched.description}
-					value={formik.values.description}
-					error={formik.errors.description || ""}
-				/>
-			</form>
-			<div className='image-container'>
-				<div className='image-preview'>
-					{previewImage && (
-						<div>
-							<img className='image' src={previewImage} alt='Podgląd zdjęcia' />
-						</div>
-					)}
-					<ImageUploader ref={imageUploaderRef} onChange={handleFileChange} />
+			<div className='elements-layout'>
+				<form className='recipe' onSubmit={formik.handleSubmit}>
+					<Input
+						placeholder='Nazwa przepisu'
+						name='name'
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						touched={formik.touched.name}
+						value={formik.values.name}
+						error={formik.errors.name || ""}
+						inputClassName='recipe-form-input'
+					/>
+					<TextArea
+						textAreaClassName='recipe-textarea'
+						placeholder='Opis przepisu'
+						name='description'
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						touched={formik.touched.description}
+						value={formik.values.description}
+						error={formik.errors.description || ""}
+					/>
+				</form>
+				<div className='image-container'>
+					<div className='image-preview'>
+						{previewImage ? (
+							<div>
+								<img
+									className='image'
+									src={previewImage}
+									alt='Podgląd zdjęcia'
+								/>
+							</div>
+						) : (
+							<div className='file-upload'>
+								<div className='cloud-upload'>
+									<IoCloudUploadOutline />
+								</div>
+							</div>
+						)}
+						<ImageUploader ref={imageUploaderRef} onChange={handleFileChange} />
+					</div>
 				</div>
 			</div>
 
-			<div className='row'>
+			<div className='position-elements'>
 				<InstructionsForm
 					onInstructionsAdded={handleAddInstruction}
 					onInstructionEdited={handleEditInstruction}

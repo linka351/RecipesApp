@@ -1,34 +1,50 @@
+@import "../../../../../../../styles/global/globalVariables.scss";
+
 .add-meal {
 	margin-top: 20px;
 	display: flex;
+	flex-direction: column;
 	gap: 10px;
-	justify-content: space-between;
 	width: 100%;
+
+	@media (min-width: $mobile-media) {
+		gap: 15px;
+		display: grid;
+		grid-template-columns: 75% 15%;
+	}
+
+	@media (min-width: $desktop-media) {
+		grid-template-columns: 90% 10%;
+	}
 	.new-meal-name {
-		width: 1200px;
-		//dlaczego nie moge tego ustawic np na flex
+		width: 100%;
+		border-radius: 5px;
+		border: 1px solid #ccc;
 	}
 
 	.new-meal-submit {
-		height: 50px;
-		margin-right: 20px;
-		padding: 16px 32px;
-		font-size: 14px;
+		padding: 14px;
 		background-color: #4caf50;
 		color: white;
 		border: none;
 		border-radius: 5px;
 		cursor: pointer;
-		width: 150px;
+		width: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		font-weight: bold;
 		transition: filter 0.2s ease;
-		justify-self: flex-end;
 
 		&:hover {
 			filter: brightness(1.1);
 		}
+
+		@media (min-width: $mobile-media) {
+			margin-right: 0;
+			width: 150px;
+			height: 50px;
+		}
+		//do poprawy, dlaczego ten button taki duży + instrukcje składniki taka sama wysokość + scroll
 	}
 }

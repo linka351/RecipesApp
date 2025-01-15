@@ -58,7 +58,7 @@ export default function IngredientsForm({
 				<label htmlFor='ingredient' className='label'>
 					{editIngredient !== null ? "Edytuj Składnik" : "Dodaj Składnik"}
 				</label>
-				<div className='recipe-input'>
+				<div className='recipe-components-input'>
 					<Input
 						inputClassName='input'
 						type='text'
@@ -67,22 +67,24 @@ export default function IngredientsForm({
 						onChange={formik.handleChange}
 						value={formik.values.ingredient}
 					/>
-					<div className='button-position'>
-						<Button
-							data-testid='add-ingredient'
-							type='submit'
-							disabled={formik.values.ingredient === ""}>
-							{editIngredient !== null ? "Zapisz" : "Dodaj"}
-						</Button>
+					<div className='buttons-container'>
+						<div className='button-position'>
+							<Button
+								data-testid='add-ingredient'
+								type='submit'
+								disabled={formik.values.ingredient === ""}>
+								{editIngredient !== null ? "Zapisz" : "Dodaj"}
+							</Button>
+							{editIngredient !== null && (
+								<Button
+									type='button'
+									className='cancel-button'
+									onClick={handleExitEdit}>
+									Anuluj
+								</Button>
+							)}
+						</div>
 					</div>
-					{editIngredient !== null && (
-						<Button
-							type='button'
-							className='cancel-button'
-							onClick={handleExitEdit}>
-							Anuluj
-						</Button>
-					)}
 				</div>
 				{formik.touched.ingredient && formik.errors.ingredient && (
 					<div className='error'>{formik.errors.ingredient}</div>

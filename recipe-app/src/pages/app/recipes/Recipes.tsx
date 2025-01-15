@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Recipe } from "../../../types/editRecipe";
 import { recipeApi } from "../../../api/recipes";
 import { Link } from "react-router-dom";
+import "../../../styles/global/globalVariables.scss";
 
 import "./recipes.scss";
 import Input from "../../../components/inputs/Input";
@@ -65,20 +66,22 @@ function Recipes() {
 							) : (
 								<img src={recipe.image} className='image' />
 							)}
-							<p className='name'>{recipe.name}</p>
-							<p className='description'>{recipe.description}</p>
-							<div className='recipe-buttons'>
-								<Link
-									to={`/app/recipes/edit/${recipe.id}`}
-									className='edit-button'>
-									Edytuj
-								</Link>
-								<Button
-									type='button'
-									className='delete-button'
-									onClick={() => handleDelete(recipe.id)}>
-									Usuń
-								</Button>
+							<div className='elements-container'>
+								<p className='name'>{recipe.name}</p>
+								<p className='description'>{recipe.description}</p>
+								<div className='recipe-buttons'>
+									<Link
+										to={`/app/recipes/edit/${recipe.id}`}
+										className='edit-button'>
+										Edytuj
+									</Link>
+									<Button
+										type='button'
+										className='delete-button'
+										onClick={() => handleDelete(recipe.id)}>
+										Usuń
+									</Button>
+								</div>
 							</div>
 						</li>
 					))}
