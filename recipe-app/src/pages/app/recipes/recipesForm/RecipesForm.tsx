@@ -177,13 +177,6 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 				<p className='new-recipe'>
 					{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}
 				</p>
-
-				<Button
-					className='recipe-submit'
-					type='button'
-					onClick={formik.submitForm}>
-					Zapisz
-				</Button>
 			</div>
 			<div className='elements-layout'>
 				<form className='recipe' onSubmit={formik.handleSubmit}>
@@ -248,6 +241,12 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					errors={formik.errors.ingredients || ""}
 				/>
 			</div>
+			<Button
+				className='recipe-submit'
+				type='button'
+				onClick={formik.submitForm}>
+				Zapisz
+			</Button>
 		</div>
 	);
 }

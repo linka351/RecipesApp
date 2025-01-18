@@ -82,9 +82,6 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 					<p className='title'>
 						{initialValues?.id ? "Edytuj Plan" : "Nowy Plan"}
 					</p>
-					<Button type='submit' className='meal-submit'>
-						{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz"}
-					</Button>
 				</div>
 				<Input
 					placeholder='Wpisz nazwę planu'
@@ -134,6 +131,11 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 					<div className='meal-table-error'>{formik.errors.mealName}</div>
 				)}
 			</form>
+			<div className='meal-submit-container'>
+				<Button type='submit' className='meal-submit'>
+					{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz"}
+				</Button>
+			</div>
 		</div>
 	);
 }
