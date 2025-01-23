@@ -49,21 +49,21 @@ const NewMealNameInput: React.FC<NewMealNameInputProps> = ({ onAdd }) => {
 	};
 	return (
 		<div className='add-meal'>
-			<label className='new-meal-label'>
-				<span className='new-meal-label-text'>Nazwa Posiłku</span>
+			<div>
+				<label className='new-meal-label'>Nazwa Posiłku</label>
 				<Input
-					inputClassName='new-meal-name'
-					name='newMealName'
-					type='text'
-					value={newMealName}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					placeholder='Wpisz nazwę posiłku'
-					error={error}
-					touched={touched}
-					errorClassName='new-meal-error'
+				inputClassName='new-meal-name'
+				name='newMealName'
+				type='text'
+				value={newMealName}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				placeholder='Wpisz nazwę posiłku'
+				error={error}
+				touched={touched}
+				errorClassName='new-meal-error'
 				/>
-			</label>
+			</div>
 			<Button
 				className='new-meal-submit'
 				type='button'
