@@ -55,7 +55,7 @@ export default function InstructionsForm({
 	return (
 		<div className='recipe-details-container'>
 			<form onSubmit={formik.handleSubmit}>
-				<label htmlFor='instruction' className='label'>
+				<label htmlFor='instruction' className='recipes-form-label'>
 					{editInstruction !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}
 				</label>
 				<div className='recipe-components-input'>
@@ -86,10 +86,14 @@ export default function InstructionsForm({
 						</div>
 					</div>
 				</div>
-				{formik.touched.instruction && formik.errors.instruction && (
-					<div className='error'>{formik.errors.instruction}</div>
-				)}
-				<div className='error'>{touched && errors}</div>
+				<div className='common-error-container'>
+					{formik.touched.instruction && formik.errors.instruction && (
+						<div className='common-recipe-error'>
+							{formik.errors.instruction}
+						</div>
+					)}
+					<div className='common-recipe-error'>{touched && errors}</div>
+				</div>
 			</form>
 			<ul className='recipe-list'>
 				{instructions.map((instruction, index) => (

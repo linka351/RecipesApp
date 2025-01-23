@@ -55,7 +55,7 @@ export default function IngredientsForm({
 	return (
 		<div className='recipe-details-container'>
 			<form onSubmit={formik.handleSubmit}>
-				<label htmlFor='ingredient' className='label'>
+				<label htmlFor='ingredient' className='recipes-form-label'>
 					{editIngredient !== null ? "Edytuj Składnik" : "Dodaj Składnik"}
 				</label>
 				<div className='recipe-components-input'>
@@ -86,10 +86,14 @@ export default function IngredientsForm({
 						</div>
 					</div>
 				</div>
-				{formik.touched.ingredient && formik.errors.ingredient && (
-					<div className='error'>{formik.errors.ingredient}</div>
-				)}
-				<div className='error'>{touched && errors}</div>
+				<div className='common-error-container'>
+					{formik.touched.ingredient && formik.errors.ingredient && (
+						<div className='common-recipe-error'>
+							{formik.errors.ingredient}
+						</div>
+					)}
+					<div className='common-recipe-error'>{touched && errors}</div>
+				</div>
 			</form>
 			<ul className='recipe-list'>
 				{ingredients.map((ingredient, index) => (

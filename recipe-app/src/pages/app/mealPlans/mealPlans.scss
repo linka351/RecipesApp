@@ -45,8 +45,6 @@
 		}
 
 		.meal-plan {
-			font-size: 2rem;
-			font-weight: bold;
 			color: #333;
 		}
 	}
@@ -111,38 +109,52 @@
 						font-size: 14px;
 						color: #666;
 						line-height: 1.5;
+						padding-block: 4px;
 					}
 				}
 
 				.plan-buttons {
 					display: flex;
 					flex-direction: column;
-					gap: 10px;
 
-					.edit-meal-plan,
-					.delete-meal-plan {
-						display: inline-block;
-						padding: 10px 20px;
-						color: white;
-						font-weight: bold;
+					.edit-meal-plan {
+						font-size: 35px;
+						color: black;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						padding: 10px;
 						border-radius: 5px;
-						text-align: center;
-						text-decoration: none;
-						cursor: pointer;
-
-						&.edit-meal-plan {
-							background-color: #4caf50;
-						}
-						&.delete-meal-plan {
-							background-color: #f44336;
-						}
+						transition: background-color 0.5s ease;
 
 						&:hover {
-							filter: brightness(1.1);
+							background-color: #e3dede;
+						}
+					}
+					.delete-meal-plan {
+						padding: 10px;
+						border-radius: 5px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						background-color: #f9f9f9;
+						font-size: 25px;
+						font-weight: bold;
+						border-radius: 5px;
+						text-decoration: none;
+						cursor: pointer;
+						transition: background-color 0.5s ease;
+
+						&:hover {
+							background-color: #e3dede;
 						}
 					}
 				}
 			}
 		}
 	}
+}
+
+.meal-plan-title {
+	margin-bottom: 20px;
 }

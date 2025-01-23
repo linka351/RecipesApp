@@ -174,14 +174,14 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 				</div>
 			)}
 			<div className='recipe-form-name'>
-				<p className='new-recipe'>
+				<h1 className='new-recipe'>
 					{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}
-				</p>
+				</h1>
 			</div>
 			<div className='elements-layout'>
 				<form className='recipe' onSubmit={formik.handleSubmit}>
 					<Input
-						placeholder='Nazwa przepisu'
+						placeholder='Krokiety z serem'
 						name='name'
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
@@ -189,16 +189,18 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 						value={formik.values.name}
 						error={formik.errors.name || ""}
 						inputClassName='recipe-form-input'
+						label='Nazwa przepisu'
 					/>
 					<TextArea
-						textAreaClassName='recipe-textarea'
-						placeholder='Opis przepisu'
+						textareaClassName='recipe-textarea'
+						placeholder='Zapraszam po mój najlepszy przepis na krokiety z pieczarkami i serem żółtym. Można je szykować na obiad oraz jako jedno z dań na Święta. Będą idealne do barszczyku.'
 						name='description'
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
 						touched={formik.touched.description}
 						value={formik.values.description}
 						error={formik.errors.description || ""}
+						label='Opis przepisu'
 					/>
 				</form>
 				<div className='image-container'>
@@ -213,12 +215,25 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 							</div>
 						) : (
 							<div className='file-upload'>
-								<div className='cloud-upload'>
+								<div
+									className='cloud-upload'
+									onClick={() =>
+										document.getElementById("image-uploader")?.click()
+									}>
 									<IoCloudUploadOutline />
 								</div>
 							</div>
 						)}
+
 						<ImageUploader ref={imageUploaderRef} onChange={handleFileChange} />
+						<input
+							className='container-input'
+							id='image-uploader'
+							type='file'
+							accept='image/*'
+							onChange={handleFileChange}
+							//dopytać czy tak moze być
+						/>
 					</div>
 				</div>
 			</div>

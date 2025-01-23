@@ -79,9 +79,9 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 			)}
 			<form onSubmit={formik.handleSubmit} className='add-meal-plan-form'>
 				<div className='meal-form-name'>
-					<p className='title'>
+					<h1 className='meal-plan-title'>
 						{initialValues?.id ? "Edytuj Plan" : "Nowy Plan"}
-					</p>
+					</h1>
 				</div>
 				<Input
 					placeholder='Wpisz nazwę planu'
@@ -92,16 +92,18 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 					error={formik.errors.name || ""}
 					onBlur={formik.handleBlur}
 					inputClassName='meal-plans-form-input'
+					label='Nazwa planu'
 				/>
 				<TextArea
 					placeholder='Opis planu'
-					textAreaClassName='meal-textarea'
+					textareaClassName='meal-textarea'
 					name='description'
 					onChange={formik.handleChange}
 					value={formik.values.description}
 					touched={formik.touched.description}
 					error={formik.errors.description || ""}
 					onBlur={formik.handleBlur}
+					label='Opis planu'
 				/>
 
 				<div className='date-position'>
@@ -116,26 +118,28 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 						touched={formik.touched.dateFrom}
 						error={formik.errors.dateFrom || ""}
 						onBlur={formik.handleBlur}
+						errorClassName='date-error'
 					/>
 				</div>
 
 				<NewMealName onAdd={handleAddMealName} />
-
-				<MealTable
-					mealName={formik.values.mealName}
-					recipes={recipes}
-					onChange={handleSelectChange}
-					selectedRecipes={formik.values.plan}
-				/>
-				{formik.touched.mealName && formik.errors.mealName && (
-					<div className='meal-table-error'>{formik.errors.mealName}</div>
-				)}
+				<div className='test'>
+					<MealTable
+						mealName={formik.values.mealName}
+						recipes={recipes}
+						onChange={handleSelectChange}
+						selectedRecipes={formik.values.plan}
+					/>
+					{formik.touched.mealName && formik.errors.mealName && (
+						<div className='meal-table-error'>{formik.errors.mealName}</div>
+					)}
+				</div>
+				<div className='meal-submit-container'>
+					<Button type='submit' className='meal-submit'>
+						{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz"}
+					</Button>
+				</div>
 			</form>
-			<div className='meal-submit-container'>
-				<Button type='submit' className='meal-submit'>
-					{initialValues?.id ? "Zaktualizuj Plan" : "Zapisz"}
-				</Button>
-			</div>
 		</div>
 	);
 }

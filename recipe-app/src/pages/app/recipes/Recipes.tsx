@@ -44,7 +44,7 @@ function Recipes() {
 	return (
 		<div className='recipe-list-container'>
 			<div className='search-recipe'>
-				<p className='list-recipe'>Lista Przepisów</p>
+				<h1 className='list-recipe'>Lista Przepisów</h1>
 				<Link className='add-recipe-link' to={"/app/recipes/add"}>
 					Dodaj Przepis
 				</Link>
@@ -61,7 +61,7 @@ function Recipes() {
 				<ul className='list'>
 					{filteredRecipes.map(recipe => (
 						<li className='recipe' key={recipe.id}>
-							{recipe.image === "https://via.placeholder.com/150" ? (
+							{recipe.image === "" ? (
 								<img src={image} className='image' />
 							) : (
 								<img src={recipe.image} className='image' />

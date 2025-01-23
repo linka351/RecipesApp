@@ -2,15 +2,16 @@
 
 @import "../../../../../../styles/global/globalVariables.scss";
 .meal-table-container {
-	margin: 20px auto 20px auto;
 	width: 100%;
 	background-color: #f0e3e3;
 	min-height: 40vh;
 	padding: 10px;
 	border-radius: 5px;
-	overflow: scroll;
+	overflow-x: scroll;
+	overflow-y: visible;
+	margin-bottom: 20px;
 
-	@media (min-width: $tablet-media) {
+	@media (min-width: $desktop-media) {
 		overflow: hidden;
 	}
 
@@ -57,4 +58,8 @@
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
+
+	@media (min-width: $desktop-media) {
+		width: 100%;
+	}
 }

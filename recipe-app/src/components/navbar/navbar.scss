@@ -2,14 +2,13 @@
 
 .navbar {
 	width: 100%;
-	height: 10vh;
 	background-color: rgb(192, 54, 54);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	position: sticky;
-	top: 0;
 	z-index: 2;
+	padding: 20px 20px;
 
 	.menu {
 		border: none;
@@ -100,19 +99,12 @@
 	background: none;
 }
 .menu-icon {
-	top: 25px;
+	top: 38px;
 	color: white;
 	font-size: 30px;
 	left: 10px;
 	cursor: pointer;
 	position: absolute;
-
-	@media (min-width: $mobile-media) {
-		top: 50px;
-	}
-	@media (min-width: $desktop-media) {
-		top: 25px;
-	}
 }
 
 .menu-links {

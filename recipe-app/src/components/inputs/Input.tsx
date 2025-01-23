@@ -28,17 +28,23 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 	const inputClass = clsx("input", inputClassName);
 	const errorClass = clsx("error", errorClassName);
 	return (
-		<label htmlFor={name} className={labelClass}>
-			{label}
-			<input
-				{...props}
-				ref={ref}
-				className={inputClass}
-				id={name}
-				name={name}
-			/>
-			{touched && error && <p className={errorClass}>{error}</p>}
-		</label>
+		<>
+			{label && (
+				<label htmlFor={name} className={labelClass}>
+					<span className='label-text'>{label}</span>
+				</label>
+			)}
+			<div className='input-container'>
+				<input
+					{...props}
+					ref={ref}
+					className={inputClass}
+					id={name}
+					name={name}
+				/>
+				{touched && error && <p className={errorClass}>{error}</p>}
+			</div>
+		</>
 	);
 });
 

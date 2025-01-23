@@ -3,6 +3,8 @@ import { WeeklyPlan } from "./add/addMealPlan/types";
 import { Link } from "react-router-dom";
 import { mealPlansApi } from "../../../api/mealPlans";
 import Input from "../../../components/inputs/Input";
+import { FaTrashAlt } from "react-icons/fa";
+import { CiEdit } from "react-icons/ci";
 
 import "./mealPlans.scss";
 import Button from "../../../components/buttons/Button";
@@ -42,7 +44,7 @@ function MealPlans() {
 	return (
 		<div className='meal-plan-container'>
 			<div className='search-meal-plan'>
-				<p className='meal-plan'>Lista Planów</p>
+				<h1 className='meal-plan'>Lista Planów</h1>
 				<Link className='add-meal-plan' to={"/app/meal-plans/add/"}>
 					Dodaj Plan
 				</Link>
@@ -72,12 +74,12 @@ function MealPlans() {
 								<Link
 									className='edit-meal-plan'
 									to={`/app/meal-plans/edit/${mealPlan.id}`}>
-									Edytuj
+									<CiEdit />
 								</Link>
 								<Button
 									className='delete-meal-plan'
 									onClick={() => mealPlan.id && handleDelete(mealPlan.id)}>
-									Usuń
+									<FaTrashAlt />
 								</Button>
 							</div>
 						</div>
