@@ -20,8 +20,14 @@ textarea {
 	color: inherit;
 	font-family: inherit;
 }
+
 a {
 	font-size: 14px;
+	text-decoration: none;
+}
+
+a, button {
+	cursor: pointer;
 }
 
 html.no-scroll {
