@@ -12,7 +12,7 @@
 	margin-top: 5px;
 	border-radius: 5px;
 	border: 1px solid #ccc;
-	margin-bottom: 20px;
+	margin-bottom: 24px;
 }
 
 .meal-textarea {
@@ -36,7 +36,7 @@
 }
 .date {
 	margin-top: 5px;
-	margin-bottom: 20px;
+	margin-bottom: 24px;
 	border-radius: 5px;
 	font-size: 14px;
 	width: 100%;
@@ -51,7 +51,7 @@
 }
 
 .date-error {
-	top: 53px;
+	top: 51px;
 }
 
 .meal-table-error {
@@ -93,6 +93,7 @@
 		width: 100%;
 		font-weight: bold;
 		transition: filter 0.2s ease;
+		margin-block: 32px;
 
 		&:hover {
 			filter: brightness(1.1);

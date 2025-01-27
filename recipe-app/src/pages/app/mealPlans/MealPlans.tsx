@@ -3,11 +3,11 @@ import { WeeklyPlan } from "./add/addMealPlan/types";
 import { Link } from "react-router-dom";
 import { mealPlansApi } from "../../../api/mealPlans";
 import Input from "../../../components/inputs/Input";
-import { FaTrashAlt } from "react-icons/fa";
-import { CiEdit } from "react-icons/ci";
 
 import "./mealPlans.scss";
 import Button from "../../../components/buttons/Button";
+import { IoTrashOutline } from "react-icons/io5";
+import { MdOutlineModeEdit } from "react-icons/md";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
@@ -72,14 +72,14 @@ function MealPlans() {
 							</div>
 							<div className='plan-buttons'>
 								<Link
-									className='edit-meal-plan'
+									className='plan-button edit-meal-plan'
 									to={`/app/meal-plans/edit/${mealPlan.id}`}>
-									<CiEdit />
+									<MdOutlineModeEdit />
 								</Link>
 								<Button
-									className='delete-meal-plan'
+									className='plan-button delete-meal-plan'
 									onClick={() => mealPlan.id && handleDelete(mealPlan.id)}>
-									<FaTrashAlt />
+									<IoTrashOutline />
 								</Button>
 							</div>
 						</div>

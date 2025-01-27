@@ -2,7 +2,7 @@
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	width: 100%;
+	width: var(--layout-width);
 	background-color: rgb(246, 237, 237);
 
 	.layout-content {
@@ -11,4 +11,8 @@
 		margin: auto;
 		padding-block: 20px;
 	}
+}
+
+.no-scroll .layout-container .offcanvas-menu .selected > * {
+	padding-right: calc(var(--base-padding) + 17px);
 }

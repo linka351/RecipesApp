@@ -10,7 +10,7 @@ const getClassName = ({ isActive }: { isActive: boolean }) =>
 	isActive ? "selected link" : "link";
 
 function Navbar() {
-	const [open, setOpen] = useState<boolean>(true);
+	const [open, setOpen] = useState<boolean>(false);
 	const { pathname } = useLocation();
 
 	useEffect(() => {
@@ -18,10 +18,10 @@ function Navbar() {
 	}, [pathname]);
 
 	useEffect(() => {
-		if (open) {
-			document.documentElement.classList.add("no-scroll");
-		} else {
+		if (!open) {
 			document.documentElement.classList.remove("no-scroll");
+		} else {
+			document.documentElement.classList.add("no-scroll");
 		}
 	}, [open]);
 

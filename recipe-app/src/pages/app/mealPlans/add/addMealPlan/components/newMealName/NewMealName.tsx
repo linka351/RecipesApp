@@ -69,7 +69,7 @@ const NewMealNameInput: React.FC<NewMealNameInputProps> = ({ onAdd }) => {
 				type='button'
 				onClick={handleAddMealName}
 				disabled={Boolean(error || !newMealName.trim())}>
-				Add
+				Dodaj
 			</Button>
 		</div>
 	);

@@ -1,3 +1,8 @@
+:root {
+	--layout-width: 100%;
+	--base-padding: 0px;
+}
+
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -15,11 +20,19 @@ textarea {
 	color: inherit;
 	font-family: inherit;
 }
+
 a {
 	font-size: 14px;
+	text-decoration: none;
+}
+
+a,
+button {
+	cursor: pointer;
 }
 
 html.no-scroll {
+	--layout-width: 100vw;
 	overflow: hidden;
 	height: 100%;
 
