@@ -63,7 +63,7 @@
 		filter: brightness(1.1);
 	}
 
-	@media (min-width: $desktop-media) {
+	@media (min-width: $mobile-media) {
 		width: 100%;
 	}
 }
