@@ -10,26 +10,6 @@ import TextArea from "../../../../components/textAreas/TextArea";
 import MealTable from "./components/mealTable/MealTable";
 import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
 
-import { startOfWeek, endOfWeek, format } from "date-fns";
-import { pl } from "date-fns/locale";
-
-const getWeekDateRange = (weekString: string) => {
-	const match = weekString.match(/Tydzień (\d+), (\d{4})/);
-	if (!match) return null;
-
-	const week = parseInt(match[1], 10);
-	const year = parseInt(match[2], 10);
-
-	const firstDayOfWeek = startOfWeek(new Date(year, 0, 4), { weekStartsOn: 1 });
-
-	const startDate = new Date(firstDayOfWeek);
-	startDate.setDate(startDate.getDate() + (week - 1) * 7);
-
-	const endDate = endOfWeek(startDate, { weekStartsOn: 1 });
-
-	return `${format(startDate, "d MMMM", { locale: pl })} - ${format(endDate, "d MMMM yyyy", { locale: pl })}`;
-};
-
 type Props = {
 	initialValues?: WeeklyPlan;
 	onSubmit?: (values: WeeklyPlan) => void;
@@ -37,7 +17,6 @@ type Props = {
 
 function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
-	const [weekRange, setWeekRange] = useState<string | null>(null);
 
 	useEffect(() => {
 		async function fetchRecipes() {
@@ -67,15 +46,6 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 		validationSchema,
 		onSubmit: handleSubmit,
 	});
-
-	useEffect(() => {
-		if (formik.values.dateFrom) {
-			const year = formik.values.dateFrom.split("-W")[0];
-			const week = formik.values.dateFrom.split("-W")[1];
-			const range = getWeekDateRange(`Tydzień ${week}, ${year}`);
-			setWeekRange(range);
-		}
-	}, [formik.values.dateFrom]);
 
 	const handleSelectChange = (day: DayName, meal: string, recipeId: string) => {
 		formik.setFieldValue(`plan.${day}.${meal}`, recipeId);
@@ -116,7 +86,6 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 					error={formik.errors.dateFrom || ""}
 					onBlur={formik.handleBlur}
 				/>
-				{weekRange && <p>{weekRange}</p>}
 
 				<NewMealName onAdd={handleAddMealName} />
 

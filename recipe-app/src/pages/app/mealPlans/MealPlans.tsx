@@ -3,6 +3,22 @@ import { WeeklyPlan } from "./add/addMealPlan/types";
 import { Link } from "react-router-dom";
 import { mealPlansApi } from "../../../api/mealPlans";
 import Input from "../../../components/inputs/Input";
+import { startOfISOWeek, endOfISOWeek, parseISO, format } from "date-fns";
+import { pl } from "date-fns/locale";
+
+const formatWeekRange = (weekString: string) => {
+	if (!weekString) return "";
+
+	const [year, week] = weekString.split("-W");
+	const weekNumber = parseInt(week, 10);
+
+	const firstDayOfYear = parseISO(`${year}-01-04`);
+	const startDate = startOfISOWeek(firstDayOfYear);
+	startDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
+	const endDate = endOfISOWeek(startDate);
+
+	return `${format(startDate, "d", { locale: pl })}-${format(endDate, "d MMMM yyyy", { locale: pl })}`;
+};
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
@@ -13,7 +29,6 @@ function MealPlans() {
 			const mealPlanList = await mealPlansApi.getAll();
 			setMealPlans(mealPlanList);
 		}
-
 		fetchMealPlans();
 	}, []);
 
@@ -54,6 +69,8 @@ function MealPlans() {
 					<ul>
 						<li>
 							{mealPlan.name}
+							<br />
+							{formatWeekRange(mealPlan.dateFrom)}
 							<div>
 								<Link to={`/app/meal-plans/edit/${mealPlan.id}`}>
 									<button>Edytuj</button>
@@ -70,4 +87,5 @@ function MealPlans() {
 		</>
 	);
 }
+
 export default MealPlans;
