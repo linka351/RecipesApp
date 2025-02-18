@@ -3,7 +3,7 @@ import Footer from "../../components/footer/Footer";
 import image from "../../../images/pexels-minan1398-1482803.jpg";
 import "./landingPage.scss";
 import { PiTableBold } from "react-icons/pi";
-import { FaSearch } from "react-icons/fa";
+import { FaHourglassHalf } from "react-icons/fa6";
 import { IoPersonSharp } from "react-icons/io5";
 
 function LandingPage() {
@@ -18,6 +18,7 @@ function LandingPage() {
 						organizuj swoje posiłki z łatwością!
 					</p>
 				</div>
+
 				<div className='app-work'>
 					<div className='app-work-element'>
 						<PiTableBold className='icon' />
@@ -27,10 +28,11 @@ function LandingPage() {
 						</p>
 					</div>
 					<div className='app-work-element'>
-						<FaSearch className='icon' />
+						<FaHourglassHalf className='icon' />
 						<p className='app-work-title'>
-							Łatwe wyszukiwanie przepisów – Znajdź idealne danie na każdą
-							okazję.
+							Zarządzaj swoimi ulubionymi przepisami i twórz spersonalizowane
+							plany żywieniowe w jednym miejscu! Dzięki naszej aplikacji
+							oszczędzisz czas.
 						</p>
 					</div>
 					<div className='app-work-element'>
@@ -40,21 +42,39 @@ function LandingPage() {
 						</p>
 					</div>
 				</div>
-				/* jak to działa */
-				<div>
-					<div style={{ display: "flex" }}>
-						<img src={image} style={{ width: "200px", height: "200px" }} />
-						<p>
-							Dodaj swoje przepisy – Wpisz składniki, instrukcje i zdjęcia
-							ulubionych dań.
+				<div className='action-container'>
+					<p className='landing-text'>Jak to działa?</p>
+					<div className='landing-section'>
+						<img src={image} className='image-landing' />
+						<p className='landing-image-text'>
+							Dodaj swoje przepisy – Podaj składniki i instrukcje, a także dodaj
+							zdjęcie do swojego przepisu. Zapisuj swoje ulubione przepisy, aby
+							nigdy o nich nie zapomnieć.
 						</p>
 					</div>
-
-					<p>
-						Stwórz plan żywieniowy – Wybierz posiłki na wybrane dni tygodnia.
-					</p>
+					<div className='landing-section'>
+						<img src={image} className='image-landing' />
+						<p className='landing-image-text'>
+							Stwórz plan żywieniowy – Na podstawie dodanych przez ciebie
+							przepisów stwórz swój własny plan tygodniowy. Zyskasz lepszą
+							kontrolę nad swoją dietą i ułatwisz sobie codzienne gotowanie.
+						</p>
+					</div>
+					<div className='landing-section'>
+						<img src={image} className='image-landing' />
+						<p className='landing-image-text'>
+							Łatwe wyszukiwanie przepisów – Z pomocą naszej wyszukiwarki w
+							krótkim czasie znajdź idealne danie na każdą okazję.
+						</p>
+					</div>
 				</div>
-				<div>Wypróbuj Teraz !!!!! rejestracja itp??</div>
+				<div className='register-container'>
+					<p className='register-text'>
+						Dołącz do naszej społeczności i ułatw sobie planowanie posiłków już
+						dziś!
+					</p>
+					<button className='register'>Zarejestruj się</button>
+				</div>
 			</div>
 			<Footer />
 		</>

@@ -1,5 +1,5 @@
 .landing-container {
-	background-color: rgb(246, 237, 237);
+	background-color: rgb(250, 250, 250);
 
 	.image-container {
 		position: relative;
@@ -26,10 +26,11 @@
 	.app-work {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		width: 70%;
+		width: 100%;
 		margin: auto;
 		padding: 40px;
-
+		background-color: #f4f2ed;
+		margin-top: 50px;
 		.app-work-element {
 			text-align: center;
 			padding: 20px;
@@ -43,6 +44,65 @@
 			.icon {
 				font-size: 40px;
 			}
+		}
+	}
+	.landing-text {
+		font-size: 44px;
+		text-align: center;
+		padding: 20px;
+	}
+	.action-container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 50px;
+		margin-top: 50px;
+		background-color: #f4f2ed;
+		padding: 20px;
+	}
+
+	.landing-section {
+		background-color: rgba(250, 250, 250);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		width: 90%;
+		gap: 30px;
+		padding: 20px;
+	}
+
+	.image-landing {
+		width: 300px;
+		height: 300px;
+	}
+	.landing-image-text {
+		font-size: 26px;
+	}
+
+	.landing-section:nth-child(odd) {
+		flex-direction: row-reverse;
+	}
+
+	.register-container {
+		margin: 50px 0 50px 0;
+		background-color: #f4f2ed;
+		padding: 30px;
+		text-align: center;
+
+		.register-text {
+			font-size: 30px;
+		}
+		.register {
+			margin-top: 30px;
+			padding: 16px 24px;
+			font-size: 20px;
+			border: none;
+			background-color: #265721;
+			color: white;
+			border-radius: 5px;
+			cursor: pointer;
 		}
 	}
 }
