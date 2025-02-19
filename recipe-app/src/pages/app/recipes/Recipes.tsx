@@ -18,7 +18,7 @@ type Props = {
 	elementsContainerClassName?: string;
 	listClassName?: string;
 };
-const RecipeList: React.FC<Props> = ({
+const RecipeList = ({
 	header = "Lista Prepisów",
 	addButtonLabel = "Dodaj Przepis",
 	showAddButton = true,
@@ -27,7 +27,7 @@ const RecipeList: React.FC<Props> = ({
 	imageClassName,
 	elementsContainerClassName,
 	listClassName,
-}) => {
+}: Props) => {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [searchRecipe, setSearchRecipe] = useState<string>("");
 
