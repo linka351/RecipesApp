@@ -1,6 +1,9 @@
 import Navbar from "../../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import image from "../../../images/pexels-minan1398-1482803.jpg";
+import addRecipeImage from "../../../images/Dodanie przpisu.png";
+import searchRecipeImage from "../../../images/Wyszukiwanie przepisu.png";
+import addMealPlanImage from "../../../images/Plan żywnosciowy.png";
 import "./landingPage.scss";
 import { PiTableBold } from "react-icons/pi";
 import { FaHourglassHalf } from "react-icons/fa6";
@@ -45,7 +48,7 @@ function LandingPage() {
 				<div className='action-container'>
 					<p className='landing-text'>Jak to działa?</p>
 					<div className='landing-section'>
-						<img src={image} className='image-landing' />
+						<img src={addRecipeImage} className='image-landing' />
 						<p className='landing-image-text'>
 							Dodaj swoje przepisy – Podaj składniki i instrukcje, a także dodaj
 							zdjęcie do swojego przepisu. Zapisuj swoje ulubione przepisy, aby
@@ -53,7 +56,7 @@ function LandingPage() {
 						</p>
 					</div>
 					<div className='landing-section'>
-						<img src={image} className='image-landing' />
+						<img src={addMealPlanImage} className='image-landing' />
 						<p className='landing-image-text'>
 							Stwórz plan żywieniowy – Na podstawie dodanych przez ciebie
 							przepisów stwórz swój własny plan tygodniowy. Zyskasz lepszą
@@ -61,7 +64,7 @@ function LandingPage() {
 						</p>
 					</div>
 					<div className='landing-section'>
-						<img src={image} className='image-landing' />
+						<img src={searchRecipeImage} className='image-landing' />
 						<p className='landing-image-text'>
 							Łatwe wyszukiwanie przepisów – Z pomocą naszej wyszukiwarki w
 							krótkim czasie znajdź idealne danie na każdą okazję.

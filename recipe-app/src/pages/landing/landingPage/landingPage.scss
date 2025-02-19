@@ -70,15 +70,17 @@
 		justify-content: space-between;
 		width: 90%;
 		gap: 30px;
-		padding: 20px;
+		padding: 30px;
+		border-radius: 10px;
 	}
 
 	.image-landing {
-		width: 300px;
-		height: 300px;
+		width: 70%;
+		height: 400px;
+		object-fit: cover;
 	}
 	.landing-image-text {
-		font-size: 26px;
+		font-size: 30px;
 	}
 
 	.landing-section:nth-child(odd) {
