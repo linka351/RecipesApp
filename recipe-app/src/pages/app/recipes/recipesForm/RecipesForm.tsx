@@ -225,14 +225,13 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 							</div>
 						)}
 
-						<ImageUploader ref={imageUploaderRef} onChange={handleFileChange} />
+						<ImageUploader onChange={handleFileChange} />
 						<input
 							className='container-input'
 							id='image-uploader'
 							type='file'
 							accept='image/*'
 							onChange={handleFileChange}
-							//dopytać czy tak moze być
 						/>
 					</div>
 				</div>

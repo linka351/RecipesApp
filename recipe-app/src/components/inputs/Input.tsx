@@ -28,7 +28,7 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 	const inputClass = clsx("input", inputClassName);
 	const errorClass = clsx("error", errorClassName);
 	return (
-		<>
+		<div>
 			{label && (
 				<label htmlFor={name} className={labelClass}>
 					<span className='label-text'>{label}</span>
@@ -44,7 +44,7 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 				/>
 				{touched && error && <p className={errorClass}>{error}</p>}
 			</div>
-		</>
+		</div>
 	);
 });
 

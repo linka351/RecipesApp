@@ -61,11 +61,7 @@ function Recipes() {
 				<ul className='list'>
 					{filteredRecipes.map(recipe => (
 						<li className='recipe' key={recipe.id}>
-							{recipe.image === "" ? (
-								<img src={image} className='image' />
-							) : (
-								<img src={recipe.image} className='image' />
-							)}
+							<img src={recipe.image || image} className='image' />
 							<div className='elements-container'>
 								<p className='name'>{recipe.name}</p>
 								<p className='description'>{recipe.description}</p>

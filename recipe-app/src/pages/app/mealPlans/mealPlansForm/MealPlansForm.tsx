@@ -123,7 +123,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 				</div>
 
 				<NewMealName onAdd={handleAddMealName} />
-				<div className='test'>
+				<div className='meal-table-error-position'>
 					<MealTable
 						mealName={formik.values.mealName}
 						recipes={recipes}
