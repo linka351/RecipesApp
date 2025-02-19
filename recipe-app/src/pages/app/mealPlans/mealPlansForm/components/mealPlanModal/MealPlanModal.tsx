@@ -1,50 +1,31 @@
-import { useState } from "react";
-import { Recipe } from "../../../../../../types/editRecipe";
 import Modal from "../../../../../../components/modal/Modal";
-import Input from "../../../../../../components/inputs/Input";
 
 import "./mealPlanModal.scss";
+import RecipeList from "../../../../recipes/Recipes";
+import "./mealPlanModal.scss";
+import Button from "../../../../../../components/buttons/Button";
 
 type MealPlanModalProps = {
-	recipes: Recipe[];
 	onClose: () => void;
 	onSelectRecipe: (recipeId: string) => void;
 };
 
-const MealPlanModal = ({
-	recipes,
-	onClose,
-	onSelectRecipe,
-}: MealPlanModalProps) => {
-	const [searchTerm, setSearchTerm] = useState("");
-
-	const filteredRecipes = searchTerm
-		? recipes.filter(recipe =>
-				recipe.name.toLowerCase().includes(searchTerm.toLowerCase())
-			)
-		: recipes;
-
+const MealPlanModal = ({ onClose, onSelectRecipe }: MealPlanModalProps) => {
 	return (
 		<Modal close={onClose} headerText='Wybierz przepis'>
-			<div className='search-input'>
-				<Input
-					type='text'
-					placeholder='Wyszukaj przepis...'
-					value={searchTerm}
-					onChange={e => setSearchTerm(e.target.value)}
-				/>
-			</div>
-
-			<div className='recipe-list'>
-				{filteredRecipes.map(recipe => (
-					<div
-						key={recipe.id}
-						className='recipe-item'
+			<RecipeList
+				showAddButton={false}
+				customButtons={recipe => (
+					<Button
+						className='modal-button'
 						onClick={() => onSelectRecipe(recipe.id)}>
-						{recipe.name}
-					</div>
-				))}
-			</div>
+						Dodaj
+					</Button>
+				)}
+				listClassName='modal-list'
+				imageClassName='modal-image'
+				elementsContainerClassName='modal-elements-container'
+			/>
 		</Modal>
 	);
 };

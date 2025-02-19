@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Recipe } from "../../../types/editRecipe";
 import { recipeApi } from "../../../api/recipes";
 import { Link } from "react-router-dom";
@@ -7,9 +7,28 @@ import "../../../styles/global/globalVariables.scss";
 import "./recipes.scss";
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/buttons/Button";
-import image from "../../../images/22204570_6605525.jpg";
+import defaultImage from "../../../images/22204570_6605525.jpg";
 
-function Recipes() {
+type Props = {
+	header?: string;
+	addButtonLabel?: string;
+	showAddButton?: boolean;
+	onAddClick?: () => void;
+	customButtons?: (recipe: Recipe) => React.ReactNode;
+	imageClassName?: string;
+	elementsContainerClassName?: string;
+	listClassName?: string;
+};
+const RecipeList = ({
+	header = "Lista Prepisów",
+	addButtonLabel = "Dodaj Przepis",
+	showAddButton = true,
+	onAddClick,
+	customButtons,
+	imageClassName,
+	elementsContainerClassName,
+	listClassName,
+}: Props) => {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [searchRecipe, setSearchRecipe] = useState<string>("");
 
@@ -44,10 +63,12 @@ function Recipes() {
 	return (
 		<div className='recipe-list-container'>
 			<div className='search-recipe'>
-				<h1 className='list-recipe'>Lista Przepisów</h1>
-				<Link className='add-recipe-link' to={"/app/recipes/add"}>
-					Dodaj Przepis
-				</Link>
+				{header && <h1 className='list-recipe'>Lista Przepisów</h1>}
+				{showAddButton && (
+					<Button className='add-recipe-link' onClick={onAddClick}>
+						{addButtonLabel}
+					</Button>
+				)}
 			</div>
 			<Input
 				name='searchRecipe'
@@ -58,25 +79,36 @@ function Recipes() {
 				inputClassName='recipe-input'
 			/>
 			<div className='recipe-main'>
-				<ul className='list'>
+				<ul className={`${listClassName} list`}>
 					{filteredRecipes.map(recipe => (
 						<li className='recipe' key={recipe.id}>
-							<img src={recipe.image || image} className='image' />
-							<div className='elements-container'>
+							<img
+								src={recipe.image || defaultImage}
+								alt={recipe.name}
+								className={`${imageClassName} image`}
+							/>
+							<div
+								className={`${elementsContainerClassName} elements-container`}>
 								<p className='name'>{recipe.name}</p>
 								<p className='description'>{recipe.description}</p>
 								<div className='recipe-buttons'>
-									<Link
-										to={`/app/recipes/edit/${recipe.id}`}
-										className='edit-button'>
-										Edytuj
-									</Link>
-									<Button
-										type='button'
-										className='delete-button'
-										onClick={() => handleDelete(recipe.id)}>
-										Usuń
-									</Button>
+									{customButtons ? (
+										customButtons(recipe)
+									) : (
+										<>
+											<Link
+												to={`/app/recipes/edit/${recipe.id}`}
+												className='edit-button'>
+												Edytuj
+											</Link>
+											<Button
+												type='button'
+												className='delete-button'
+												onClick={() => handleDelete(recipe.id)}>
+												Usuń
+											</Button>
+										</>
+									)}
 								</div>
 							</div>
 						</li>
@@ -85,6 +117,6 @@ function Recipes() {
 			</div>
 		</div>
 	);
-}
+};
 
-export default Recipes;
+export default RecipeList;

@@ -1,9 +1,24 @@
 @use "sass:color";
 @import "../../../styles/global/globalVariables.scss";
 
+@import "../../../styles/global/globalVariables.scss";
+
 .recipe-list-container {
 	.search-recipe {
 		display: flex;
+		flex-direction: column;
+		margin-bottom: 20px;
+		margin-top: 20px;
+		align-items: center;
+
+		@media (min-width: $mobile-media) {
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+
+			&:before {
+				content: "";
+				display: block;
+			}
 		flex-direction: column;
 		margin-bottom: 20px;
 		margin-top: 20px;
@@ -27,8 +42,19 @@
 				flex: 1;
 				margin-bottom: 0;
 			}
+			margin-bottom: 20px;
+			text-align: center;
+
+			@media (min-width: $mobile-media) {
+				flex: 1;
+				margin-bottom: 0;
+			}
 		}
 
+		.add-recipe-link {
+			text-decoration: none;
+			padding: 16px 24px;
+			background-color: #4caf50;
 		.add-recipe-link {
 			text-decoration: none;
 			padding: 16px 24px;
@@ -36,6 +62,13 @@
 			color: white;
 			border: none;
 			border-radius: 5px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: bold;
+			transition: filter 0.2s ease;
+			width: 100%;
 			cursor: pointer;
 			display: flex;
 			align-items: center;
