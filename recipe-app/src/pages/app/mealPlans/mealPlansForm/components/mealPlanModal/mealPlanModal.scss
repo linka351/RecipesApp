@@ -1,0 +1,19 @@
+.modal-button {
+	background-color: #4caf50;
+	font-weight: bold;
+	text-decoration: none;
+	border-radius: 5px;
+	text-align: center;
+	color: white;
+	padding: 10px 20px;
+}
+.modal-list {
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.modal-image {
+	height: 200px;
+}
+
+.modal-elements-container {
+	padding: 10px;
+}
