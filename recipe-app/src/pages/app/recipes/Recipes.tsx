@@ -3,6 +3,7 @@ import { Recipe } from "../../../types/editRecipe";
 import { recipeApi } from "../../../api/recipes";
 import { Link } from "react-router-dom";
 import "../../../styles/global/globalVariables.scss";
+
 import "./recipes.scss";
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/buttons/Button";

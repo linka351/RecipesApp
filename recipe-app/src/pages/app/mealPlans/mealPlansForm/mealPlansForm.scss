@@ -1,0 +1,107 @@
+@import "../../../../styles/global/globalVariables.scss";
+
+.meal-form-name {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.meal-plans-form-input {
+	margin-top: 5px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	margin-bottom: 24px;
+}
+
+.meal-textarea {
+	border: 1px solid #ccc;
+}
+
+.date-label {
+	margin-top: 40px;
+	display: block;
+
+	@media (min-width: $mobile-media) {
+		text-align: start;
+	}
+}
+.date-position {
+	width: 100%;
+
+	@media (min-width: $mobile-media) {
+		width: 250px;
+	}
+}
+.date {
+	margin-top: 5px;
+	margin-bottom: 24px;
+	border-radius: 5px;
+	font-size: 14px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border: 1px solid #ccc;
+
+	@media (min-width: $mobile-media) {
+		border-radius: 5px;
+	}
+}
+
+.date-error {
+	top: 51px;
+}
+
+.meal-table-error {
+	position: absolute;
+	font-size: 12px;
+	color: red;
+	bottom: -18px;
+	padding-left: 6px;
+}
+.meal-table-error-position {
+	position: relative;
+}
+
+.full-page-loader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.meal-submit-container {
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	.meal-submit {
+		position: relative;
+		padding: 16px 24px;
+		background-color: #4caf50;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		width: 100%;
+		font-weight: bold;
+		transition: filter 0.2s ease;
+		margin-block: 32px;
+
+		&:hover {
+			filter: brightness(1.1);
+		}
+
+		@media (min-width: $mobile-media) {
+			width: 150px;
+			margin-right: 20px;
+		}
+	}
+}

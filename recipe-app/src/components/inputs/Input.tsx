@@ -1,4 +1,6 @@
 import { forwardRef, InputHTMLAttributes } from "react";
+import "./input.scss";
+import clsx from "clsx";
 
 type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "className"> & {
 	label?: string;
@@ -22,18 +24,27 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 	},
 	ref
 ) {
+	const labelClass = clsx("label", labelClassName);
+	const inputClass = clsx("input", inputClassName);
+	const errorClass = clsx("error", errorClassName);
 	return (
-		<label htmlFor={name} className={`label ${labelClassName}`}>
-			{label}
-			<input
-				{...props}
-				ref={ref}
-				className={`input ${inputClassName}`}
-				id={name}
-				name={name}
-			/>
-			{touched && error && <p className={`error ${errorClassName}`}>{error}</p>}
-		</label>
+		<div>
+			{label && (
+				<label htmlFor={name} className={labelClass}>
+					<span className='label-text'>{label}</span>
+				</label>
+			)}
+			<div className='input-container'>
+				<input
+					{...props}
+					ref={ref}
+					className={inputClass}
+					id={name}
+					name={name}
+				/>
+				{touched && error && <p className={errorClass}>{error}</p>}
+			</div>
+		</div>
 	);
 });
 

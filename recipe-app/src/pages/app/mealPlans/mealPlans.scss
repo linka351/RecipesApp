@@ -1,0 +1,139 @@
+@import "../../../styles/global/globalVariables.scss";
+
+.meal-plan-container {
+	.search-meal-plan {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 20px 0 20px 0;
+
+		@media (min-width: $mobile-media) {
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+			justify-content: space-between;
+
+			&:before {
+				content: "";
+				display: block;
+			}
+		}
+
+		.add-meal-plan {
+			text-align: center;
+			margin-top: 20px;
+			width: 100%;
+			text-decoration: none;
+			justify-self: flex-end;
+			background-color: #4caf50;
+			padding: 16px 24px;
+			color: white;
+			font-weight: bold;
+			border-radius: 5px;
+			cursor: pointer;
+			font-family: Arial, Helvetica, sans-serif;
+
+			&:hover {
+				filter: brightness(1.1);
+			}
+
+			@media (min-width: $mobile-media) {
+				margin-right: 20px;
+				justify-content: flex-end;
+				width: 150px;
+				margin-top: 0;
+			}
+		}
+
+		.meal-plan {
+			color: #333;
+		}
+	}
+
+	.meal-plan-input {
+		margin-top: 20px;
+		border-radius: 5px;
+		border: 1px solid #ccc;
+	}
+
+	.meal-plan-list {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		list-style-type: none;
+		padding: 0;
+
+		.plan-list {
+			background-color: #f9f9f9;
+			margin-top: 20px;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+			.plan-list-container {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+				gap: 20px;
+
+				.meal-plans-description {
+					display: flex;
+					flex-direction: column;
+					width: 70%;
+					gap: 10px;
+					display: -webkit-box;
+					max-height: 200px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 7;
+					line-clamp: 7;
+
+					.plan-list-name {
+						font-size: 18px;
+						font-weight: bold;
+						color: #333;
+
+						.meal-plan-name {
+							margin: 0;
+							font-size: 20px;
+							color: #4caf50;
+						}
+
+						.meal-plan-specification {
+							margin: 0;
+							font-size: 16px;
+							color: #999;
+						}
+					}
+
+					p {
+						font-size: 14px;
+						color: #666;
+						line-height: 1.5;
+						padding-block: 4px;
+					}
+				}
+
+				.plan-buttons {
+					display: flex;
+					gap: 16px;
+
+					.plan-button {
+						background-color: #f9f9f9;
+
+						color: rgb(151, 151, 151);
+						transition: color 0.5s ease;
+						font-size: 24px;
+
+						&:hover {
+							color: rgb(84, 84, 84);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.meal-plan-title {
+	margin-bottom: 20px;
+}

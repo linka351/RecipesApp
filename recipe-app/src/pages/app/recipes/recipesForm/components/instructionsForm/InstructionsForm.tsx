@@ -5,6 +5,7 @@ import { instructionSchema } from "../../RecipeForm.validation";
 import "../recipesFormComponents.scss";
 import { useState } from "react";
 import Input from "../../../../../../components/inputs/Input";
+import Button from "../../../../../../components/buttons/Button";
 
 type Props = {
 	onInstructionsAdded: (instruction: string) => void;
@@ -52,60 +53,65 @@ export default function InstructionsForm({
 	};
 
 	return (
-		<div className='container'>
+		<div className='recipe-details-container'>
 			<form onSubmit={formik.handleSubmit}>
-				<label htmlFor='instruction' className='label'>
+				<label htmlFor='instruction' className='recipes-form-label'>
 					{editInstruction !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}
 				</label>
-				<div className='recipe-input'>
+				<div className='recipe-components-input'>
 					<Input
-						className='input'
+						inputClassName='input'
 						type='text'
 						name='instruction'
 						id='instruction'
 						onChange={formik.handleChange}
 						value={formik.values.instruction}
 					/>
-					{formik.touched.instruction && formik.errors.instruction && (
-						<div className='error'>{formik.errors.instruction}</div>
-					)}
-					<div className='button-position'>
-						<button
-							data-testid='add-instruction'
-							type='submit'
-							className='button'
-							disabled={formik.values.instruction === ""}>
-							{editInstruction !== null ? "Zapisz" : "Dodaj"}
-						</button>
+					<div className='buttons-container'>
+						<div className='button-position'>
+							<Button
+								data-testid='add-instruction'
+								type='submit'
+								disabled={formik.values.instruction === ""}>
+								{editInstruction !== null ? "Zapisz" : "Dodaj"}
+							</Button>
+							{editInstruction !== null && (
+								<Button
+									type='button'
+									className='cancel-button'
+									onClick={handleExitEdit}>
+									Anuluj
+								</Button>
+							)}
+						</div>
 					</div>
-					{editInstruction !== null && (
-						<button
-							type='button'
-							className='button cancel-button'
-							onClick={handleExitEdit}>
-							Anuluj
-						</button>
-					)}
 				</div>
-				<div className='error'>{touched && errors}</div>
+				<div className='common-error-container'>
+					{formik.touched.instruction && formik.errors.instruction && (
+						<div className='common-recipe-error'>
+							{formik.errors.instruction}
+						</div>
+					)}
+					<div className='common-recipe-error'>{touched && errors}</div>
+				</div>
 			</form>
 			<ul className='recipe-list'>
 				{instructions.map((instruction, index) => (
 					<li key={index} className='recipe-element'>
 						{instruction}
 						<div className='buttons'>
-							<button
+							<Button
 								type='button'
 								className='remove-button'
 								onClick={() => onRemove(index)}>
 								<FaTrashAlt className='remove-element' />
-							</button>
-							<button
+							</Button>
+							<Button
 								type='button'
 								className='edit-button'
 								onClick={() => handleEditClick(index, instruction)}>
 								<FaRegEdit className='edit-element' />
-							</button>
+							</Button>
 						</div>
 					</li>
 				))}

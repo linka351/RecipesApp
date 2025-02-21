@@ -1,12 +1,15 @@
-@use "sass:color";
+@import "../../styles/global/globalVariables.scss";
+
 .navbar {
-	width: 100vw;
-	height: 10vh;
+	--base-padding: 20px;
+	width: 100%;
 	background-color: rgb(192, 54, 54);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: relative;
+	position: sticky;
+	z-index: 2;
+	padding: 20px var(--base-padding);
 
 	.menu {
 		border: none;
@@ -31,44 +34,90 @@
 		width: 40px;
 		height: 40px;
 	}
-
-	.menu-icon {
-		top: 25px;
-		color: white;
-		font-size: 30px;
-		left: 10px;
-		cursor: pointer;
-		position: absolute;
-	}
 }
 
 .offcanvas-menu {
-	position: absolute;
-	background-color: color.adjust(rgb(192, 54, 54), $lightness: 10%);
-	top: -100vh;
-	margin-top: 80px;
-	width: 300px;
+	position: fixed;
+	background-color: lighten($color: rgb(192, 54, 54), $amount: 10);
+	left: -100vw;
+	width: 100vw;
+	height: 100vh;
 	transition: 0.5s;
-	z-index: 1;
+	z-index: 101;
+
+	@media (min-width: $mobile-media) {
+		width: 300px;
+	}
+}
+.offcanvas-menu.active {
+	left: 0;
 }
 
-.active {
-	transform: translateY(100vh);
-	height: calc(100vh - 160px);
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transition:
+		opacity 0.3s ease,
+		visibility 0.3s ease;
+	z-index: 100;
+}
+
+.overlay.active {
+	opacity: 1;
+	visibility: visible;
 }
 
 .link {
 	text-decoration: none;
+	font-size: 20px;
 	color: white;
 	display: block;
-	padding: 10px 30px;
+	padding: 30px 30px;
 	&:hover {
-		background-color: color.adjust(rgb(192, 54, 54), $lightness: -10%);
+		background-color: darken($color: rgb(192, 54, 54), $amount: 10);
+	}
+
+	@media (min-width: $desktop-media) {
+		padding: 15px 30px;
 	}
 }
+
 .selected {
-	background-color: color.adjust(rgb(192, 54, 54), $lightness: -10%);
+	background-color: darken($color: rgb(192, 54, 54), $amount: 10);
 	&:hover {
 		background-color: rgb(192, 54, 54);
+	}
+}
+
+.menu {
+	border: none;
+	background: none;
+}
+.menu-icon {
+	top: 38px;
+	color: white;
+	font-size: 30px;
+	left: 20px;
+	cursor: pointer;
+	position: absolute;
+
+	@media (min-width: $desktop-media) {
+		left: 30px;
+	}
+}
+
+.menu-links {
+	margin-top: 50px;
+	list-style-type: none;
+	text-align: center;
+
+	@media (min-width: $mobile-media) {
+		margin-top: 80px;
 	}
 }

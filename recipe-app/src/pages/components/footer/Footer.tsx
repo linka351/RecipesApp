@@ -21,14 +21,14 @@ function Footer() {
 						href='https://github.com/linka351'
 						aria-label='github'
 						data-tooltip-id='tooltip-1'>
-						<FaGithub className='icon' />
+						<FaGithub className='social-icon' />
 					</a>
 
 					<a
 						href='https://www.linkedin.com/in/kamil-linka-1a4052219/'
 						aria-label='linkedin'
 						data-tooltip-id='tooltip-2'>
-						<FaLinkedin className='icon' />
+						<FaLinkedin className='social-icon' />
 					</a>
 				</div>
 			</div>

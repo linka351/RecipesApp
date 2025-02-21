@@ -1,4 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+	Navigate,
+	RouterProvider,
+	createBrowserRouter,
+} from "react-router-dom";
 
 import Recipes from "../recipes/Recipes";
 import MealPlans from "../mealPlans/MealPlans";
@@ -21,7 +25,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/app",
-				element: <Recipes />,
+				element: <Navigate to='/app/recipes' replace />,
 			},
 
 			{

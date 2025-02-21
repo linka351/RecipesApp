@@ -1,6 +1,4 @@
 import Modal from "../../../../../../components/modal/Modal";
-
-import "./mealPlanModal.scss";
 import RecipeList from "../../../../recipes/Recipes";
 import "./mealPlanModal.scss";
 import Button from "../../../../../../components/buttons/Button";

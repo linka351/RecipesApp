@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import Input from "../../../../../../../components/inputs/Input";
 import { newMealNameValidationSchema } from "../../../../mealPlansForm/MealPlansForm.validation";
+import "./newMealName.scss";
+import Button from "../../../../../../../components/buttons/Button";
 
 type NewMealNameInputProps = {
 	onAdd: (mealName: string) => void;
@@ -48,6 +50,7 @@ const NewMealNameInput: React.FC<NewMealNameInputProps> = ({ onAdd }) => {
 	return (
 		<div className='add-meal'>
 			<Input
+				inputClassName='new-meal-name'
 				name='newMealName'
 				type='text'
 				value={newMealName}
@@ -56,13 +59,16 @@ const NewMealNameInput: React.FC<NewMealNameInputProps> = ({ onAdd }) => {
 				placeholder='Wpisz nazwę posiłku'
 				error={error}
 				touched={touched}
+				errorClassName='new-meal-error'
+				label='Nazwa Posiłku'
 			/>
-			<button
+			<Button
+				className='new-meal-submit'
 				type='button'
 				onClick={handleAddMealName}
 				disabled={Boolean(error || !newMealName.trim())}>
-				Add
-			</button>
+				Dodaj
+			</Button>
 		</div>
 	);
 };
