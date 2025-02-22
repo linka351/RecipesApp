@@ -1,3 +1,5 @@
+@import "../../../styles/global/globalVariables.scss";
+
 .landing-container {
 	background-color: rgb(250, 250, 250);
 
@@ -13,8 +15,11 @@
 			color: white;
 			padding: 5px 10px;
 			border-radius: 5px;
-			font-size: 36px;
+			font-size: 22px;
 			text-align: center;
+			@media (min-width: $mobile-media) {
+				font-size: 36px;
+			}
 		}
 		.landing-image {
 			width: 100%;
@@ -24,13 +29,23 @@
 	}
 
 	.app-work {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		display: flex;
+		flex-direction: column;
 		width: 100%;
 		margin: auto;
 		padding: 40px;
 		background-color: #f4f2ed;
 		margin-top: 50px;
+		gap: 50px;
+
+		@media (min-width: $tablet-media) {
+			gap: 70px;
+		}
+
+		@media (min-width: $desktop-media) {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		}
 		.app-work-element {
 			text-align: center;
 			padding: 20px;
@@ -47,9 +62,13 @@
 		}
 	}
 	.landing-text {
-		font-size: 44px;
+		font-size: 36px;
 		text-align: center;
 		padding: 20px;
+
+		@media (min-width: $mobile-media) {
+			font-size: 44px;
+		}
 	}
 	.action-container {
 		width: 100%;
@@ -65,26 +84,41 @@
 	.landing-section {
 		background-color: rgba(250, 250, 250);
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		align-items: center;
 		justify-content: space-between;
-		width: 90%;
+		width: 100%;
 		gap: 30px;
-		padding: 30px;
+		padding: 10px;
 		border-radius: 10px;
+
+		@media (min-width: $desktop-media) {
+			flex-direction: row;
+			width: 90%;
+			padding: 30px;
+		}
 	}
 
 	.image-landing {
-		width: 70%;
+		width: 100%;
 		height: 400px;
 		object-fit: cover;
+		@media (min-width: $desktop-media) {
+			width: 70%;
+		}
 	}
 	.landing-image-text {
-		font-size: 30px;
+		font-size: 20px;
+		@media (min-width: $mobile-media) {
+			font-size: 30px;
+		}
 	}
 
 	.landing-section:nth-child(odd) {
-		flex-direction: row-reverse;
+		flex-direction: column;
+		@media (min-width: $desktop-media) {
+			flex-direction: row-reverse;
+		}
 	}
 
 	.register-container {
