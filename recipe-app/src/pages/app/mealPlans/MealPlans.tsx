@@ -3,6 +3,7 @@ import { WeeklyPlan } from "./add/addMealPlan/types";
 import { Link } from "react-router-dom";
 import { mealPlansApi } from "../../../api/mealPlans";
 import Input from "../../../components/inputs/Input";
+import { formatWeekRange } from "./mealPlans.utils";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
@@ -13,7 +14,6 @@ function MealPlans() {
 			const mealPlanList = await mealPlansApi.getAll();
 			setMealPlans(mealPlanList);
 		}
-
 		fetchMealPlans();
 	}, []);
 
@@ -54,6 +54,8 @@ function MealPlans() {
 					<ul>
 						<li>
 							{mealPlan.name}
+							<br />
+							{formatWeekRange(mealPlan.dateFrom)}
 							<div>
 								<Link to={`/app/meal-plans/edit/${mealPlan.id}`}>
 									<button>Edytuj</button>
@@ -70,4 +72,5 @@ function MealPlans() {
 		</>
 	);
 }
+
 export default MealPlans;
