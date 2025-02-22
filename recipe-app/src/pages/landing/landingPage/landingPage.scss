@@ -1,0 +1,144 @@
+@import "../../../styles/global/globalVariables.scss";
+
+.landing-container {
+	background-color: rgb(250, 250, 250);
+
+	.image-container {
+		position: relative;
+
+		.image-description {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			background: rgba(0, 0, 0, 0.5);
+			color: white;
+			padding: 5px 10px;
+			border-radius: 5px;
+			font-size: 22px;
+			text-align: center;
+			@media (min-width: $mobile-media) {
+				font-size: 36px;
+			}
+		}
+		.landing-image {
+			width: 100%;
+			height: 40vh;
+			object-fit: cover;
+		}
+	}
+
+	.app-work {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		margin: auto;
+		padding: 40px;
+		background-color: #f4f2ed;
+		margin-top: 50px;
+		gap: 50px;
+
+		@media (min-width: $tablet-media) {
+			gap: 70px;
+		}
+
+		@media (min-width: $desktop-media) {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		}
+		.app-work-element {
+			text-align: center;
+			padding: 20px;
+			width: 100%;
+
+			.app-work-title {
+				margin-top: 5px;
+				font-size: 20px;
+			}
+
+			.icon {
+				font-size: 40px;
+			}
+		}
+	}
+	.landing-text {
+		font-size: 36px;
+		text-align: center;
+		padding: 20px;
+
+		@media (min-width: $mobile-media) {
+			font-size: 44px;
+		}
+	}
+	.action-container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 50px;
+		margin-top: 50px;
+		background-color: #f4f2ed;
+		padding: 20px;
+	}
+
+	.landing-section {
+		background-color: rgba(250, 250, 250);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		gap: 30px;
+		padding: 10px;
+		border-radius: 10px;
+
+		@media (min-width: $desktop-media) {
+			flex-direction: row;
+			width: 90%;
+			padding: 30px;
+		}
+	}
+
+	.image-landing {
+		width: 100%;
+		height: 400px;
+		object-fit: cover;
+		@media (min-width: $desktop-media) {
+			width: 70%;
+		}
+	}
+	.landing-image-text {
+		font-size: 20px;
+		@media (min-width: $mobile-media) {
+			font-size: 30px;
+		}
+	}
+
+	.landing-section:nth-child(odd) {
+		flex-direction: column;
+		@media (min-width: $desktop-media) {
+			flex-direction: row-reverse;
+		}
+	}
+
+	.register-container {
+		margin: 50px 0 50px 0;
+		background-color: #f4f2ed;
+		padding: 30px;
+		text-align: center;
+
+		.register-text {
+			font-size: 30px;
+		}
+		.register {
+			margin-top: 30px;
+			padding: 16px 24px;
+			font-size: 20px;
+			border: none;
+			background-color: #265721;
+			color: white;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	}
+}
