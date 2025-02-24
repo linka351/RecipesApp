@@ -9,9 +9,8 @@ import { Oval } from "react-loader-spinner";
 
 import "./recipesForm.scss";
 import Button from "../../../../components/buttons/Button";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ImageUploader from "./components/uploadImage/ImageUploader";
-import { IoCloudUploadOutline } from "react-icons/io5";
 
 export interface FormValues {
 	id?: string;
@@ -29,16 +28,9 @@ interface RecipesFormProps {
 
 function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const [imageUpload, setImageUpload] = useState<File | null>(null);
-	const [previewImage, setPreviewImage] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const imageUploaderRef = useRef<{ clear: () => void } | null>(null);
-
-	useEffect(() => {
-		if (initialValues?.image) {
-			setPreviewImage(initialValues.image);
-		}
-	}, [initialValues]);
 
 	const defaultValues: FormValues = {
 		name: "",
@@ -104,7 +96,6 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			}
 
 			formikHelpers.resetForm();
-			setPreviewImage(null);
 			setImageUpload(null);
 			if (imageUploaderRef.current) {
 				imageUploaderRef.current.clear();
@@ -150,12 +141,8 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		formik.setFieldValue("instructions", updatedInstructions);
 	};
 
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		if (file) {
-			setImageUpload(file);
-			setPreviewImage(URL.createObjectURL(file));
-		}
+	const handleFileChange = (file: File) => {
+		setImageUpload(file);
 	};
 
 	return (
@@ -205,33 +192,9 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 				</form>
 				<div className='image-container'>
 					<div className='image-preview'>
-						{previewImage ? (
-							<div>
-								<img
-									className='image'
-									src={previewImage}
-									alt='Podgląd zdjęcia'
-								/>
-							</div>
-						) : (
-							<div className='file-upload'>
-								<div
-									className='cloud-upload'
-									onClick={() =>
-										document.getElementById("image-uploader")?.click()
-									}>
-									<IoCloudUploadOutline />
-								</div>
-							</div>
-						)}
-
-						<ImageUploader onChange={handleFileChange} />
-						<input
-							className='container-input'
-							id='image-uploader'
-							type='file'
-							accept='image/*'
+						<ImageUploader
 							onChange={handleFileChange}
+							previewUrl={formik.values.image}
 						/>
 					</div>
 				</div>
