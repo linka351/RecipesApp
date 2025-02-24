@@ -8,6 +8,7 @@ import "./mealPlans.scss";
 import Button from "../../../components/buttons/Button";
 import { IoTrashOutline } from "react-icons/io5";
 import { MdOutlineModeEdit } from "react-icons/md";
+import { formatWeekRange } from "./mealPlans.utils";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
@@ -18,7 +19,6 @@ function MealPlans() {
 			const mealPlanList = await mealPlansApi.getAll();
 			setMealPlans(mealPlanList);
 		}
-
 		fetchMealPlans();
 	}, []);
 
@@ -57,6 +57,19 @@ function MealPlans() {
 				onChange={handleSearch}
 				inputClassName='meal-plan-input'
 			/>
+			<Link to={"/app/meal-plans/add/"}>
+				<button>Dodaj Plan</button>
+			</Link>
+			{filteredMealPlans.map(mealPlan => (
+				<div key={mealPlan.id}>
+					<ul>
+						<li>
+							{mealPlan.name}
+							<br />
+							{formatWeekRange(mealPlan.dateFrom)}
+							<div>
+								<Link to={`/app/meal-plans/edit/${mealPlan.id}`}>
+									<button>Edytuj</button>
 			<ul className='meal-plan-list'>
 				{filteredMealPlans.map(mealPlan => (
 					<li className='plan-list' key={mealPlan.id}>
@@ -89,4 +102,5 @@ function MealPlans() {
 		</div>
 	);
 }
+
 export default MealPlans;
