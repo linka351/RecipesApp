@@ -1,0 +1,30 @@
+@import "../../styles/global/globalVariables.scss";
+.input {
+	width: 100%;
+	padding: 14px;
+	font-size: 14px;
+	outline: none;
+}
+.input-container {
+	position: relative;
+}
+
+.error {
+	font-size: 12px;
+	font-weight: 400;
+	color: red;
+	position: absolute;
+	bottom: 0;
+	height: 16px;
+	padding-left: 6px;
+}
+
+.label {
+	font-size: 1.2rem;
+	font-weight: bold;
+	width: 100%;
+	display: inline-block;
+}
+.label-text {
+	padding-left: 6px;
+}

@@ -6,6 +6,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import { FaAngleLeft } from "react-icons/fa6";
 
 import "./slider.scss";
+import Button from "../../../../../components/buttons/Button";
 
 const images = [
 	{
@@ -46,18 +47,18 @@ function Slider() {
 		<>
 			<div className='slider-container'>
 				<div className='buttons-container'>
-					<button
+					<Button
 						className='slider-button'
 						onClick={prevSlide}
 						aria-label='prev'>
 						<FaAngleLeft />
-					</button>
-					<button
+					</Button>
+					<Button
 						className='slider-button'
 						onClick={nextSlide}
 						aria-label='next'>
 						<FaAngleRight />
-					</button>
+					</Button>
 				</div>
 
 				<img

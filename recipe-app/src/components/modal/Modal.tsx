@@ -2,6 +2,7 @@ import { ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 import "./modal.scss";
+import Button from "../buttons/Button";
 
 const portals = document.getElementById("portals")!;
 
@@ -30,9 +31,9 @@ const Modal = ({ close, children, headerText }: Props) => {
 		<div className='modal' onClick={handleBackgroundClick}>
 			<div className='modal-content'>
 				{headerText && <h2 className='modal-text'>{headerText}</h2>}
-				<button onClick={close} className='modal-close'>
+				<Button onClick={close} className='modal-close'>
 					X
-				</button>
+				</Button>
 				<div className='modal-body'>{children}</div>
 			</div>
 		</div>,

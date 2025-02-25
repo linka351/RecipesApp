@@ -8,7 +8,8 @@ import { validationSchema } from "./RecipeForm.validation";
 import { Oval } from "react-loader-spinner";
 
 import "./recipesForm.scss";
-import { useEffect, useRef, useState } from "react";
+import Button from "../../../../components/buttons/Button";
+import { useRef, useState } from "react";
 import ImageUploader from "./components/uploadImage/ImageUploader";
 
 export interface FormValues {
@@ -27,16 +28,9 @@ interface RecipesFormProps {
 
 function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const [imageUpload, setImageUpload] = useState<File | null>(null);
-	const [previewImage, setPreviewImage] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const imageUploaderRef = useRef<{ clear: () => void } | null>(null);
-
-	useEffect(() => {
-		if (initialValues?.image) {
-			setPreviewImage(initialValues.image);
-		}
-	}, [initialValues]);
 
 	const defaultValues: FormValues = {
 		name: "",
@@ -81,7 +75,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	) {
 		try {
 			setIsSubmitting(true);
-			let imageUrl = "";
+			let imageUrl = values.image;
 			if (imageUpload) {
 				const uploadedImageUrl = await uploadImage(imageUpload);
 				if (uploadedImageUrl) {
@@ -102,7 +96,6 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			}
 
 			formikHelpers.resetForm();
-			setPreviewImage(null);
 			setImageUpload(null);
 			if (imageUploaderRef.current) {
 				imageUploaderRef.current.clear();
@@ -148,68 +141,66 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		formik.setFieldValue("instructions", updatedInstructions);
 	};
 
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		if (file) {
-			setImageUpload(file);
-			setPreviewImage(URL.createObjectURL(file));
-		}
+	const handleFileChange = (file: File) => {
+		setImageUpload(file);
 	};
 
 	return (
 		<div className='recipe-container'>
-			<div className='recipe-name'>
-				<h2>{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}</h2>
-
-				<button
-					className='recipe-submit'
-					type='button'
-					onClick={formik.submitForm}>
-					{isSubmitting ? (
-						<Oval
-							height={20}
-							width={20}
-							color='#ffffff'
-							ariaLabel='Zapisywanie przepisu'
-							secondaryColor='#ffffff'
-							strokeWidth={2}
-							strokeWidthSecondary={2}
-						/>
-					) : (
-						"Zapisz"
-					)}
-				</button>
+			{isSubmitting && (
+				<div className='full-page-loader'>
+					<Oval
+						height={100}
+						width={100}
+						color='#ffffff'
+						ariaLabel='Zapisywanie przepisu'
+						secondaryColor='#ffffff'
+						strokeWidth={2}
+						strokeWidthSecondary={2}
+					/>
+				</div>
+			)}
+			<div className='recipe-form-name'>
+				<h1 className='new-recipe'>
+					{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}
+				</h1>
 			</div>
-			<form className='recipe' onSubmit={formik.handleSubmit}>
-				<ImageUploader ref={imageUploaderRef} onChange={handleFileChange} />
-
-				{previewImage && (
+			<div className='elements-layout'>
+				<form className='recipe' onSubmit={formik.handleSubmit}>
+					<Input
+						placeholder='Krokiety z serem'
+						name='name'
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						touched={formik.touched.name}
+						value={formik.values.name}
+						error={formik.errors.name || ""}
+						inputClassName='recipe-form-input'
+						label='Nazwa przepisu'
+					/>
+					<TextArea
+						textareaClassName='recipe-textarea'
+						placeholder='Zapraszam po mój najlepszy przepis na krokiety z pieczarkami i serem żółtym. Można je szykować na obiad oraz jako jedno z dań na Święta. Będą idealne do barszczyku.'
+						name='description'
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						touched={formik.touched.description}
+						value={formik.values.description}
+						error={formik.errors.description || ""}
+						label='Opis przepisu'
+					/>
+				</form>
+				<div className='image-container'>
 					<div className='image-preview'>
-						<img
-							src={previewImage}
-							alt='Podgląd zdjęcia'
-							style={{ maxWidth: "200px", height: "200px", marginTop: "10px" }}
+						<ImageUploader
+							onChange={handleFileChange}
+							previewUrl={formik.values.image}
 						/>
 					</div>
-				)}
-				<Input
-					name='name'
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					touched={formik.touched.name}
-					value={formik.values.name}
-					error={formik.errors.name || ""}
-				/>
-				<TextArea
-					name='description'
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					touched={formik.touched.description}
-					value={formik.values.description}
-					error={formik.errors.description || ""}
-				/>
-			</form>
-			<div className='row'>
+				</div>
+			</div>
+
+			<div className='position-elements'>
 				<InstructionsForm
 					onInstructionsAdded={handleAddInstruction}
 					onInstructionEdited={handleEditInstruction}
@@ -227,6 +218,12 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					errors={formik.errors.ingredients || ""}
 				/>
 			</div>
+			<Button
+				className='recipe-submit'
+				type='button'
+				onClick={formik.submitForm}>
+				Zapisz
+			</Button>
 		</div>
 	);
 }
