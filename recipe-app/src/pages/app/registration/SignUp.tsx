@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { useAuth } from "../../../context/AuthContext";
 
 function SignUp() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const auth = getAuth();
+	const { handleLoginWithEmail } = useAuth();
+
 
 	async function handleSignUp(e: React.MouseEvent<HTMLButtonElement>) {
 		e.preventDefault();
-		createUserWithEmailAndPassword(auth, email, password)
+		handleLoginWithEmail(email, password)
 			.then(user => {
 				console.log(user);
 			})
