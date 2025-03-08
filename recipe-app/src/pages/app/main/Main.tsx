@@ -1,4 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+	Navigate,
+	RouterProvider,
+	createBrowserRouter,
+} from "react-router-dom";
 
 import Recipes from "../recipes/Recipes";
 import MealPlans from "../mealPlans/MealPlans";
@@ -36,7 +40,7 @@ const router = createBrowserRouter([
 				path: "/app",
 				element: (
 					<Protected>
-						<Recipes />,
+						<Navigate to='/app/recipes' replace />,
 					</Protected>
 				),
 			},

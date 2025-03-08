@@ -11,12 +11,20 @@ const getClassName = ({ isActive }: { isActive: boolean }) =>
 	isActive ? "selected link" : "link";
 
 function Navbar() {
-	const [open, setOpen] = useState<boolean>(true);
+	const [open, setOpen] = useState<boolean>(false);
 	const { pathname } = useLocation();
 
 	useEffect(() => {
 		setOpen(false);
 	}, [pathname]);
+
+	useEffect(() => {
+		if (!open) {
+			document.documentElement.classList.remove("no-scroll");
+		} else {
+			document.documentElement.classList.add("no-scroll");
+		}
+	}, [open]);
 
 	const toggleMenu = () => {
 		setOpen(prev => !prev);
@@ -36,13 +44,14 @@ function Navbar() {
 				console.error("Error signing out:", error);
 			});
 	};
+	const overlayClass = clsx("overlay", { active: open });
 
 	return (
 		<>
 			<nav className='navbar'>
-				<button onClick={toggleMenu} className='menu'>
+				<Button onClick={toggleMenu} className='menu'>
 					<TiThMenuOutline className='menu-icon' />
-				</button>
+				</Button>
 				<Link className='logo-link' to={"/"}>
 					<div className='logo'>
 						<GiRiceCooker className='icon' />
@@ -56,8 +65,12 @@ function Navbar() {
 					Sign Out
 				</Button>
 			</nav>
+			<div className={overlayClass} onClick={toggleMenu}></div>
 			<nav className={navOffcanvasClass}>
-				<ul>
+				<Button onClick={toggleMenu} className='menu'>
+					<TiThMenuOutline className='menu-icon' />
+				</Button>
+				<ul className='menu-links'>
 					<li>
 						<NavLink className={getClassName} to={"/"}>
 							Strona Główna
