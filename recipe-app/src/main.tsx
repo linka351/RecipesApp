@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Main from "./pages/app/main/Main";
+import Router from "./pages/Router";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<Main />
+		<Router />
 	</React.StrictMode>
 );

@@ -1,17 +1,17 @@
 import { useContext, ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { Context } from "../../../context/AuthContext";
 
-type Props = {
-	children: ReactNode;
-};
 
-export function Protected({ children }: Props) {
+export function Protected() {
 	const { user } = useContext(Context) || {};
+
+	console.log('prot');
+	
 
 	if (!user) {
 		return <Navigate to='/' replace />;
 	} else {
-		return children;
+		return <Outlet />;
 	}
 }
