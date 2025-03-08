@@ -52,10 +52,10 @@ const App = () => {
 								Odkryj łatwiejszy sposób na planowanie posiłków i zarządzanie
 								przepisami. Wszystko w jednym miejscu.
 							</p>
-							<button className='btn btn-primary btn-large'>
+							<Link to={"/sign-up"} className='btn btn-primary btn-large'>
 								Rozpocznij za darmo
 								<IoChevronForwardSharp />
-							</button>
+							</Link>
 						</div>
 						<div className='hero-image-container'>
 							<img
@@ -129,10 +129,10 @@ const App = () => {
 							Dołącz do tysięcy zadowolonych użytkowników i zacznij planować
 							swoje posiłki już dziś.
 						</p>
-						<button className='btn btn-primary btn-large'>
+						<Link to={"/sign-up"} className='btn btn-primary btn-large'>
 							Rozpocznij za darmo
 							<IoChevronForwardSharp />
-						</button>
+						</Link>
 					</div>
 				</div>
 			</main>

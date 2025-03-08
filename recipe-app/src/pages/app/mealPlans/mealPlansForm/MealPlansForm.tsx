@@ -19,10 +19,10 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
 	useEffect(() => {
-		async function fetchRecipes() {
+		const fetchRecipes = async () => {
 			const recipeList = await recipeApi.getAll();
 			setRecipes(recipeList);
-		}
+		};
 		fetchRecipes();
 	}, []);
 

@@ -9,10 +9,10 @@ function MealPlans() {
 	const [searchMealPlan, setSearchMealPlan] = useState<string>("");
 
 	useEffect(() => {
-		async function fetchMealPlans() {
+		const fetchMealPlans = async () => {
 			const mealPlanList = await mealPlansApi.getAll();
 			setMealPlans(mealPlanList);
-		}
+		};
 
 		fetchMealPlans();
 	}, []);

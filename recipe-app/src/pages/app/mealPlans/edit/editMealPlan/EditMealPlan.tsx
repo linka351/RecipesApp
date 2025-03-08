@@ -9,10 +9,10 @@ function EditMealPlan() {
 	const [initialValues, setInitialValues] = useState<WeeklyPlan | null>(null);
 
 	useEffect(() => {
-		async function fetchMealPlan() {
+		const fetchMealPlan = async () => {
 			const mealPlan = await mealPlansApi.get(id!);
 			setInitialValues(mealPlan);
-		}
+		};
 
 		fetchMealPlan();
 	}, [id]);
