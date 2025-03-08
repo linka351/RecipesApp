@@ -10,10 +10,10 @@ function EditMealPlan() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		async function fetchMealPlan() {
+		const fetchMealPlan = async () => {
 			const mealPlan = await mealPlansApi.get(id!);
 			setInitialValues(mealPlan);
-		}
+		};
 
 		fetchMealPlan();
 	}, [id]);

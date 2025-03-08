@@ -33,10 +33,10 @@ const RecipeList = ({
 	const [searchRecipe, setSearchRecipe] = useState<string>("");
 
 	useEffect(() => {
-		async function fetchRecipes() {
+		const fetchRecipes = async () => {
 			const recipeList = await recipeApi.getAll();
 			setRecipes(recipeList);
-		}
+		};
 
 		fetchRecipes();
 	}, []);

@@ -14,43 +14,90 @@ import Edit from "../recipes/edit/Edit";
 import Layout from "../../../components/layout/Layout";
 
 import "./main.scss";
+import SignUp from "../registration/SignUp";
+import SignIn from "../registration/SignIn";
+import { AuthProvider } from "../../../context/AuthContext";
+import { Protected } from "../registration/Protected";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <LandingPage />,
 	},
+
 	{
 		element: <Layout />,
 		children: [
 			{
+				path: "/sign-up",
+				element: <SignUp />,
+			},
+			{
+				path: "/sign-in",
+				element: <SignIn />,
+			},
+			{
 				path: "/app",
-				element: <Navigate to='/app/recipes' replace />,
+				element: (
+					<Protected>
+						<Navigate to='/app/recipes' replace />,
+					</Protected>
+				),
 			},
 
 			{
 				path: "/app/recipes",
-				element: <Recipes />,
+
+				element: (
+					<Protected>
+						<Recipes />,
+					</Protected>
+				),
 			},
 			{
 				path: "/app/recipes/add",
-				element: <AddRecipe />,
+
+				element: (
+					<Protected>
+						<AddRecipe />,
+					</Protected>
+				),
 			},
 			{
 				path: "/app/recipes/edit/:id",
-				element: <Edit />,
+
+				element: (
+					<Protected>
+						<Edit />,
+					</Protected>
+				),
 			},
 			{
 				path: "/app/meal-plans",
-				element: <MealPlans />,
+
+				element: (
+					<Protected>
+						<MealPlans />,
+					</Protected>
+				),
 			},
 			{
 				path: "/app/meal-plans/add",
-				element: <AddMealPlan />,
+
+				element: (
+					<Protected>
+						<AddMealPlan />,
+					</Protected>
+				),
 			},
 			{
 				path: "/app/meal-plans/edit/:id",
-				element: <EditMealPlan />,
+
+				element: (
+					<Protected>
+						<EditMealPlan />,
+					</Protected>
+				),
 			},
 		],
 	},
@@ -58,9 +105,9 @@ const router = createBrowserRouter([
 
 function Main() {
 	return (
-		<>
-			<RouterProvider router={router} />
-		</>
+		<AuthProvider>
+			<RouterProvider router={router} />;
+		</AuthProvider>
 	);
 }
 

@@ -23,10 +23,10 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	useEffect(() => {
-		async function fetchRecipes() {
+		const fetchRecipes = async () => {
 			const recipeList = await recipeApi.getAll();
 			setRecipes(recipeList);
-		}
+		};
 		fetchRecipes();
 	}, []);
 
