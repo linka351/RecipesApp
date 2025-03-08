@@ -2,6 +2,7 @@ import { MouseEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 
+
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

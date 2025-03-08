@@ -1,10 +1,9 @@
-import { useContext, ReactNode } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { Context } from "../../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 
 export function Protected() {
-	const { user } = useContext(Context) || {};
+	const { user } = useAuth();
 
 	console.log('prot');
 	
