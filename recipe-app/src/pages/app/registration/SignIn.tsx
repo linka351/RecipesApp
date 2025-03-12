@@ -1,43 +1,96 @@
-import { MouseEvent, useState } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import { useFormik } from "formik";
+import Button from "../../../components/buttons/Button";
+import Input from "../../../components/inputs/Input";
+import "./registration.scss";
 
 function SignIn() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	// const [email, setEmail] = useState("");
+	// const [password, setPassword] = useState("");
 	const navigate = useNavigate();
 
-	const auth = getAuth();
+	const { handleLoginWithEmail } = useAuth();
 
-	async function handleSignIn(e: MouseEvent<HTMLButtonElement>) {
-		e.preventDefault();
-		signInWithEmailAndPassword(auth, email, password)
-			.then(user => {
+	// async function handleSignIn(e: MouseEvent<HTMLButtonElement>) {
+	// 	e.preventDefault();
+	// 	handleLoginWithEmail(email, password)
+	// 		.then(user => {
+	// 			console.log(user);
+	// 			navigate("/app");
+	// 		})
+	// 		.catch(error => {
+	// 			console.log(error);
+	// 		});
+	// }
+
+	const formik = useFormik({
+		initialValues: {
+			email: "",
+			password: "",
+		},
+		validationSchema: Yup.object({
+			email: Yup.string().email("Invalid email address").required("Required"),
+			password: Yup.string()
+				.min(6, "Password must be at least 6 characters")
+				.required("Required"),
+		}),
+		//walidacja do poprawy przeniesc ja do innego miejsca?
+		onSubmit: async (values, { resetForm }) => {
+			try {
+				const user = await handleLoginWithEmail(values.email, values.password);
 				console.log(user);
 				navigate("/app");
-			})
-			.catch(error => {
-				console.log(error);
-			});
-
-	}
+				resetForm();
+			} catch (error) {
+				console.error(error);
+			}
+		},
+	});
 	return (
-		<div>
-			<h1>Sign In</h1>
-			<form action='#'>
-				<label>Email</label>
-				<input
+		<div className='registration-container'>
+			<form className='registration-form' onSubmit={formik.handleSubmit}>
+				<h1 className='registration-header'>Zaloguj Się</h1>
+				<Input
+					inputClassName='registration-input'
+					label='Email'
+					id='email'
+					name='email'
 					type='email'
-					value={email}
-					onChange={e => setEmail(e.target.value)}
+					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					value={formik.values.email}
 				/>
-				<label>Password</label>
-				<input
+				{formik.touched.email && formik.errors.email ? (
+					<div style={{ color: "red", marginBottom: "10px" }}>
+						{formik.errors.email}
+					</div>
+				) : null}
+				<Input
+					inputClassName='registration-input'
+					label='Password'
+					id='password'
+					name='password'
 					type='password'
-					value={password}
-					onChange={e => setPassword(e.target.value)}
+					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
+					value={formik.values.password}
 				/>
-				<button onClick={e => handleSignIn(e)}>Sign In</button>
+				{formik.touched.password && formik.errors.password ? (
+					<div style={{ color: "red", marginBottom: "10px" }}>
+						{formik.errors.password}
+					</div>
+				) : null}
+				<Button className='registration-button' type='submit'>
+					Zaloguj Się
+				</Button>
+				<div className='login'>
+					<p>Nie masz jeszcze konta?</p>{" "}
+					<Link to={"/sign-up"} className='login-link'>
+						Zarejestruj Się
+					</Link>
+				</div>
 			</form>
 		</div>
 	);

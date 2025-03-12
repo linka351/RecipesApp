@@ -1,34 +1,88 @@
-import { createContext, useState, useEffect, ReactNode } from "react";
-import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import {
+	createContext,
+	useState,
+	useEffect,
+	ReactNode,
+	useContext,
+	useCallback,
+} from "react";
+import {
+	createUserWithEmailAndPassword,
+	onAuthStateChanged,
+	signInWithEmailAndPassword,
+	signOut,
+	User,
+	UserCredential,
+} from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
 
 type AuthContextType = {
 	user: User | null;
-	setUser: React.Dispatch<React.SetStateAction<User | null>>;
+	handleRegisterWithEmail: (
+		email: string,
+		password: string
+	) => Promise<UserCredential>;
+	handleLoginWithEmail: (
+		email: string,
+		password: string
+	) => Promise<UserCredential>;
+	handleSignOut: () => Promise<void>;
 };
 
-export const Context = createContext<AuthContextType | undefined>(undefined);
+const Context = createContext<AuthContextType | undefined>(undefined);
 
 type Props = {
 	children: ReactNode;
 };
 
 export function AuthProvider({ children }: Props) {
-	const auth = getAuth();
 	const [user, setUser] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, currentUser => {
-			setUser(currentUser);
+			if (currentUser) {
+				setUser(currentUser);
+			} else {
+				setUser(null);
+			}
+
 			setLoading(false);
 		});
 
 		return () => unsubscribe();
 	}, [auth]);
 
-	const values: AuthContextType = { user, setUser };
+	const handleRegisterWithEmail = useCallback(
+		(email: string, password: string) =>
+			createUserWithEmailAndPassword(auth, email, password),
+		[]
+	);
+
+	const handleLoginWithEmail = useCallback(
+		(email: string, password: string) =>
+			signInWithEmailAndPassword(auth, email, password),
+		[]
+	);
+
+	const handleSignOut = useCallback(() => signOut(auth), []);
+
+	const values: AuthContextType = {
+		user,
+		handleRegisterWithEmail,
+		handleLoginWithEmail,
+		handleSignOut,
+	};
 
 	return (
 		<Context.Provider value={values}>{!loading && children}</Context.Provider>
 	);
 }
+
+export const useAuth = () => {
+	const context = useContext(Context);
+	if (!context) {
+		throw new Error("useAuth must be used within an AuthProvider");
+	}
+	return context;
+};

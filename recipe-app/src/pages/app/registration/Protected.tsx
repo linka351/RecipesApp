@@ -1,17 +1,20 @@
-import { useContext, ReactNode } from "react";
-import { Navigate } from "react-router-dom";
-import { Context } from "../../../context/AuthContext";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
-type Props = {
-	children: ReactNode;
-};
+export function Protected() {
+	const { user } = useAuth();
+	const location = useLocation();
 
-export function Protected({ children }: Props) {
-	const { user } = useContext(Context) || {};
+	console.log("prot");
+	console.log(location.pathname);
 
 	if (!user) {
-		return <Navigate to='/' replace />;
+		if (location.pathname === "/sign-in") {
+			return <Outlet />;
+		} else {
+			return <Navigate to='/' replace />;
+		}
 	} else {
-		return children;
+		return <Outlet />;
 	}
 }

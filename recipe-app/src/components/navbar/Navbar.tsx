@@ -3,9 +3,10 @@ import { TiThMenuOutline } from "react-icons/ti";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { GiRiceCooker } from "react-icons/gi";
-import { signOut, getAuth } from "firebase/auth";
 import clsx from "clsx";
 import Button from "../buttons/Button";
+import { useAuth } from "../../context/AuthContext";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 const getClassName = ({ isActive }: { isActive: boolean }) =>
 	isActive ? "selected link" : "link";
@@ -32,10 +33,10 @@ function Navbar() {
 
 	const navOffcanvasClass = clsx("offcanvas-menu", { active: open });
 	const navigate = useNavigate();
+	const { handleSignOut: signOut, user } = useAuth();
 
 	const handleSignOut = async () => {
-		const auth = getAuth();
-		await signOut(auth)
+		await signOut()
 			.then(() => {
 				console.log("User signed out successfully");
 				navigate("/");
@@ -58,12 +59,19 @@ function Navbar() {
 						<p>RecipesApp</p>
 					</div>
 				</Link>
-				<Button
-					onClick={() => {
-						handleSignOut();
-					}}>
-					Sign Out
-				</Button>
+				<div className='user'>
+					{!user ? (
+						<Link to={"/sign-in"} className='user-button'>
+							<FaRegCircleUser className='user-icon' />
+							<p>Zaloguj</p>
+						</Link>
+					) : (
+						<Button className='user-button' onClick={handleSignOut}>
+							<FaRegCircleUser className='user-icon' />
+							<p>Wyloguj</p>
+						</Button>
+					)}
+				</div>
 			</nav>
 			<div className={overlayClass} onClick={toggleMenu}></div>
 			<nav className={navOffcanvasClass}>
