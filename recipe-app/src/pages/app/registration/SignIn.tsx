@@ -6,26 +6,16 @@ import Button from "../../../components/buttons/Button";
 import Input from "../../../components/inputs/Input";
 import "./registration.scss";
 
-function SignIn() {
-	// const [email, setEmail] = useState("");
-	// const [password, setPassword] = useState("");
-	const navigate = useNavigate();
+type FormValues = {
+	email: string;
+	password: string;
+};
 
+function SignIn() {
+	const navigate = useNavigate();
 	const { handleLoginWithEmail } = useAuth();
 
-	// async function handleSignIn(e: MouseEvent<HTMLButtonElement>) {
-	// 	e.preventDefault();
-	// 	handleLoginWithEmail(email, password)
-	// 		.then(user => {
-	// 			console.log(user);
-	// 			navigate("/app");
-	// 		})
-	// 		.catch(error => {
-	// 			console.log(error);
-	// 		});
-	// }
-
-	const formik = useFormik({
+	const formik = useFormik<FormValues>({
 		initialValues: {
 			email: "",
 			password: "",
@@ -36,21 +26,38 @@ function SignIn() {
 				.min(6, "Password must be at least 6 characters")
 				.required("Required"),
 		}),
-		//walidacja do poprawy przeniesc ja do innego miejsca?
-		onSubmit: async (values, { resetForm }) => {
+		onSubmit: async (values, { resetForm, setStatus }) => {
 			try {
-				const user = await handleLoginWithEmail(values.email, values.password);
-				console.log(user);
-				navigate("/app");
+				await handleLoginWithEmail(values.email, values.password);
+				navigate("/app/recipes");
 				resetForm();
 			} catch (error) {
+				setStatus("Nieprawidłowy email lub hasło.");
 				console.error(error);
 			}
 		},
 	});
+
 	return (
 		<div className='registration-container'>
+			<div className='registration-image'>
+				<div className='registration-text'>
+					<h2 className='image-header'>Witamy ponownie w naszej aplikacji!</h2>
+					<p>
+						🥗🍲 To tutaj z łatwością stworzysz swoje ulubione przepisy i
+						zaplanujesz tygodniowe menu. Zarządzaj swoimi posiłkami, twórz listy
+						dań i ciesz się dobrze zorganizowanym planem żywieniowym. Smacznego
+						planowania! 😊
+					</p>
+				</div>
+			</div>
 			<form className='registration-form' onSubmit={formik.handleSubmit}>
+				<div className='login'>
+					<p>Nie masz jeszcze konta?</p>
+					<Link to={"/sign-up"} className='login-link'>
+						Zarejestruj Się
+					</Link>
+				</div>
 				<h1 className='registration-header'>Zaloguj Się</h1>
 				<Input
 					inputClassName='registration-input'
@@ -61,12 +68,11 @@ function SignIn() {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					value={formik.values.email}
+					touched={formik.touched.email}
+					error={formik.errors.email}
+					errorClassName='registration-error'
 				/>
-				{formik.touched.email && formik.errors.email ? (
-					<div style={{ color: "red", marginBottom: "10px" }}>
-						{formik.errors.email}
-					</div>
-				) : null}
+
 				<Input
 					inputClassName='registration-input'
 					label='Password'
@@ -76,21 +82,18 @@ function SignIn() {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					value={formik.values.password}
+					touched={formik.touched.password}
+					error={formik.errors.password}
+					errorClassName='registration-error'
 				/>
-				{formik.touched.password && formik.errors.password ? (
-					<div style={{ color: "red", marginBottom: "10px" }}>
-						{formik.errors.password}
-					</div>
-				) : null}
+
 				<Button className='registration-button' type='submit'>
 					Zaloguj Się
 				</Button>
-				<div className='login'>
-					<p>Nie masz jeszcze konta?</p>{" "}
-					<Link to={"/sign-up"} className='login-link'>
-						Zarejestruj Się
-					</Link>
-				</div>
+
+				{formik.status && (
+					<div className='registration-form-error'>{formik.status}</div>
+				)}
 			</form>
 		</div>
 	);

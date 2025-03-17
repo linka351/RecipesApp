@@ -6,6 +6,22 @@ import Input from "../../../components/inputs/Input";
 import Button from "../../../components/buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
 
+const validationSchema = Yup.object({
+	email: Yup.string()
+		.email("Nieprawidłowy adres email")
+		.required("Adres email jest wymagany"),
+	password: Yup.string()
+		.min(6, "Hasło musi mieć co najmniej 6 znaków")
+		.matches(/[A-Z]/, "Hasło musi zawierać co najmniej jedną dużą literę")
+		.matches(/[a-z]/, "Hasło musi zawierać co najmniej jedną małą literę")
+		.matches(/[0-9]/, "Hasło musi zawierać co najmniej jedną cyfrę")
+		.matches(
+			/[@$!%*?&]/,
+			"Hasło musi zawierać co najmniej jeden znak specjalny (@, $, !, %, *, ?, &)"
+		)
+		.required("Hasło jest wymagane"),
+});
+
 function SignUp() {
 	const { handleRegisterWithEmail } = useAuth();
 	const navigate = useNavigate();
@@ -15,21 +31,11 @@ function SignUp() {
 			email: "",
 			password: "",
 		},
-		validationSchema: Yup.object({
-			email: Yup.string().email("Invalid email address").required("Required"),
-			password: Yup.string()
-				.min(6, "Password must be at least 6 characters")
-				.required("Required"),
-		}),
-		//walidacja do poprawy przeniesc ja do innego miejsca?
+		validationSchema: validationSchema,
 		onSubmit: async (values, { resetForm }) => {
 			try {
-				const user = await handleRegisterWithEmail(
-					values.email,
-					values.password
-				);
-				console.log(user);
-				navigate("/app");
+				await handleRegisterWithEmail(values.email, values.password);
+				navigate("/app/recipes");
 				resetForm();
 			} catch (error) {
 				console.error(error);
@@ -39,7 +45,23 @@ function SignUp() {
 
 	return (
 		<div className='registration-container'>
+			<div className='registration-image'>
+				<div className='registration-text'>
+					<h2 className='image-header'>Witamy w naszej aplikacji! 👋🍽️</h2>
+					<p>
+						Zarejestruj się i zacznij tworzyć swoje własne przepisy oraz
+						planować tygodniowe menu w prosty i intuicyjny sposób. Ułatw sobie
+						organizację posiłków i ciesz się smacznym planowaniem! 😊
+					</p>
+				</div>
+			</div>
 			<form className='registration-form' onSubmit={formik.handleSubmit}>
+				<div className='login'>
+					<p>Masz już konto?</p>{" "}
+					<Link to={"/sign-in"} className='login-link'>
+						Zaloguj Się
+					</Link>
+				</div>
 				<h1 className='registration-header'>Zarejestruj Się</h1>
 				<Input
 					inputClassName='registration-input'
@@ -50,12 +72,11 @@ function SignUp() {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					value={formik.values.email}
+					touched={formik.touched.email}
+					error={formik.errors.email}
+					errorClassName='registration-error'
 				/>
-				{formik.touched.email && formik.errors.email ? (
-					<div style={{ color: "red", marginBottom: "10px" }}>
-						{formik.errors.email}
-					</div>
-				) : null}
+
 				<Input
 					inputClassName='registration-input'
 					label='Password'
@@ -65,22 +86,14 @@ function SignUp() {
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
 					value={formik.values.password}
+					touched={formik.touched.password}
+					error={formik.errors.password}
+					errorClassName='registration-error'
 				/>
-				{formik.touched.password && formik.errors.password ? (
-					<div style={{ color: "red", marginBottom: "10px" }}>
-						{formik.errors.password}
-					</div>
-				) : null}
-				{/*poprawic errory */}
+
 				<Button className='registration-button' type='submit'>
-					Zaloguj Się
+					Zarejestruj Się
 				</Button>
-				<div className='login'>
-					<p>Masz już konto?</p>{" "}
-					<Link to={"/sign-in"} className='login-link'>
-						Zaloguj Się
-					</Link>
-				</div>
 			</form>
 		</div>
 	);

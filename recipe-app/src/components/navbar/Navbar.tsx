@@ -25,6 +25,10 @@ function Navbar() {
 		} else {
 			document.documentElement.classList.add("no-scroll");
 		}
+
+		return () => {
+			document.documentElement.classList.remove("no-scroll");
+		};
 	}, [open]);
 
 	const toggleMenu = () => {
@@ -76,7 +80,7 @@ function Navbar() {
 			<div className={overlayClass} onClick={toggleMenu}></div>
 			<nav className={navOffcanvasClass}>
 				<Button onClick={toggleMenu} className='menu'>
-					<TiThMenuOutline className='menu-icon' />
+					<TiThMenuOutline className='menu-icon active-menu-icon' />
 				</Button>
 				<ul className='menu-links'>
 					<li>

@@ -11,10 +11,11 @@ import {
 	onAuthStateChanged,
 	signInWithEmailAndPassword,
 	signOut,
-	User,
 	UserCredential,
 } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
+import { userApi } from "../api/user";
+import { User } from "../types/user";
 
 type AuthContextType = {
 	user: User | null;
@@ -40,9 +41,15 @@ export function AuthProvider({ children }: Props) {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, currentUser => {
+		const unsubscribe = onAuthStateChanged(auth, async currentUser => {
 			if (currentUser) {
-				setUser(currentUser);
+				const userData = await userApi.get(currentUser.uid);
+
+				if (userData) {
+					setUser(userData as User);
+				} else {
+					setUser(null);
+				}
 			} else {
 				setUser(null);
 			}
@@ -54,9 +61,23 @@ export function AuthProvider({ children }: Props) {
 	}, [auth]);
 
 	const handleRegisterWithEmail = useCallback(
-		(email: string, password: string) =>
-			createUserWithEmailAndPassword(auth, email, password),
-		[]
+		async (email: string, password: string) => {
+			const authData = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
+
+			const userData: User = {
+				id: authData.user.uid,
+				email: authData.user.email || "",
+			};
+
+			await userApi.add(userData);
+
+			return authData;
+		},
+		[auth]
 	);
 
 	const handleLoginWithEmail = useCallback(
