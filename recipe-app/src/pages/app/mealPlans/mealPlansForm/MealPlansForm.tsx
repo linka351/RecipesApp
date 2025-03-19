@@ -12,6 +12,7 @@ import "./mealPlansForm.scss";
 import Button from "../../../../components/buttons/Button";
 import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
 import { Oval } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -21,6 +22,8 @@ type Props = {
 function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchRecipes = async () => {
@@ -35,6 +38,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 			setIsSubmitting(true);
 			if (onSubmit) onSubmit(values);
 			formik.resetForm();
+			navigate("/app/meal-plans");
 		} catch (error) {
 			alert("Wystąpił błąd przy zapisywaniu planu.");
 		} finally {

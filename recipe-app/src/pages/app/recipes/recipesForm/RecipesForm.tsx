@@ -11,6 +11,7 @@ import "./recipesForm.scss";
 import Button from "../../../../components/buttons/Button";
 import { useRef, useState } from "react";
 import ImageUploader from "./components/uploadImage/ImageUploader";
+import { useNavigate } from "react-router-dom";
 
 export interface FormValues {
 	id?: string;
@@ -29,6 +30,8 @@ interface RecipesFormProps {
 function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const [imageUpload, setImageUpload] = useState<File | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const navigate = useNavigate();
 
 	const imageUploaderRef = useRef<{ clear: () => void } | null>(null);
 
@@ -101,6 +104,8 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 				imageUploaderRef.current.clear();
 			}
 			if (onSubmit) onSubmit();
+
+			navigate("/app/recipes");
 		} catch (error) {
 			console.error("Błąd podczas zapisywania przepisu:", error);
 		} finally {
