@@ -1,0 +1,109 @@
+@import "../../../styles/global/globalVariables.scss";
+
+.registration-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70vh;
+	background-color: #f0ebeb;
+	border-radius: 5px;
+
+	.registration-form {
+		height: 450px;
+		background: white;
+		padding: 0 30px 30px 30px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		display: flex;
+		flex-direction: column;
+		width: 600px;
+
+		.registration-header {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+
+		.registration-input {
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			margin-bottom: 25px;
+			font-size: 16px;
+			position: relative;
+
+			&:focus {
+				outline: none;
+				border: 1px solid black;
+			}
+		}
+
+		.registration-button {
+			margin-top: 10px;
+			background-color: #4caf50;
+			color: white;
+			padding: 10px;
+			border: none;
+			border-radius: 5px;
+			font-size: 16px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+
+			&:hover {
+				background-color: darken(#4caf50, 10%);
+			}
+		}
+
+		.registration-error {
+			position: absolute;
+			top: 42px;
+		}
+	}
+	.login {
+		justify-content: end;
+		margin-bottom: 20px;
+		display: flex;
+		flex-direction: row;
+		gap: 5px;
+		margin-top: 15px;
+
+		.login-link {
+			font-size: 16px;
+			color: #4caf50;
+			font-weight: bold;
+		}
+	}
+}
+
+.registration-image {
+	background-image: url("../../../images/pexels-cottonbro-4252133.jpg");
+	width: 600px;
+	height: 450px;
+	background-size: cover;
+	display: none;
+	align-items: end;
+
+	@media (min-width: $desktop-media) {
+		display: flex;
+	}
+
+	.image-header {
+		text-align: center;
+		margin-bottom: 10px;
+		color: white;
+	}
+
+	.registration-text {
+		height: 150px;
+		width: 100%;
+		padding: 20px;
+		color: white;
+		background-color: rgba(0, 0, 0, 0.3);
+	}
+}
+
+.registration-form-error {
+	color: red;
+	font-size: 20px;
+	text-align: center;
+	font-weight: bold;
+	margin-top: 30px;
+}

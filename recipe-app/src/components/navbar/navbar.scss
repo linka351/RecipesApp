@@ -6,7 +6,7 @@
 	background-color: rgb(192, 54, 54);
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	position: sticky;
 	z-index: 2;
 	padding: 20px var(--base-padding);
@@ -33,6 +33,27 @@
 		color: white;
 		width: 40px;
 		height: 40px;
+	}
+
+	.user {
+		margin-right: 20px;
+
+		.user-button {
+			height: 100%;
+			background: none;
+			color: white;
+			font-size: 16px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 5px;
+			cursor: pointer;
+
+			.user-icon {
+				font-size: 40px;
+			}
+		}
 	}
 }
 
@@ -100,24 +121,22 @@
 	background: none;
 }
 .menu-icon {
-	top: 38px;
 	color: white;
 	font-size: 30px;
-	left: 20px;
 	cursor: pointer;
-	position: absolute;
-
+	margin-left: 20px;
 	@media (min-width: $desktop-media) {
-		left: 30px;
+		margin-left: 30px;
 	}
+}
+
+.active-menu-icon {
+	margin-left: 50px;
+	margin-top: 35px;
 }
 
 .menu-links {
 	margin-top: 50px;
 	list-style-type: none;
 	text-align: center;
-
-	@media (min-width: $mobile-media) {
-		margin-top: 80px;
-	}
 }

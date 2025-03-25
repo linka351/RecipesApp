@@ -1,10 +1,12 @@
 import "./navbar.scss";
 import { TiThMenuOutline } from "react-icons/ti";
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { GiRiceCooker } from "react-icons/gi";
 import clsx from "clsx";
 import Button from "../buttons/Button";
+import { useAuth } from "../../context/AuthContext";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 const getClassName = ({ isActive }: { isActive: boolean }) =>
 	isActive ? "selected link" : "link";
@@ -23,6 +25,10 @@ function Navbar() {
 		} else {
 			document.documentElement.classList.add("no-scroll");
 		}
+
+		return () => {
+			document.documentElement.classList.remove("no-scroll");
+		};
 	}, [open]);
 
 	const toggleMenu = () => {
@@ -30,6 +36,19 @@ function Navbar() {
 	};
 
 	const navOffcanvasClass = clsx("offcanvas-menu", { active: open });
+	const navigate = useNavigate();
+	const { handleSignOut: signOut, user } = useAuth();
+
+	const handleSignOut = async () => {
+		await signOut()
+			.then(() => {
+				console.log("User signed out successfully");
+				navigate("/");
+			})
+			.catch(error => {
+				console.error("Error signing out:", error);
+			});
+	};
 	const overlayClass = clsx("overlay", { active: open });
 
 	return (
@@ -44,11 +63,24 @@ function Navbar() {
 						<p>RecipesApp</p>
 					</div>
 				</Link>
+				<div className='user'>
+					{!user ? (
+						<Link to={"/sign-in"} className='user-button'>
+							<FaRegCircleUser className='user-icon' />
+							<p>Zaloguj</p>
+						</Link>
+					) : (
+						<Button className='user-button' onClick={handleSignOut}>
+							<FaRegCircleUser className='user-icon' />
+							<p>Wyloguj</p>
+						</Button>
+					)}
+				</div>
 			</nav>
 			<div className={overlayClass} onClick={toggleMenu}></div>
 			<nav className={navOffcanvasClass}>
 				<Button onClick={toggleMenu} className='menu'>
-					<TiThMenuOutline className='menu-icon' />
+					<TiThMenuOutline className='menu-icon active-menu-icon' />
 				</Button>
 				<ul className='menu-links'>
 					<li>
