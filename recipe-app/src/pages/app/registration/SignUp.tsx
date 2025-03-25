@@ -5,6 +5,7 @@ import "./registration.scss";
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -94,6 +95,8 @@ function SignUp() {
 				<Button className='registration-button' type='submit'>
 					Zarejestruj Się
 				</Button>
+				<p className='login-method'>lub</p>
+				<GoogleLoginButton />
 			</form>
 		</div>
 	);

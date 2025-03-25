@@ -12,8 +12,9 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 	UserCredential,
+	signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
+import { auth, googleProvider } from "../firebase/firebaseConfig";
 import { userApi } from "../api/user";
 import { User } from "../types/user";
 
@@ -28,6 +29,7 @@ type AuthContextType = {
 		password: string
 	) => Promise<UserCredential>;
 	handleSignOut: () => Promise<void>;
+	handleLoginWithGoogle: () => Promise<void>;
 };
 
 const Context = createContext<AuthContextType | undefined>(undefined);
@@ -86,6 +88,19 @@ export function AuthProvider({ children }: Props) {
 		[]
 	);
 
+	const handleLoginWithGoogle = useCallback(async () => {
+		const result = await signInWithPopup(auth, googleProvider);
+		const user = result.user;
+
+		const userData: User = {
+			id: user.uid,
+			email: user.email || "",
+		};
+
+		await userApi.add(userData);
+		setUser(userData);
+	}, [auth]);
+
 	const handleSignOut = useCallback(() => signOut(auth), []);
 
 	const values: AuthContextType = {
@@ -93,6 +108,7 @@ export function AuthProvider({ children }: Props) {
 		handleRegisterWithEmail,
 		handleLoginWithEmail,
 		handleSignOut,
+		handleLoginWithGoogle,
 	};
 
 	return (

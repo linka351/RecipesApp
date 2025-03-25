@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import Button from "../../../components/buttons/Button";
 import Input from "../../../components/inputs/Input";
 import "./registration.scss";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 type FormValues = {
 	email: string;
@@ -90,7 +91,8 @@ function SignIn() {
 				<Button className='registration-button' type='submit'>
 					Zaloguj Się
 				</Button>
-
+				<p className='login-method'>lub</p>
+				<GoogleLoginButton />
 				{formik.status && (
 					<div className='registration-form-error'>{formik.status}</div>
 				)}
