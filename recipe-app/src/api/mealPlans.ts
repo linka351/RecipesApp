@@ -7,12 +7,25 @@ import {
 	getDocs,
 	query,
 	updateDoc,
+	where,
 } from "firebase/firestore";
 import { WeeklyPlan } from "../pages/app/mealPlans/add/addMealPlan/types";
 import { db } from "../firebase/firebaseConfig";
+import { getAuth } from "firebase/auth";
 
 const add = async (mealPlan: WeeklyPlan) => {
-	return addDoc(collection(db, "mealPlans"), mealPlan);
+	const auth = getAuth();
+	const user = auth.currentUser;
+
+	if (!user) {
+		console.error("Użytkownik nie jest zalogowany.");
+		return;
+	}
+
+	return addDoc(collection(db, "mealPlans"), {
+		...mealPlan,
+		userId: user.uid,
+	});
 };
 
 const update = async (docId: string, updatedData: Omit<WeeklyPlan, "id">) => {
@@ -21,7 +34,16 @@ const update = async (docId: string, updatedData: Omit<WeeklyPlan, "id">) => {
 };
 
 const getAll = async () => {
-	const q = query(collection(db, "mealPlans"));
+	const auth = getAuth();
+	const user = auth.currentUser;
+
+	if (!user) {
+		console.error("Użytkownik nie jest zalogowany.");
+		return [];
+	}
+
+	const q = query(collection(db, "mealPlans"), where("userId", "==", user.uid));
+
 	const snapShot = await getDocs(q);
 	return snapShot.docs.map(doc => ({
 		id: doc.id,

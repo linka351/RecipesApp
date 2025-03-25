@@ -7,13 +7,26 @@ import {
 	doc,
 	getDoc,
 	updateDoc,
+	where,
 } from "firebase/firestore";
 import { FormValues } from "../pages/app/recipes/recipesForm/RecipesForm";
 import { db } from "../firebase/firebaseConfig";
 import { Recipe } from "../types/editRecipe";
+import { getAuth } from "firebase/auth";
 
 const add = async (values: FormValues) => {
-	return addDoc(collection(db, "recipes"), values);
+	const auth = getAuth();
+	const user = auth.currentUser;
+
+	if (!user) {
+		console.error("Użytkownik nie jest zalogowany.");
+		return;
+	}
+
+	return addDoc(collection(db, "recipes"), {
+		...values,
+		userId: user.uid,
+	});
 };
 
 const update = async (docId: string, updatedData: Omit<Recipe, "id">) => {
@@ -34,7 +47,16 @@ const remove = async (id: string) => {
 };
 
 const getAll = async () => {
-	const q = query(collection(db, "recipes"));
+	const auth = getAuth();
+	const user = auth.currentUser;
+
+	if (!user) {
+		console.error("Użytkownik nie jest zalogowany.");
+		return [];
+	}
+
+	const q = query(collection(db, "recipes"), where("userId", "==", user.uid));
+
 	const snapShot = await getDocs(q);
 	return snapShot.docs.map(doc => ({
 		id: doc.id,

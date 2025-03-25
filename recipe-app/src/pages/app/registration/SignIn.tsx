@@ -11,6 +11,22 @@ type FormValues = {
 	password: string;
 };
 
+const validationSchema = Yup.object({
+	email: Yup.string()
+		.email("Nieprawidłowy adres email")
+		.required("Adres email jest wymagany"),
+	password: Yup.string()
+		.min(6, "Hasło musi mieć co najmniej 6 znaków")
+		.matches(/[A-Z]/, "Hasło musi zawierać co najmniej jedną dużą literę")
+		.matches(/[a-z]/, "Hasło musi zawierać co najmniej jedną małą literę")
+		.matches(/[0-9]/, "Hasło musi zawierać co najmniej jedną cyfrę")
+		.matches(
+			/[@$!%*?&]/,
+			"Hasło musi zawierać co najmniej jeden znak specjalny (@, $, !, %, *, ?, &)"
+		)
+		.required("Hasło jest wymagane"),
+});
+
 function SignIn() {
 	const navigate = useNavigate();
 	const { handleLoginWithEmail } = useAuth();
@@ -20,12 +36,7 @@ function SignIn() {
 			email: "",
 			password: "",
 		},
-		validationSchema: Yup.object({
-			email: Yup.string().email("Invalid email address").required("Required"),
-			password: Yup.string()
-				.min(6, "Password must be at least 6 characters")
-				.required("Required"),
-		}),
+		validationSchema: validationSchema,
 		onSubmit: async (values, { resetForm, setStatus }) => {
 			try {
 				await handleLoginWithEmail(values.email, values.password);
