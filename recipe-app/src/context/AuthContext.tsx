@@ -71,6 +71,7 @@ export function AuthProvider({ children }: Props) {
 			const userData: User = {
 				id: authData.user.uid,
 				email: authData.user.email || "",
+				role: "user",
 			};
 
 			await userApi.add(userData);
