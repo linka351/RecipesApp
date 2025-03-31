@@ -19,6 +19,7 @@ import { AuthProvider } from "../context/AuthContext";
 import { Protected } from "./app/registration/Protected";
 
 import "./router.scss";
+import { Public } from "./app/registration/Public";
 
 const router = createBrowserRouter([
 	{
@@ -30,12 +31,17 @@ const router = createBrowserRouter([
 		element: <Layout />,
 		children: [
 			{
-				path: "/sign-up",
-				element: <SignUp />,
-			},
-			{
-				path: "/sign-in",
-				element: <SignIn />,
+				element: <Public />,
+				children: [
+					{
+						path: "/sign-up",
+						element: <SignUp />,
+					},
+					{
+						path: "/sign-in",
+						element: <SignIn />,
+					},
+				],
 			},
 			{
 				element: <Protected />,

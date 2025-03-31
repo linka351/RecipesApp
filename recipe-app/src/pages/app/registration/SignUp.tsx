@@ -5,6 +5,7 @@ import "./registration.scss";
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -23,6 +24,8 @@ const validationSchema = Yup.object({
 });
 
 function SignUp() {
+	const [errorMessage, setErrorMessage] = useState("");
+
 	const { handleRegisterWithEmail } = useAuth();
 	const navigate = useNavigate();
 
@@ -38,7 +41,10 @@ function SignUp() {
 				navigate("/app/recipes");
 				resetForm();
 			} catch (error) {
-				console.error(error);
+				setErrorMessage(
+					"Nie udało się zarejestrować. Być może email jest już zajęty. Spróbuj ponownie."
+					//dopracowac posiotion i stylowanie
+				);
 			}
 		},
 	});
@@ -89,11 +95,13 @@ function SignUp() {
 					touched={formik.touched.password}
 					error={formik.errors.password}
 					errorClassName='registration-error'
+					showPasswordIcon
 				/>
 
 				<Button className='registration-button' type='submit'>
 					Zarejestruj Się
 				</Button>
+				{errorMessage && <p className='test'>{errorMessage}</p>}
 			</form>
 		</div>
 	);

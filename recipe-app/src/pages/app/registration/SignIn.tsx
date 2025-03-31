@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { useFormik } from "formik";
 import Button from "../../../components/buttons/Button";
@@ -28,7 +28,6 @@ const validationSchema = Yup.object({
 });
 
 function SignIn() {
-	const navigate = useNavigate();
 	const { handleLoginWithEmail } = useAuth();
 
 	const formik = useFormik<FormValues>({
@@ -40,7 +39,6 @@ function SignIn() {
 		onSubmit: async (values, { resetForm, setStatus }) => {
 			try {
 				await handleLoginWithEmail(values.email, values.password);
-				navigate("/app/recipes");
 				resetForm();
 			} catch (error) {
 				setStatus("Nieprawidłowy email lub hasło.");
@@ -96,6 +94,7 @@ function SignIn() {
 					touched={formik.touched.password}
 					error={formik.errors.password}
 					errorClassName='registration-error'
+					showPasswordIcon
 				/>
 
 				<Button className='registration-button' type='submit'>
