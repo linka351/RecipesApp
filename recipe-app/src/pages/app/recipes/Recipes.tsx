@@ -8,6 +8,8 @@ import Input from "../../../components/inputs/Input";
 import { RecipeCardProps } from "./recipe.types";
 import RecipeCard from "./recipeCard/RecipeCard";
 import { Link } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+import Button from "../../../components/buttons/Button";
 
 type Props = Pick<
 	RecipeCardProps,
@@ -31,6 +33,7 @@ const RecipeList = ({
 }: Props) => {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [searchRecipe, setSearchRecipe] = useState<string>("");
+	const [showOnlyPrivate, setShowOnlyPrivate] = useState(false);
 
 	useEffect(() => {
 		try {
@@ -45,6 +48,10 @@ const RecipeList = ({
 		}
 	}, []);
 
+	const toggleFilter = () => {
+		setShowOnlyPrivate(prev => !prev);
+	};
+
 	const handleDelete = async (id: string) => {
 		try {
 			await recipeApi.remove(id);
@@ -58,11 +65,9 @@ const RecipeList = ({
 		setSearchRecipe(e.target.value);
 	};
 
-	const filteredRecipes = searchRecipe
-		? recipes.filter(recipe =>
-				recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
-			)
-		: recipes;
+	const filteredRecipes = recipes.filter(recipe =>
+		showOnlyPrivate ? recipe.userId === getAuth().currentUser?.uid : true
+	);
 
 	return (
 		<div className='recipe-list-container'>
@@ -98,6 +103,9 @@ const RecipeList = ({
 					))}
 				</ul>
 			</div>
+			<Button onClick={toggleFilter}>
+				{showOnlyPrivate ? "Pokaż wszystkie" : "Pokaż tylko prywatne"}
+			</Button>
 		</div>
 	);
 };
