@@ -9,7 +9,6 @@ import { RecipeCardProps } from "./recipe.types";
 import RecipeCard from "./recipeCard/RecipeCard";
 import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
-import Button from "../../../components/buttons/Button";
 
 type Props = Pick<
 	RecipeCardProps,
@@ -72,6 +71,20 @@ const RecipeList = ({
 	return (
 		<div className='recipe-list-container'>
 			<div className='search-recipe'>
+				{showAddButton && (
+					<div className='toggle-container'>
+						<span className='toggle-label'>Wszystkie</span>
+						<label className='switch'>
+							<input
+								type='checkbox'
+								checked={showOnlyPrivate}
+								onChange={toggleFilter}
+							/>
+							<span className='slider round'></span>
+						</label>
+						<span className='toggle-label'>Prywatne</span>
+					</div>
+				)}
 				{header && <h1 className='list-recipe'>Lista Przepisów</h1>}
 				{showAddButton && (
 					<Link
@@ -103,9 +116,6 @@ const RecipeList = ({
 					))}
 				</ul>
 			</div>
-			<Button onClick={toggleFilter}>
-				{showOnlyPrivate ? "Pokaż wszystkie" : "Pokaż tylko prywatne"}
-			</Button>
 		</div>
 	);
 };
