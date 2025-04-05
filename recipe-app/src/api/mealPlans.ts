@@ -22,15 +22,35 @@ const add = async (mealPlan: WeeklyPlan) => {
 		return;
 	}
 
+	const role = await getUserRole();
+	const isPublic = role === "admin";
+
 	return addDoc(collection(db, "mealPlans"), {
 		...mealPlan,
 		userId: user.uid,
+		isPublic,
 	});
 };
 
 const update = async (docId: string, updatedData: Omit<WeeklyPlan, "id">) => {
 	const docRef = doc(db, "mealPlans", docId);
 	await updateDoc(docRef, updatedData);
+};
+
+const getUserRole = async () => {
+	const auth = getAuth();
+	const user = auth.currentUser;
+
+	if (!user) return "user";
+
+	const docRef = doc(db, "users", user.uid);
+	const docSnap = await getDoc(docRef);
+
+	if (docSnap.exists()) {
+		return docSnap.data().role;
+	} else {
+		return "user";
+	}
 };
 
 const getAll = async () => {
@@ -42,13 +62,28 @@ const getAll = async () => {
 		return [];
 	}
 
-	const q = query(collection(db, "mealPlans"), where("userId", "==", user.uid));
+	const userPlansQuery = query(
+		collection(db, "mealPlans"),
+		where("userId", "==", user.uid)
+	);
+	const userPlansSnap = await getDocs(userPlansQuery);
 
-	const snapShot = await getDocs(q);
-	return snapShot.docs.map(doc => ({
+	const publicPlansQuery = query(
+		collection(db, "mealPlans"),
+		where("isPublic", "==", true)
+	);
+	const publicPlansSnap = await getDocs(publicPlansQuery);
+
+	const userPlans = userPlansSnap.docs.map(doc => ({
 		id: doc.id,
 		...doc.data(),
 	})) as WeeklyPlan[];
+	const publicPlans = publicPlansSnap.docs.map(doc => ({
+		id: doc.id,
+		...doc.data(),
+	})) as WeeklyPlan[];
+
+	return [...userPlans, ...publicPlans];
 };
 
 const get = async (id: string) => {
@@ -69,4 +104,5 @@ export const mealPlansApi = {
 	update,
 	get,
 	remove,
+	getUserRole,
 };

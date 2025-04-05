@@ -9,10 +9,12 @@ import Button from "../../../components/buttons/Button";
 import { IoTrashOutline } from "react-icons/io5";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { formatWeekRange } from "./mealPlans.utils";
+import { getAuth } from "firebase/auth";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
 	const [searchMealPlan, setSearchMealPlan] = useState<string>("");
+	const [showAllPlans, setShowAllPlans] = useState<boolean>(true);
 
 	useEffect(() => {
 		const fetchMealPlans = async () => {
@@ -22,6 +24,10 @@ function MealPlans() {
 
 		fetchMealPlans();
 	}, []);
+
+	const handleToggleChange = () => {
+		setShowAllPlans(!showAllPlans);
+	};
 
 	const handleDelete = async (id: string) => {
 		try {
@@ -38,13 +44,29 @@ function MealPlans() {
 		setSearchMealPlan(e.target.value);
 	};
 
-	const filteredMealPlans = mealPlans.filter(mealPlan =>
-		mealPlan.name.toLowerCase().includes(searchMealPlan.toLowerCase())
-	);
+	const filteredMealPlans = mealPlans
+		.filter(mealPlan =>
+			showAllPlans ? true : mealPlan.userId === getAuth().currentUser?.uid
+		)
+		.filter(mealPlan =>
+			mealPlan.name.toLowerCase().includes(searchMealPlan.toLowerCase())
+		);
 
 	return (
 		<div className='meal-plan-container'>
 			<div className='search-meal-plan'>
+				<div className='toggle-container'>
+					<span className='toggle-label'>Wszystkie</span>
+					<label className='switch'>
+						<input
+							type='checkbox'
+							checked={!showAllPlans}
+							onChange={handleToggleChange}
+						/>
+						<span className='slider round'></span>
+					</label>
+					<span className='toggle-label'>Prywatne</span>
+				</div>
 				<h1 className='meal-plan'>Lista Planów</h1>
 				<Link className='add-meal-plan' to={"/app/meal-plans/add/"}>
 					Dodaj Plan
