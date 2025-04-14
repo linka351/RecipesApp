@@ -8,6 +8,7 @@ import {
 	query,
 	updateDoc,
 	where,
+	or,
 } from "firebase/firestore";
 import { WeeklyPlan } from "../pages/app/mealPlans/add/addMealPlan/types";
 import { db } from "../firebase/firebaseConfig";
@@ -22,35 +23,15 @@ const add = async (mealPlan: WeeklyPlan) => {
 		return;
 	}
 
-	const role = await getUserRole();
-	const isPublic = role === "admin";
-
 	return addDoc(collection(db, "mealPlans"), {
 		...mealPlan,
 		userId: user.uid,
-		isPublic,
 	});
 };
 
 const update = async (docId: string, updatedData: Omit<WeeklyPlan, "id">) => {
 	const docRef = doc(db, "mealPlans", docId);
 	await updateDoc(docRef, updatedData);
-};
-
-const getUserRole = async () => {
-	const auth = getAuth();
-	const user = auth.currentUser;
-
-	if (!user) return "user";
-
-	const docRef = doc(db, "users", user.uid);
-	const docSnap = await getDoc(docRef);
-
-	if (docSnap.exists()) {
-		return docSnap.data().role;
-	} else {
-		return "user";
-	}
 };
 
 const getAll = async () => {
@@ -62,28 +43,15 @@ const getAll = async () => {
 		return [];
 	}
 
-	const userPlansQuery = query(
+	const plansQuery = query(
 		collection(db, "mealPlans"),
-		where("userId", "==", user.uid)
+		or(where("userId", "==", user.uid), where("status", "==", "public"))
 	);
-	const userPlansSnap = await getDocs(userPlansQuery);
-
-	const publicPlansQuery = query(
-		collection(db, "mealPlans"),
-		where("isPublic", "==", true)
-	);
-	const publicPlansSnap = await getDocs(publicPlansQuery);
-
-	const userPlans = userPlansSnap.docs.map(doc => ({
+	const plansSnap = await getDocs(plansQuery);
+	return plansSnap.docs.map(doc => ({
 		id: doc.id,
 		...doc.data(),
 	})) as WeeklyPlan[];
-	const publicPlans = publicPlansSnap.docs.map(doc => ({
-		id: doc.id,
-		...doc.data(),
-	})) as WeeklyPlan[];
-
-	return [...userPlans, ...publicPlans];
 };
 
 const get = async (id: string) => {
@@ -104,5 +72,4 @@ export const mealPlansApi = {
 	update,
 	get,
 	remove,
-	getUserRole,
 };

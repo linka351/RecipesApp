@@ -16,6 +16,7 @@ import {
 import { auth } from "../firebase/firebaseConfig";
 import { userApi } from "../api/user";
 import { User } from "../types/user";
+import { USER_ROLE } from "../constants/user.const";
 
 type AuthContextType = {
 	user: User | null;
@@ -71,7 +72,7 @@ export function AuthProvider({ children }: Props) {
 			const userData: User = {
 				id: authData.user.uid,
 				email: authData.user.email || "",
-				role: "user",
+				role: USER_ROLE.USER,
 			};
 
 			await userApi.add(userData);
