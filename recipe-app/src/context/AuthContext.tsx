@@ -62,28 +62,40 @@ export function AuthProvider({ children }: Props) {
 
 	const handleRegisterWithEmail = useCallback(
 		async (email: string, password: string) => {
-			const authData = await createUserWithEmailAndPassword(
-				auth,
-				email,
-				password
-			);
+			try {
+				const authData = await createUserWithEmailAndPassword(
+					auth,
+					email,
+					password
+				);
 
-			const userData: User = {
-				id: authData.user.uid,
-				email: authData.user.email || "",
-			};
+				const userData: User = {
+					id: authData.user.uid,
+					email: authData.user.email || "",
+				};
 
-			await userApi.add(userData);
+				await userApi.add(userData);
 
-			return authData;
+				return authData;
+			} catch (error: any) {
+				console.error(error);
+
+				throw error;
+			}
 		},
 		[auth]
 	);
 
 	const handleLoginWithEmail = useCallback(
-		(email: string, password: string) =>
-			signInWithEmailAndPassword(auth, email, password),
-		[]
+		async (email: string, password: string) => {
+			try {
+				return await signInWithEmailAndPassword(auth, email, password);
+			} catch (error: any) {
+				console.log(error);
+				throw error;
+			}
+		},
+		[auth]
 	);
 
 	const handleSignOut = useCallback(() => signOut(auth), []);

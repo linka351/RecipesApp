@@ -1,6 +1,9 @@
-import { forwardRef, InputHTMLAttributes } from "react";
+import { forwardRef, InputHTMLAttributes, useState } from "react";
 import "./input.scss";
 import clsx from "clsx";
+import { FaRegEye } from "react-icons/fa6";
+import { FaRegEyeSlash } from "react-icons/fa6";
+import Button from "../buttons/Button";
 
 type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "className"> & {
 	label?: string;
@@ -9,6 +12,7 @@ type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "className"> & {
 	errorClassName?: string;
 	inputClassName?: string;
 	touched?: boolean;
+	showPasswordIcon?: boolean;
 };
 
 const Input = forwardRef<HTMLInputElement, Props>(function Input(
@@ -20,13 +24,22 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 		errorClassName,
 		inputClassName,
 		touched,
+		showPasswordIcon,
+		type = "text",
 		...props
 	},
 	ref
 ) {
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
 	const labelClass = clsx("label", labelClassName);
 	const inputClass = clsx("input", inputClassName);
 	const errorClass = clsx("error", errorClassName);
+
+	const inputType = type === "password" && isPasswordVisible ? "text" : type;
+
+	const handleTogglePassword = () => setIsPasswordVisible(prev => !prev);
+
 	return (
 		<div>
 			{label && (
@@ -41,7 +54,17 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 					className={inputClass}
 					id={name}
 					name={name}
+					type={inputType}
 				/>
+
+				{showPasswordIcon && (
+					<Button
+						type='button'
+						className='password'
+						onClick={handleTogglePassword}>
+						{isPasswordVisible ? <FaRegEyeSlash /> : <FaRegEye />}
+					</Button>
+				)}
 				{touched && error && <p className={errorClass}>{error}</p>}
 			</div>
 		</div>
