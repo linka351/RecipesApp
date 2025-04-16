@@ -108,23 +108,33 @@
 	margin-top: 30px;
 }
 
-.google-registration {
+.google-button {
+	min-width: 240px;
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 10px;
-	border: 1px solid black;
-	color: black;
-	padding: 10px;
-	border-radius: 0;
-	font-size: 16px;
+	background-color: #fff;
+	border: 1px solid #dadce0;
+	border-radius: 4px;
+	color: #5f6368;
+	font-size: 14px;
+	font-weight: 500;
 	cursor: pointer;
-	transition: background-color 0.3s;
-	margin-top: 10px;
+	padding: 10px 16px;
+	transition: background-color 0.3s ease;
+
+	.google-icon {
+		position: absolute;
+		left: 16px;
+		width: 20px;
+		height: 20px;
+	}
 }
 
 .login-method {
 	text-align: center;
 	margin-top: 10px;
+	margin-bottom: 10px;
 	font-size: 16px;
 }

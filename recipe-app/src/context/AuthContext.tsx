@@ -14,9 +14,10 @@ import {
 	UserCredential,
 	signInWithPopup,
 } from "firebase/auth";
-import { auth, googleProvider } from "../firebase/firebaseConfig";
+import { auth } from "../firebase/firebaseConfig";
 import { userApi } from "../api/user";
 import { User } from "../types/user";
+import { GoogleAuthProvider } from "firebase/auth";
 
 type AuthContextType = {
 	user: User | null;
@@ -29,6 +30,7 @@ type AuthContextType = {
 		password: string
 	) => Promise<UserCredential>;
 	handleSignOut: () => Promise<void>;
+	handleRegisterWithGoogle: () => Promise<void>;
 	handleLoginWithGoogle: () => Promise<void>;
 };
 
@@ -37,6 +39,11 @@ const Context = createContext<AuthContextType | undefined>(undefined);
 type Props = {
 	children: ReactNode;
 };
+
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+	prompt: "select_account",
+});
 
 export function AuthProvider({ children }: Props) {
 	const [user, setUser] = useState<User | null>(null);
@@ -88,17 +95,23 @@ export function AuthProvider({ children }: Props) {
 		[]
 	);
 
+	const handleRegisterWithGoogle = useCallback(async () => {
+		try {
+			const result = await signInWithPopup(auth, provider);
+			const user = result.user;
+			const userData: User = {
+				id: user.uid,
+				email: user.email || "",
+			};
+
+			await userApi.add(userData);
+			setUser(userData);
+		} catch (error) {
+			console.error("Google register error:", error);
+		}
+	}, []);
 	const handleLoginWithGoogle = useCallback(async () => {
-		const result = await signInWithPopup(auth, googleProvider);
-		const user = result.user;
-
-		const userData: User = {
-			id: user.uid,
-			email: user.email || "",
-		};
-
-		await userApi.add(userData);
-		setUser(userData);
+		await signInWithPopup(auth, provider);
 	}, [auth]);
 
 	const handleSignOut = useCallback(() => signOut(auth), []);
@@ -108,6 +121,7 @@ export function AuthProvider({ children }: Props) {
 		handleRegisterWithEmail,
 		handleLoginWithEmail,
 		handleSignOut,
+		handleRegisterWithGoogle,
 		handleLoginWithGoogle,
 	};
 
