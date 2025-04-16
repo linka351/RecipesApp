@@ -36,6 +36,8 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 	const inputClass = clsx("input", inputClassName);
 	const errorClass = clsx("error", errorClassName);
 
+	const inputType = type === "password" && isPasswordVisible ? "text" : type;
+
 	const handleTogglePassword = () => setIsPasswordVisible(prev => !prev);
 
 	return (
@@ -52,9 +54,7 @@ const Input = forwardRef<HTMLInputElement, Props>(function Input(
 					className={inputClass}
 					id={name}
 					name={name}
-					type={
-						showPasswordIcon ? (isPasswordVisible ? "text" : "password") : type
-					}
+					type={inputType}
 				/>
 
 				{showPasswordIcon && (

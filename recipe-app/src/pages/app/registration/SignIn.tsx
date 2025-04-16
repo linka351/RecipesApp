@@ -5,6 +5,9 @@ import { useFormik } from "formik";
 import Button from "../../../components/buttons/Button";
 import Input from "../../../components/inputs/Input";
 import "./registration.scss";
+import { useState } from "react";
+import { FirebaseError } from "firebase/app";
+import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 
 type FormValues = {
 	email: string;
@@ -12,22 +15,13 @@ type FormValues = {
 };
 
 const validationSchema = Yup.object({
-	email: Yup.string()
-		.email("Nieprawidłowy adres email")
-		.required("Adres email jest wymagany"),
-	password: Yup.string()
-		.min(6, "Hasło musi mieć co najmniej 6 znaków")
-		.matches(/[A-Z]/, "Hasło musi zawierać co najmniej jedną dużą literę")
-		.matches(/[a-z]/, "Hasło musi zawierać co najmniej jedną małą literę")
-		.matches(/[0-9]/, "Hasło musi zawierać co najmniej jedną cyfrę")
-		.matches(
-			/[@$!%*?&]/,
-			"Hasło musi zawierać co najmniej jeden znak specjalny (@, $, !, %, *, ?, &)"
-		)
-		.required("Hasło jest wymagane"),
+	email: Yup.string().required("Adres email jest wymagany"),
+	password: Yup.string().required("Hasło jest wymagane"),
 });
 
 function SignIn() {
+	const [serverError, setServerError] = useState("");
+
 	const { handleLoginWithEmail } = useAuth();
 
 	const formik = useFormik<FormValues>({
@@ -36,13 +30,17 @@ function SignIn() {
 			password: "",
 		},
 		validationSchema: validationSchema,
-		onSubmit: async (values, { resetForm, setStatus }) => {
+		onSubmit: async (values, { resetForm }) => {
 			try {
 				await handleLoginWithEmail(values.email, values.password);
 				resetForm();
 			} catch (error) {
-				setStatus("Nieprawidłowy email lub hasło.");
-				console.error(error);
+				const firebaseError = error as FirebaseError;
+				const errorCode = firebaseError.code;
+				const message =
+					firebaseErrorMessages[errorCode] ||
+					"Wystąpił nieznany błąd. Spróbuj ponownie.";
+				setServerError(message);
 			}
 		},
 	});
@@ -97,13 +95,11 @@ function SignIn() {
 					showPasswordIcon
 				/>
 
+				{serverError && <p className='server-error'>{serverError}</p>}
+
 				<Button className='registration-button' type='submit'>
 					Zaloguj Się
 				</Button>
-
-				{formik.status && (
-					<div className='registration-form-error'>{formik.status}</div>
-				)}
 			</form>
 		</div>
 	);

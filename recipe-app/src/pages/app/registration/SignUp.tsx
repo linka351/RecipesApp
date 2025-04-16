@@ -6,6 +6,8 @@ import Input from "../../../components/inputs/Input";
 import Button from "../../../components/buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { FirebaseError } from "firebase/app";
+import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -17,14 +19,14 @@ const validationSchema = Yup.object({
 		.matches(/[a-z]/, "Hasło musi zawierać co najmniej jedną małą literę")
 		.matches(/[0-9]/, "Hasło musi zawierać co najmniej jedną cyfrę")
 		.matches(
-			/[@$!%*?&]/,
-			"Hasło musi zawierać co najmniej jeden znak specjalny (@, $, !, %, *, ?, &)"
+			/[@$!%*?&#]/,
+			"Hasło musi zawierać co najmniej jeden znak specjalny (@, $, !, %, *, ?, &, #)"
 		)
 		.required("Hasło jest wymagane"),
 });
 
 function SignUp() {
-	const [errorMessage, setErrorMessage] = useState("");
+	const [serverError, setserverError] = useState("");
 
 	const { handleRegisterWithEmail } = useAuth();
 	const navigate = useNavigate();
@@ -41,10 +43,11 @@ function SignUp() {
 				navigate("/app/recipes");
 				resetForm();
 			} catch (error) {
-				setErrorMessage(
-					"Nie udało się zarejestrować. Być może email jest już zajęty. Spróbuj ponownie."
-					//dopracowac posiotion i stylowanie
-				);
+				const firebaseError = error as FirebaseError;
+				const message =
+					firebaseErrorMessages[firebaseError.code] ||
+					"Wystąpił nieznany błąd. Spróbuj ponownie.";
+				setserverError(message);
 			}
 		},
 	});
@@ -98,10 +101,11 @@ function SignUp() {
 					showPasswordIcon
 				/>
 
+				{serverError && <p className='server-error'>{serverError}</p>}
+
 				<Button className='registration-button' type='submit'>
 					Zarejestruj Się
 				</Button>
-				{errorMessage && <p className='test'>{errorMessage}</p>}
 			</form>
 		</div>
 	);
