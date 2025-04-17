@@ -24,9 +24,18 @@ const add = async (values: FormValues) => {
 		return;
 	}
 
+	const userDoc = doc(db, "users", user.uid);
+	const userSnapshot = await getDoc(userDoc);
+
+	const userData = userSnapshot.data();
+	const role = userData?.role || "user";
+
+	const status = role === "admin" ? "public" : "private";
+
 	return addDoc(collection(db, "recipes"), {
 		...values,
 		userId: user.uid,
+		status,
 	});
 };
 

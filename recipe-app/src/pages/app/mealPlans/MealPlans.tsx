@@ -88,18 +88,20 @@ function MealPlans() {
 									{mealPlan.description}
 								</p>
 							</div>
-							<div className='plan-buttons'>
-								<Link
-									className='plan-button edit-meal-plan'
-									to={`/app/meal-plans/edit/${mealPlan.id}`}>
-									<MdOutlineModeEdit />
-								</Link>
-								<Button
-									className='plan-button delete-meal-plan'
-									onClick={() => mealPlan.id && handleDelete(mealPlan.id)}>
-									<IoTrashOutline />
-								</Button>
-							</div>
+							{(mealPlan.status ?? "private") !== "public" && (
+								<div className='plan-buttons'>
+									<Link
+										className='plan-button edit-meal-plan'
+										to={`/app/meal-plans/edit/${mealPlan.id}`}>
+										<MdOutlineModeEdit />
+									</Link>
+									<Button
+										className='plan-button delete-meal-plan'
+										onClick={() => mealPlan.id && handleDelete(mealPlan.id)}>
+										<IoTrashOutline />
+									</Button>
+								</div>
+							)}
 						</div>
 					</li>
 				))}
