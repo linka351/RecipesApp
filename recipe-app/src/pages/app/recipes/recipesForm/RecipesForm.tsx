@@ -20,6 +20,7 @@ export interface FormValues {
 	instructions: string[];
 	ingredients: string[];
 	image?: string;
+	status?: string;
 }
 
 interface RecipesFormProps {

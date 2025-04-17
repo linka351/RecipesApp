@@ -11,11 +11,6 @@
 			display: grid;
 			grid-template-columns: 1fr auto 1fr;
 			justify-content: space-between;
-
-			&:before {
-				content: "";
-				display: block;
-			}
 		}
 
 		.add-meal-plan {

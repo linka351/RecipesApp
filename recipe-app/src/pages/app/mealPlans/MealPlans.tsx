@@ -9,19 +9,32 @@ import Button from "../../../components/buttons/Button";
 import { IoTrashOutline } from "react-icons/io5";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { formatWeekRange } from "./mealPlans.utils";
+import { useAuth } from "../../../context/AuthContext";
+import Switch from "../../../components/switch/Switch";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
 	const [searchMealPlan, setSearchMealPlan] = useState<string>("");
+	const [showOnlyPrivate, setShowOnlyPrivate] = useState(false);
+
+	const { user } = useAuth();
 
 	useEffect(() => {
-		const fetchMealPlans = async () => {
-			const mealPlanList = await mealPlansApi.getAll();
-			setMealPlans(mealPlanList);
-		};
+		try {
+			const fetchMealPlans = async () => {
+				const mealPlanList = await mealPlansApi.getAll();
+				setMealPlans(mealPlanList);
+			};
 
-		fetchMealPlans();
+			fetchMealPlans();
+		} catch (error) {
+			console.error("Error fetchMealPlans document: ", error);
+		}
 	}, []);
+
+	const handleToggleChange = () => {
+		setShowOnlyPrivate(prev => !prev);
+	};
 
 	const handleDelete = async (id: string) => {
 		try {
@@ -38,13 +51,17 @@ function MealPlans() {
 		setSearchMealPlan(e.target.value);
 	};
 
-	const filteredMealPlans = mealPlans.filter(mealPlan =>
-		mealPlan.name.toLowerCase().includes(searchMealPlan.toLowerCase())
+	const filteredMealPlans = mealPlans.filter(mealPlans =>
+		showOnlyPrivate ? mealPlans.userId === user?.id : true
 	);
 
 	return (
 		<div className='meal-plan-container'>
 			<div className='search-meal-plan'>
+				<Switch
+					showPrivate={showOnlyPrivate}
+					handleToggleChange={handleToggleChange}
+				/>
 				<h1 className='meal-plan'>Lista Planów</h1>
 				<Link className='add-meal-plan' to={"/app/meal-plans/add/"}>
 					Dodaj Plan
@@ -71,18 +88,20 @@ function MealPlans() {
 									{mealPlan.description}
 								</p>
 							</div>
-							<div className='plan-buttons'>
-								<Link
-									className='plan-button edit-meal-plan'
-									to={`/app/meal-plans/edit/${mealPlan.id}`}>
-									<MdOutlineModeEdit />
-								</Link>
-								<Button
-									className='plan-button delete-meal-plan'
-									onClick={() => mealPlan.id && handleDelete(mealPlan.id)}>
-									<IoTrashOutline />
-								</Button>
-							</div>
+							{(mealPlan.status ?? "private") !== "public" && (
+								<div className='plan-buttons'>
+									<Link
+										className='plan-button edit-meal-plan'
+										to={`/app/meal-plans/edit/${mealPlan.id}`}>
+										<MdOutlineModeEdit />
+									</Link>
+									<Button
+										className='plan-button delete-meal-plan'
+										onClick={() => mealPlan.id && handleDelete(mealPlan.id)}>
+										<IoTrashOutline />
+									</Button>
+								</div>
+							)}
 						</div>
 					</li>
 				))}
