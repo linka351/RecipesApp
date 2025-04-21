@@ -9,6 +9,7 @@ import MealPlans from "./app/mealPlans/MealPlans";
 import AddRecipe from "./app/recipes/add/addRecipe/AddRecipe";
 import AddMealPlan from "./app/mealPlans/add/addMealPlan/AddMealPlan";
 import EditMealPlan from "./app/mealPlans/edit/editMealPlan/EditMealPlan";
+import DetailsRecipe from "./app/recipes/details/DetailsRecipe";
 import LandingPage from "./landing/landingPage/LandingPage";
 import Edit from "./app/recipes/edit/Edit";
 import Layout from "../components/layout/Layout";
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
 						element: <AddRecipe />,
 					},
 					{
+						path: "/app/recipes/details/:id",
+						element: <DetailsRecipe />,
+					},
+					{
 						path: "/app/recipes/edit/:id",
 						element: <Edit />,
 					},
@@ -74,7 +79,6 @@ const router = createBrowserRouter([
 		],
 	},
 ]);
-
 function App() {
 	return (
 		<AuthProvider>
