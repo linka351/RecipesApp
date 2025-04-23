@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Recipe } from "../../../../types/editRecipe";
 import { recipeApi } from "../../../../api/recipes";
 import "./detailsRecipe.scss";
+import Button from "../../../../components/buttons/Button";
 
 function DetailsRecipe() {
 	const { id } = useParams();
@@ -57,10 +58,10 @@ function DetailsRecipe() {
 				</div>
 
 				<div className='recipe-buttons'>
-					<button onClick={() => navigate("/app/recipes")}>Powrót</button>
-					<button onClick={() => navigate(`/app/recipes/edit/${id}`)}>
+					<Button onClick={() => navigate("/app/recipes")}>Powrót</Button>
+					<Button onClick={() => navigate(`/app/recipes/edit/${id}`)}>
 						Edytuj
-					</button>
+					</Button>
 				</div>
 			</div>
 		</div>

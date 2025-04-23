@@ -32,9 +32,9 @@ export default function RecipeCard({
 					) : (
 						<>
 							<Link
-								to={`/app/recipes/edit/${recipe.id}`}
+								to={`/app/recipes/details/${recipe.id}`}
 								className='edit-button'>
-								Edytuj
+								Szczegóły
 							</Link>
 							<Button
 								type='button'

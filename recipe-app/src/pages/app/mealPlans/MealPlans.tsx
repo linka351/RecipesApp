@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { WeeklyPlan } from "./add/addMealPlan/types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { mealPlansApi } from "../../../api/mealPlans";
 import Input from "../../../components/inputs/Input";
 
@@ -13,6 +13,7 @@ import { formatWeekRange } from "./mealPlans.utils";
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
 	const [searchMealPlan, setSearchMealPlan] = useState<string>("");
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchMealPlans = async () => {
@@ -22,6 +23,10 @@ function MealPlans() {
 
 		fetchMealPlans();
 	}, []);
+
+	const handleDetails = (id: string) => {
+		navigate(`/app/meal-plans/details/${id}`);
+	};
 
 	const handleDelete = async (id: string) => {
 		try {
@@ -61,7 +66,9 @@ function MealPlans() {
 			<ul className='meal-plan-list'>
 				{filteredMealPlans.map(mealPlan => (
 					<li className='plan-list' key={mealPlan.id}>
-						<div className='plan-list-container'>
+						<div
+							className='plan-list-container'
+							onClick={() => mealPlan.id && handleDetails(mealPlan.id)}>
 							<div className='meal-plans-description'>
 								<div className='plan-list-name'>
 									<p className='meal-plan-name'>{mealPlan.name}</p>

@@ -111,7 +111,7 @@
 					padding: 10px 20px;
 					color: white;
 					transition: filter 0.2s ease;
-					width: 100px;
+					width: 110px;
 
 					&.edit-button {
 						background-color: #4caf50;
@@ -147,6 +147,7 @@
 	width: 100%;
 	height: 350px;
 	object-fit: cover;
+	cursor: pointer;
 }
 
 .elements-container {

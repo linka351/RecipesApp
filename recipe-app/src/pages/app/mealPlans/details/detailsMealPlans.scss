@@ -1,0 +1,42 @@
+.meal-plan {
+	padding: 1.5rem;
+
+	h2 {
+		margin-bottom: 0.5rem;
+	}
+
+	p {
+		margin: 0.25rem 0;
+	}
+
+	&-grid {
+		display: grid;
+		grid-template-columns: 1fr repeat(3, 1fr);
+		gap: 0.5rem;
+		margin-top: 1rem;
+
+		.header-cell {
+			font-weight: bold;
+			background-color: #f0f0f0;
+			padding: 0.5rem;
+			border-radius: 8px;
+			text-align: center;
+		}
+
+		.day-cell {
+			font-weight: bold;
+			background-color: grey;
+			padding: 0.5rem;
+			border-radius: 8px;
+		}
+
+		.meal-cell {
+			background-color: #fff;
+			padding: 0.5rem;
+			border: 1px solid #ddd;
+			border-radius: 8px;
+		}
+	}
+}
+
+//ogarnąc
