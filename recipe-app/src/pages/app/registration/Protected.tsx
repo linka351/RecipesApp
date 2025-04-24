@@ -5,11 +5,8 @@ export function Protected() {
 	const { user } = useAuth();
 	const location = useLocation();
 
-	console.log("prot");
-	console.log(location.pathname);
-
 	if (!user) {
-		if (location.pathname === "/sign-in") {
+		if (location.pathname === "/sign-in" || location.pathname === "/sign-up") {
 			return <Outlet />;
 		} else {
 			return <Navigate to='/' replace />;
