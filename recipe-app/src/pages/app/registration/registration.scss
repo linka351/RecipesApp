@@ -110,7 +110,6 @@
 
 .google-button {
 	min-width: 240px;
-	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -125,10 +124,9 @@
 	transition: background-color 0.3s ease;
 
 	.google-icon {
-		position: absolute;
-		left: 16px;
 		width: 20px;
 		height: 20px;
+		margin-right: 10px;
 	}
 }
 

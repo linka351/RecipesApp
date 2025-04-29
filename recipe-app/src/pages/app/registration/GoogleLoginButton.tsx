@@ -7,19 +7,12 @@ const GoogleLoginButton = () => {
 	const { handleRegisterWithGoogle, handleLoginWithGoogle } = useAuth();
 	const location = useLocation();
 
-	return location.pathname === "/sign-up" ? (
-		<Button
-			onClick={handleRegisterWithGoogle}
-			className='google-button'
-			type='button'>
-			<FcGoogle className='google-icon' />
-			KONTYNUUJ Z GOOGLE
-		</Button>
-	) : (
-		<Button
-			onClick={handleLoginWithGoogle}
-			className='google-button'
-			type='button'>
+	const action =
+		location.pathname === "/sign-up"
+			? handleRegisterWithGoogle
+			: handleLoginWithGoogle;
+	return (
+		<Button onClick={action} className='google-button' type='button'>
 			<FcGoogle className='google-icon' />
 			KONTYNUUJ Z GOOGLE
 		</Button>

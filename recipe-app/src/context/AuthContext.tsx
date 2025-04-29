@@ -103,9 +103,7 @@ export function AuthProvider({ children }: Props) {
 				id: user.uid,
 				email: user.email || "",
 			};
-
 			await userApi.add(userData);
-			setUser(userData);
 		} catch (error) {
 			console.error("Google register error:", error);
 		}
