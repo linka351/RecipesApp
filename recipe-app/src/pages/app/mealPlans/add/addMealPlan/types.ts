@@ -13,6 +13,6 @@ export type WeeklyPlan = {
 	description: string;
 	dateFrom: string;
 	mealName: string[];
-	status?: string;
+	status: "public" | "private";
 	plan: MealPlan;
 };

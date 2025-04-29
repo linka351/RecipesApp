@@ -67,8 +67,8 @@ const RecipeList = ({
 		setSearchRecipe(e.target.value);
 	};
 
-	const filteredRecipes = recipes.filter(recipe =>
-		showOnlyPrivate ? recipe.userId === user?.id : true
+	const filteredRecipes = recipes.filter(
+		recipe => !showOnlyPrivate || recipe.userId === user?.id
 	);
 
 	return (
@@ -77,7 +77,7 @@ const RecipeList = ({
 				{showAddButton && (
 					<>
 						<Switch
-							showPrivate={showOnlyPrivate}
+							isPrivate={showOnlyPrivate}
 							handleToggleChange={toggleFilter}
 						/>
 

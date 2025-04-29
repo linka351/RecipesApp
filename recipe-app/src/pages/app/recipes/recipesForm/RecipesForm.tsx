@@ -12,16 +12,13 @@ import Button from "../../../../components/buttons/Button";
 import { useRef, useState } from "react";
 import ImageUploader from "./components/uploadImage/ImageUploader";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../context/AuthContext";
+import { Recipe } from "../../../../types/editRecipe";
 
-export interface FormValues {
+export type FormValues = Omit<Recipe, "userId" | "id"> & {
+	userId?: string;
 	id?: string;
-	name: string;
-	description: string;
-	instructions: string[];
-	ingredients: string[];
-	image?: string;
-	status?: string;
-}
+};
 
 interface RecipesFormProps {
 	initialValues?: FormValues;
@@ -31,6 +28,7 @@ interface RecipesFormProps {
 function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const [imageUpload, setImageUpload] = useState<File | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const { user } = useAuth();
 
 	const navigate = useNavigate();
 
@@ -42,6 +40,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		instructions: [],
 		ingredients: [],
 		image: "",
+		status: "private",
 	};
 
 	const uploadImage = async (file: File): Promise<string | undefined> => {
@@ -95,6 +94,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			} else {
 				await recipeApi.add({
 					...values,
+					userId: user?.id,
 					image: imageUrl,
 				});
 			}

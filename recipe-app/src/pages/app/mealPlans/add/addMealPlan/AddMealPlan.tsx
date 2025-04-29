@@ -14,6 +14,7 @@ function AddMealPlan() {
 			const status = user.role === "admin" ? "public" : "private";
 			await mealPlansApi.add({
 				...values,
+				userId: user.id,
 				status,
 			});
 			alert("Plan posiłków został dodany!");

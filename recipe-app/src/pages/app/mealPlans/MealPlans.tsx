@@ -51,15 +51,15 @@ function MealPlans() {
 		setSearchMealPlan(e.target.value);
 	};
 
-	const filteredMealPlans = mealPlans.filter(mealPlans =>
-		showOnlyPrivate ? mealPlans.userId === user?.id : true
+	const filteredMealPlans = mealPlans.filter(
+		mealPlans => !showOnlyPrivate || mealPlans.userId === user?.id
 	);
 
 	return (
 		<div className='meal-plan-container'>
 			<div className='search-meal-plan'>
 				<Switch
-					showPrivate={showOnlyPrivate}
+					isPrivate={showOnlyPrivate}
 					handleToggleChange={handleToggleChange}
 				/>
 				<h1 className='meal-plan'>Lista Planów</h1>
@@ -88,7 +88,7 @@ function MealPlans() {
 									{mealPlan.description}
 								</p>
 							</div>
-							{(mealPlan.status ?? "private") !== "public" && (
+							{mealPlan.status !== "public" && (
 								<div className='plan-buttons'>
 									<Link
 										className='plan-button edit-meal-plan'

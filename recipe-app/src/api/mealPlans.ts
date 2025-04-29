@@ -23,18 +23,8 @@ const add = async (mealPlan: WeeklyPlan) => {
 		return;
 	}
 
-	const userDoc = doc(db, "users", user.uid);
-	const userSnapshot = await getDoc(userDoc);
-
-	const userData = userSnapshot.data();
-	const role = userData?.role || "user";
-
-	const status = role === "admin" ? "public" : "private";
-
 	return addDoc(collection(db, "mealPlans"), {
 		...mealPlan,
-		userId: user.uid,
-		status,
 	});
 };
 

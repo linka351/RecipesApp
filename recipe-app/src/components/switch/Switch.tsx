@@ -1,17 +1,17 @@
 import "./switch.scss";
 
 type Props = {
-	showPrivate: boolean;
+	isPrivate: boolean;
 	handleToggleChange: () => void;
 };
-function Switch({ showPrivate, handleToggleChange }: Props) {
+function Switch({ isPrivate, handleToggleChange }: Props) {
 	return (
 		<div className='toggle-container'>
 			<span className='toggle-label'>Wszystkie</span>
 			<label className='switch'>
 				<input
 					type='checkbox'
-					checked={showPrivate}
+					checked={isPrivate}
 					onChange={handleToggleChange}
 				/>
 				<span className='slider round'></span>
