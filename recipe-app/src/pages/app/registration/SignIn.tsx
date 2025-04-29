@@ -1,10 +1,13 @@
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import { useFormik } from "formik";
 import Button from "../../../components/buttons/Button";
 import Input from "../../../components/inputs/Input";
 import "./registration.scss";
+import { useState } from "react";
+import { FirebaseError } from "firebase/app";
+import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 import GoogleLoginButton from "./GoogleLoginButton";
 
 type FormValues = {
@@ -12,8 +15,14 @@ type FormValues = {
 	password: string;
 };
 
+const validationSchema = Yup.object({
+	email: Yup.string().required("Adres email jest wymagany"),
+	password: Yup.string().required("Hasło jest wymagane"),
+});
+
 function SignIn() {
-	const navigate = useNavigate();
+	const [serverError, setServerError] = useState("");
+
 	const { handleLoginWithEmail } = useAuth();
 
 	const formik = useFormik<FormValues>({
@@ -21,20 +30,18 @@ function SignIn() {
 			email: "",
 			password: "",
 		},
-		validationSchema: Yup.object({
-			email: Yup.string().email("Invalid email address").required("Required"),
-			password: Yup.string()
-				.min(6, "Password must be at least 6 characters")
-				.required("Required"),
-		}),
-		onSubmit: async (values, { resetForm, setStatus }) => {
+		validationSchema: validationSchema,
+		onSubmit: async (values, { resetForm }) => {
 			try {
 				await handleLoginWithEmail(values.email, values.password);
-				navigate("/app/recipes");
 				resetForm();
 			} catch (error) {
-				setStatus("Nieprawidłowy email lub hasło.");
-				console.error(error);
+				const firebaseError = error as FirebaseError;
+				const errorCode = firebaseError.code;
+				const message =
+					firebaseErrorMessages[errorCode] ||
+					"Wystąpił nieznany błąd. Spróbuj ponownie.";
+				setServerError(message);
 			}
 		},
 	});
@@ -86,7 +93,10 @@ function SignIn() {
 					touched={formik.touched.password}
 					error={formik.errors.password}
 					errorClassName='registration-error'
+					showPasswordIcon
 				/>
+
+				{serverError && <p className='server-error'>{serverError}</p>}
 
 				<Button className='registration-button' type='submit'>
 					Zaloguj Się

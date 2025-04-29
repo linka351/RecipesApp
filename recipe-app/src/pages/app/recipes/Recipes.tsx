@@ -5,9 +5,9 @@ import "../../../styles/global/globalVariables.scss";
 
 import "./recipes.scss";
 import Input from "../../../components/inputs/Input";
-import Button from "../../../components/buttons/Button";
 import { RecipeCardProps } from "./recipe.types";
 import RecipeCard from "./recipeCard/RecipeCard";
+import { Link } from "react-router-dom";
 
 type Props = Pick<
 	RecipeCardProps,
@@ -69,9 +69,12 @@ const RecipeList = ({
 			<div className='search-recipe'>
 				{header && <h1 className='list-recipe'>Lista Przepisów</h1>}
 				{showAddButton && (
-					<Button className='add-recipe-link' onClick={onAddClick}>
+					<Link
+						to={"/app/recipes/add"}
+						className='add-recipe-link'
+						onClick={onAddClick}>
 						{addButtonLabel}
-					</Button>
+					</Link>
 				)}
 			</div>
 			<Input
