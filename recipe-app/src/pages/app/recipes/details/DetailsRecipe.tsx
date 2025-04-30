@@ -23,43 +23,66 @@ function DetailsRecipe() {
 
 	console.log(recipe?.ingredients);
 
+	const handleDelete = async () => {
+		if (id) {
+			await recipeApi.remove(id);
+			navigate("/app/recipes");
+		}
+	};
+
 	if (!recipe) {
 		return <div className='loading'>Ładowanie przepisu...</div>;
 	}
 
 	return (
-		<div className='recipe-details'>
-			<img className='recipe-image' src={recipe.image} alt={recipe.name} />
-
-			<div className='recipe-content'>
-				<h1 className='recipe-title'>{recipe.name}</h1>
-
-				<div className='recipe-section'>
-					<p className='details-header'>Opis</p>
-					<p className='details-text'>{recipe.description}</p>
+		<div className='details-wrapper'>
+			<div className='top-section'>
+				<div className='image-box'>
+					<img className='recipe-image' src={recipe.image} alt={recipe.name} />
 				</div>
-
-				<div className='recipe-section'>
-					<p className='details-header'>Składniki</p>
-					{recipe.ingredients.map((el, index) => (
-						<p className='details-text' key={index}>
+				<div className='ingredients-box'>
+					<p className='section-title'>Składniki</p>
+					{recipe.ingredients.map((el, i) => (
+						<p className='section-content' key={i}>
 							{el}
 						</p>
 					))}
 				</div>
 
-				<div className='recipe-section'>
-					<p className='details-header'>Instrukcje</p>
-					{recipe.instructions.map((el, index) => (
-						<p className='details-text' key={index}>
+				<div className='instructions-box'>
+					<p className='section-title'>Instrukcje</p>
+					{recipe.instructions.map((el, i) => (
+						<p className='section-content' key={i}>
 							{el}
 						</p>
 					))}
 				</div>
+			</div>
 
-				<div className='recipe-buttons'>
-					<Button onClick={() => navigate("/app/recipes")}>Powrót</Button>
-					<Button onClick={() => navigate(`/app/recipes/edit/${id}`)}>
+			<div className='middle-section'>
+				<div className='meta-box'>
+					<h1 className='recipe-title'>{recipe.name}</h1>
+					<div className='description-box'>
+						<p className='section-content'>{recipe.description}</p>
+					</div>
+				</div>
+			</div>
+
+			<div className='bottom-buttons'>
+				<Button
+					className='details-buttons back-button '
+					onClick={() => navigate("/app/recipes")}>
+					Powrót
+				</Button>
+				<div>
+					<Button
+						className='details-buttons delete-button'
+						onClick={handleDelete}>
+						Usuń
+					</Button>
+					<Button
+						className='details-buttons edit-button'
+						onClick={() => navigate(`/app/recipes/edit/${id}`)}>
 						Edytuj
 					</Button>
 				</div>

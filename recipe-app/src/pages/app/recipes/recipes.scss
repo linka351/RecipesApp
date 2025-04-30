@@ -114,11 +114,13 @@
 					width: 110px;
 
 					&.edit-button {
+						margin-top: 10px;
 						background-color: #4caf50;
 						font-weight: bold;
 						text-decoration: none;
 						border-radius: 5px;
 						text-align: center;
+						width: 200px;
 					}
 
 					&.delete-button {

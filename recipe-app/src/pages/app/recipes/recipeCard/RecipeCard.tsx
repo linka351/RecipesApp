@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import defaultImage from "../../../../images/22204570_6605525.jpg";
-import Button from "../../../../components/buttons/Button";
 import { RecipeCardProps } from "../recipe.types";
 
 export default function RecipeCard({
@@ -8,7 +7,6 @@ export default function RecipeCard({
 	imageClassName,
 	elementsContainerClassName,
 	customButtons,
-	handleDelete,
 }: RecipeCardProps) {
 	const navigate = useNavigate();
 
@@ -36,12 +34,6 @@ export default function RecipeCard({
 								className='edit-button'>
 								Szczegóły
 							</Link>
-							<Button
-								type='button'
-								className='delete-button'
-								onClick={() => handleDelete(recipe.id)}>
-								Usuń
-							</Button>
 						</>
 					)}
 				</div>
