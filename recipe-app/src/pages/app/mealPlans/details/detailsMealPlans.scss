@@ -2,6 +2,32 @@
 
 @import "../../../../styles/global/globalVariables.scss";
 
+.meal-plan {
+	.title {
+		font-size: 24px;
+		font-weight: bold;
+		margin-bottom: 16px;
+	}
+
+	.week {
+		padding: 8px;
+	}
+
+	.description {
+		padding: 8px;
+		margin-bottom: 10px;
+	}
+	.back-button {
+		background-color: rgb(212, 202, 202);
+		color: white;
+		padding: 10px 20px;
+		font-size: 1rem;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: bckground-color 0.3s ease;
+	}
+}
 .meal-table-container {
 	width: 100%;
 	background-color: #f4f4f4;
@@ -53,6 +79,14 @@
 			align-items: center;
 			height: 40px;
 			padding: 5px;
+		}
+
+		.meal-cell {
+			background-color: #f9f9f9;
+			border-radius: 5px;
+			border: 1px solid #ddd;
+			text-align: center;
+			padding: 8px;
 		}
 	}
 }

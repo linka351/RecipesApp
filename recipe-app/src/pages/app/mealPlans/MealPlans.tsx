@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { WeeklyPlan } from "./add/addMealPlan/types";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { mealPlansApi } from "../../../api/mealPlans";
 import Input from "../../../components/inputs/Input";
 
 import "./mealPlans.scss";
 import Button from "../../../components/buttons/Button";
+import { CgDetailsMore } from "react-icons/cg";
 import { IoTrashOutline } from "react-icons/io5";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { formatWeekRange } from "./mealPlans.utils";
@@ -13,7 +14,6 @@ import { formatWeekRange } from "./mealPlans.utils";
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
 	const [searchMealPlan, setSearchMealPlan] = useState<string>("");
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchMealPlans = async () => {
@@ -23,10 +23,6 @@ function MealPlans() {
 
 		fetchMealPlans();
 	}, []);
-
-	const handleDetails = (id: string) => {
-		navigate(`/app/meal-plans/details/${id}`);
-	};
 
 	const handleDelete = async (id: string) => {
 		try {
@@ -66,9 +62,7 @@ function MealPlans() {
 			<ul className='meal-plan-list'>
 				{filteredMealPlans.map(mealPlan => (
 					<li className='plan-list' key={mealPlan.id}>
-						<div
-							className='plan-list-container'
-							onClick={() => mealPlan.id && handleDetails(mealPlan.id)}>
+						<div className='plan-list-container'>
 							<div className='meal-plans-description'>
 								<div className='plan-list-name'>
 									<p className='meal-plan-name'>{mealPlan.name}</p>
@@ -80,10 +74,16 @@ function MealPlans() {
 							</div>
 							<div className='plan-buttons'>
 								<Link
+									className='plan-button'
+									to={`/app/meal-plans/details/${mealPlan.id}`}>
+									<CgDetailsMore />
+								</Link>
+								<Link
 									className='plan-button edit-meal-plan'
 									to={`/app/meal-plans/edit/${mealPlan.id}`}>
 									<MdOutlineModeEdit />
 								</Link>
+
 								<Button
 									className='plan-button delete-meal-plan'
 									onClick={() => mealPlan.id && handleDelete(mealPlan.id)}>

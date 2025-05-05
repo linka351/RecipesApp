@@ -21,8 +21,6 @@ function DetailsRecipe() {
 		fetchRecipe();
 	}, [id]);
 
-	console.log(recipe?.ingredients);
-
 	const handleDelete = async () => {
 		if (id) {
 			await recipeApi.remove(id);
@@ -40,22 +38,24 @@ function DetailsRecipe() {
 				<div className='image-box'>
 					<img className='recipe-image' src={recipe.image} alt={recipe.name} />
 				</div>
-				<div className='ingredients-box'>
-					<p className='section-title'>Składniki</p>
-					{recipe.ingredients.map((el, i) => (
-						<p className='section-content' key={i}>
-							{el}
-						</p>
-					))}
-				</div>
+				<div className='info-box'>
+					<div className='ingredients-box'>
+						<p className='section-title'>Składniki</p>
+						{recipe.ingredients.map((el, i) => (
+							<p className='section-content' key={i}>
+								{el}
+							</p>
+						))}
+					</div>
 
-				<div className='instructions-box'>
-					<p className='section-title'>Instrukcje</p>
-					{recipe.instructions.map((el, i) => (
-						<p className='section-content' key={i}>
-							{el}
-						</p>
-					))}
+					<div className='instructions-box'>
+						<p className='section-title'>Instrukcje</p>
+						{recipe.instructions.map((el, i) => (
+							<p className='section-content' key={i}>
+								{el}
+							</p>
+						))}
+					</div>
 				</div>
 			</div>
 
@@ -74,7 +74,7 @@ function DetailsRecipe() {
 					onClick={() => navigate("/app/recipes")}>
 					Powrót
 				</Button>
-				<div>
+				<div className='action-buttons'>
 					<Button
 						className='details-buttons delete-button'
 						onClick={handleDelete}>

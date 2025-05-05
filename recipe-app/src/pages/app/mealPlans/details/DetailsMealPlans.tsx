@@ -6,13 +6,23 @@ import Button from "../../../../components/buttons/Button";
 import "./detailsMealPlans.scss";
 import { Recipe } from "../../../../types/editRecipe";
 import { recipeApi } from "../../../../api/recipes";
-//import MealTable from "../mealPlansForm/components/mealTable/MealTable";
+import { DayName } from "../../../../types/MealPlan";
 
 function DetailsMealPlans() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [mealPlan, setMealPlan] = useState<WeeklyPlan>();
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+	const orderedDays: DayName[] = [
+		"Poniedziałek",
+		"Wtorek",
+		"Środa",
+		"Czwartek",
+		"Piątek",
+		"Sobota",
+		"Niedziela",
+	];
 
 	useEffect(() => {
 		const fetchMealPlan = async () => {
@@ -27,56 +37,62 @@ function DetailsMealPlans() {
 		fetchMealPlan();
 	}, [id]);
 
-	console.log(mealPlan);
-
 	const getRecipeNameById = (id: string) => {
 		const recipe = recipes.find(recipe => recipe.id === id);
-		return recipe ? recipe.name : "Brak nazwy";
+		return recipe ? recipe.name : "Brak przepisu";
 	};
 
 	if (!mealPlan) {
 		return <div className='loading'>Ładowanie planu...</div>;
 	}
 
-	const days = Object.keys(mealPlan.plan);
-	const mealName = mealPlan.mealName;
+	const mealNames = mealPlan.mealName;
+
 	return (
 		<div className='meal-plan'>
-			<h2>{mealPlan.name}</h2>
-			<p>Tydzień: {mealPlan.dateFrom}</p>
-			<p>Opis: {mealPlan.description}</p>
+			<h2 className='title'>{mealPlan.name}</h2>
+			<p className='week'>Tydzień: {mealPlan.dateFrom}</p>
+			<p className='description'>Opis: {mealPlan.description}</p>
 
 			<div className='meal-table-container'>
-				{mealName.length > 0 && (
+				{mealNames.length > 0 && (
 					<div className='meal-plan-grid'>
 						<div className='header-cell'>
 							<p>Nazwa Posiłku</p>
 						</div>
-						{days.map(day => (
+						{orderedDays.map(day => (
 							<div key={day} className='header-cell'>
 								{day}
 							</div>
 						))}
 
-						{mealName.map(meal => (
+						{mealNames.map(meal => (
 							<>
-								<div key={meal} className='meal-header'>
+								<div key={`meal-${meal}`} className='meal-header'>
 									{meal}
 								</div>
-								{days.map(day => (
-									<div key={day}>
-										<div key={meal} className='meal-cell'>
-											{getRecipeNameById(mealPlan.plan[day][meal])}
+								{orderedDays.map(day => {
+									const recipeId = mealPlan.plan[day]?.[meal];
+									const recipeName = recipeId
+										? getRecipeNameById(recipeId)
+										: "Brak przepisu";
+									return (
+										<div key={`${day}-${meal}`} className='meal-cell'>
+											{recipeName}
 										</div>
-									</div>
-								))}
+									);
+								})}
 							</>
 						))}
 					</div>
 				)}
 			</div>
 
-			<Button onClick={() => navigate(`/app/recipes`)}>Powrót</Button>
+			<Button
+				className='back-button'
+				onClick={() => navigate(`/app/meal-plans`)}>
+				Powrót
+			</Button>
 		</div>
 	);
 }
