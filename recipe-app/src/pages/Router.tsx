@@ -20,6 +20,7 @@ import { Protected } from "./app/registration/Protected";
 
 import "./router.scss";
 import { Public } from "./app/registration/Public";
+import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter([
 	{
@@ -85,6 +86,7 @@ function App() {
 	return (
 		<AuthProvider>
 			<RouterProvider router={router} />
+			<ToastContainer position='top-right' autoClose={3000} />
 		</AuthProvider>
 	);
 }

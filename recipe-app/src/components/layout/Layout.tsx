@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../navbar/Navbar";
 import Footer from "../../pages/components/footer/Footer";
-import { ToastContainer } from "react-toastify";
 
 import "./layout.scss";
 
@@ -17,7 +16,6 @@ function Layout() {
 					<Footer />
 				</div>
 			</div>
-			<ToastContainer position='top-center' />
 		</>
 	);
 }
