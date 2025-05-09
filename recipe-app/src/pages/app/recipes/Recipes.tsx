@@ -45,15 +45,6 @@ const RecipeList = ({
 		}
 	}, []);
 
-	const handleDelete = async (id: string) => {
-		try {
-			await recipeApi.remove(id);
-			setRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.id !== id));
-		} catch (error) {
-			console.error("Error removing document: ", error);
-		}
-	};
-
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchRecipe(e.target.value);
 	};
@@ -93,7 +84,6 @@ const RecipeList = ({
 							imageClassName={imageClassName}
 							elementsContainerClassName={elementsContainerClassName}
 							recipe={recipe}
-							handleDelete={handleDelete}
 						/>
 					))}
 				</ul>

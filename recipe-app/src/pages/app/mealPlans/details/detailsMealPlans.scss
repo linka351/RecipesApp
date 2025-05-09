@@ -1,6 +1,33 @@
 @use "sass:color";
 
-@import "../../../../../../styles/global/globalVariables.scss";
+@import "../../../../styles/global/globalVariables.scss";
+
+.meal-plan {
+	.title {
+		font-size: 24px;
+		font-weight: bold;
+		margin-bottom: 16px;
+	}
+
+	.week {
+		padding: 8px;
+	}
+
+	.description {
+		padding: 8px;
+		margin-bottom: 10px;
+	}
+	.back-button {
+		background-color: rgb(212, 202, 202);
+		color: white;
+		padding: 10px 20px;
+		font-size: 1rem;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: bckground-color 0.3s ease;
+	}
+}
 .meal-table-container {
 	width: 100%;
 	background-color: #f4f4f4;
@@ -31,6 +58,7 @@
 		display: grid;
 		grid-template-columns: 100px repeat(7, 1fr);
 		grid-gap: 5px;
+
 		.header-cell {
 			color: white;
 			background-color: #c9bdbd;
@@ -44,8 +72,25 @@
 			border-radius: 5px;
 			font-weight: bold;
 		}
+
+		.meal-select {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 40px;
+			padding: 5px;
+		}
+
+		.meal-cell {
+			background-color: #f9f9f9;
+			border-radius: 5px;
+			border: 1px solid #ddd;
+			text-align: center;
+			padding: 8px;
+		}
 	}
 }
+
 .recipe-name {
 	background-color: #ccc;
 	font-weight: bold;
@@ -57,32 +102,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	cursor: pointer;
-
-	&:hover {
-		filter: brightness(1.1);
-	}
 
 	@media (min-width: $mobile-media) {
 		width: 100%;
-	}
-}
-.meal-plan-grid {
-	margin-top: 10px;
-	display: grid;
-	grid-template-columns: 100px repeat(7, 1fr);
-	grid-gap: 5px;
-	.header-cell {
-		color: white;
-		background-color: #c9bdbd;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		font-size: 14px;
-		height: 40px;
-		padding: 5px;
-		border-radius: 5px;
-		font-weight: bold;
 	}
 }
