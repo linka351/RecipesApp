@@ -10,6 +10,7 @@ function Switch({ isPrivate, handleToggleChange }: Props) {
 			<span className='toggle-label'>Wszystkie</span>
 			<label className='switch'>
 				<input
+					className='toggle-input'
 					type='checkbox'
 					checked={isPrivate}
 					onChange={handleToggleChange}
