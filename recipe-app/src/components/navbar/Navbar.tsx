@@ -7,6 +7,7 @@ import clsx from "clsx";
 import Button from "../buttons/Button";
 import { useAuth } from "../../context/AuthContext";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 const getClassName = ({ isActive }: { isActive: boolean }) =>
 	isActive ? "selected link" : "link";
@@ -42,11 +43,11 @@ function Navbar() {
 	const handleSignOut = async () => {
 		await signOut()
 			.then(() => {
-				console.log("User signed out successfully");
+				toast.success("Wylogowano pomyślnie");
 				navigate("/");
 			})
-			.catch(error => {
-				console.error("Error signing out:", error);
+			.catch(() => {
+				toast.error("Wystąpił błąd przy wylogowaniu");
 			});
 	};
 	const overlayClass = clsx("overlay", { active: open });

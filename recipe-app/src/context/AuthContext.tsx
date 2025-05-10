@@ -17,7 +17,9 @@ import {
 import { auth } from "../firebase/firebaseConfig";
 import { userApi } from "../api/user";
 import { User } from "../types/user";
+import { USER_ROLE } from "../constants/user.const";
 import { GoogleAuthProvider } from "firebase/auth";
+import { toast } from "react-toastify";
 
 type AuthContextType = {
 	user: User | null;
@@ -81,6 +83,7 @@ export function AuthProvider({ children }: Props) {
 				const userData: User = {
 					id: authData.user.uid,
 					email: authData.user.email || "",
+					role: USER_ROLE.USER,
 				};
 
 				await userApi.add(userData);
@@ -114,14 +117,22 @@ export function AuthProvider({ children }: Props) {
 			const userData: User = {
 				id: user.uid,
 				email: user.email || "",
+				role: USER_ROLE.USER,
 			};
+			toast.success("Zarejestrowano pomyślnie");
 			await userApi.add(userData);
 		} catch (error) {
 			console.error("Google register error:", error);
+			toast.error("Wystąpił błąd podczas rejestracji");
 		}
 	}, []);
 	const handleLoginWithGoogle = useCallback(async () => {
-		await signInWithPopup(auth, provider);
+		try {
+			await signInWithPopup(auth, provider);
+			toast.success("Zalogowano pomyślnie");
+		} catch (error) {
+			toast.error("Wystąpił błąd podczas logowania");
+		}
 	}, [auth]);
 
 	const handleSignOut = useCallback(() => signOut(auth), []);

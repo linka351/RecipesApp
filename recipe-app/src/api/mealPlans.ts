@@ -8,6 +8,7 @@ import {
 	query,
 	updateDoc,
 	where,
+	or,
 } from "firebase/firestore";
 import { WeeklyPlan } from "../pages/app/mealPlans/add/addMealPlan/types";
 import { db } from "../firebase/firebaseConfig";
@@ -24,7 +25,6 @@ const add = async (mealPlan: WeeklyPlan) => {
 
 	return addDoc(collection(db, "mealPlans"), {
 		...mealPlan,
-		userId: user.uid,
 	});
 };
 
@@ -42,10 +42,12 @@ const getAll = async () => {
 		return [];
 	}
 
-	const q = query(collection(db, "mealPlans"), where("userId", "==", user.uid));
-
-	const snapShot = await getDocs(q);
-	return snapShot.docs.map(doc => ({
+	const plansQuery = query(
+		collection(db, "mealPlans"),
+		or(where("userId", "==", user.uid), where("status", "==", "public"))
+	);
+	const plansSnap = await getDocs(plansQuery);
+	return plansSnap.docs.map(doc => ({
 		id: doc.id,
 		...doc.data(),
 	})) as WeeklyPlan[];
