@@ -9,6 +9,7 @@ import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 import { toast } from "react-toastify";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 type FormValues = {
 	email: string;
@@ -103,6 +104,11 @@ function SignIn() {
 				<Button className='registration-button' type='submit'>
 					Zaloguj Się
 				</Button>
+				<p className='login-method'>lub</p>
+				<GoogleLoginButton />
+				{formik.status && (
+					<div className='registration-form-error'>{formik.status}</div>
+				)}
 			</form>
 		</div>
 	);
