@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import MealPlansForm from "../../mealPlansForm/MealPlansForm";
 import { WeeklyPlan } from "../../add/addMealPlan/types";
 import { mealPlansApi } from "../../../../../api/mealPlans";
+import { toast } from "react-toastify";
 
 function EditMealPlan() {
 	const { id } = useParams<{ id: string }>();
@@ -21,10 +22,10 @@ function EditMealPlan() {
 	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
 			await mealPlansApi.update(id!, values!);
-			alert("Plan posiłków został zaktualizowany!");
+			toast.success("Zaktualizowano plan posiłków");
 			navigate("/app/meal-plans");
 		} catch (error) {
-			alert("Wystąpił błąd podczas aktualizacji planu posiłków");
+			toast.error("Wystąpił błąd przy aktualizacji planu posiłków");
 		}
 	};
 

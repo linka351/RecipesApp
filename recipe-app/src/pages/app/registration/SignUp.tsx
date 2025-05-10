@@ -5,9 +5,11 @@ import "./registration.scss";
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleLoginButton from "./GoogleLoginButton";
 import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -42,12 +44,14 @@ function SignUp() {
 				await handleRegisterWithEmail(values.email, values.password);
 				navigate("/app/recipes");
 				resetForm();
+				toast.success("Rejestracja zakończona sukcesem");
 			} catch (error) {
 				const firebaseError = error as FirebaseError;
 				const message =
 					firebaseErrorMessages[firebaseError.code] ||
 					"Wystąpił nieznany błąd. Spróbuj ponownie.";
 				setserverError(message);
+				toast.error("Wystąpił błąd podczas rejestracji");
 			}
 		},
 	});
@@ -106,6 +110,8 @@ function SignUp() {
 				<Button className='registration-button' type='submit'>
 					Zarejestruj Się
 				</Button>
+				<p className='login-method'>lub</p>
+				<GoogleLoginButton />
 			</form>
 		</div>
 	);

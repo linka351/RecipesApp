@@ -1,10 +1,13 @@
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { mealPlansApi } from "../../../../../api/mealPlans";
-import { useAuth } from "../../../../../context/AuthContext";
 import MealPlansForm from "../../mealPlansForm/MealPlansForm";
 import { WeeklyPlan } from "./types";
+import { useAuth } from "../../../../../context/AuthContext";
 
 function AddMealPlan() {
-	const { user } = useAuth();
+	const { user } = useAuth(); // ✅ teraz OK – w ciele komponentu
 
 	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
@@ -17,9 +20,9 @@ function AddMealPlan() {
 				userId: user.id,
 				status,
 			});
-			alert("Plan posiłków został dodany!");
+			toast.success("Dodano plan posiłków");
 		} catch (error) {
-			alert("Wystąpił błąd podczas dodawania planu posiłków");
+			toast.error("Wystąpił błąd przy dodawaniu planu posiłków");
 		}
 	};
 

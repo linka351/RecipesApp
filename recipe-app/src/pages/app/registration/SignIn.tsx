@@ -8,6 +8,8 @@ import "./registration.scss";
 import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
+import { toast } from "react-toastify";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 type FormValues = {
 	email: string;
@@ -34,6 +36,7 @@ function SignIn() {
 			try {
 				await handleLoginWithEmail(values.email, values.password);
 				resetForm();
+				toast.success("Zalogowano pomyślnie");
 			} catch (error) {
 				const firebaseError = error as FirebaseError;
 				const errorCode = firebaseError.code;
@@ -41,6 +44,7 @@ function SignIn() {
 					firebaseErrorMessages[errorCode] ||
 					"Wystąpił nieznany błąd. Spróbuj ponownie.";
 				setServerError(message);
+				toast.error("Wystąpił błąd podczas logowania");
 			}
 		},
 	});
@@ -100,6 +104,11 @@ function SignIn() {
 				<Button className='registration-button' type='submit'>
 					Zaloguj Się
 				</Button>
+				<p className='login-method'>lub</p>
+				<GoogleLoginButton />
+				{formik.status && (
+					<div className='registration-form-error'>{formik.status}</div>
+				)}
 			</form>
 		</div>
 	);

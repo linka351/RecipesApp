@@ -12,11 +12,14 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 	UserCredential,
+	signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { userApi } from "../api/user";
 import { User } from "../types/user";
 import { USER_ROLE } from "../constants/user.const";
+import { GoogleAuthProvider } from "firebase/auth";
+import { toast } from "react-toastify";
 
 type AuthContextType = {
 	user: User | null;
@@ -29,6 +32,8 @@ type AuthContextType = {
 		password: string
 	) => Promise<UserCredential>;
 	handleSignOut: () => Promise<void>;
+	handleRegisterWithGoogle: () => Promise<void>;
+	handleLoginWithGoogle: () => Promise<void>;
 };
 
 const Context = createContext<AuthContextType | undefined>(undefined);
@@ -36,6 +41,11 @@ const Context = createContext<AuthContextType | undefined>(undefined);
 type Props = {
 	children: ReactNode;
 };
+
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+	prompt: "select_account",
+});
 
 export function AuthProvider({ children }: Props) {
 	const [user, setUser] = useState<User | null>(null);
@@ -100,6 +110,31 @@ export function AuthProvider({ children }: Props) {
 		[auth]
 	);
 
+	const handleRegisterWithGoogle = useCallback(async () => {
+		try {
+			const result = await signInWithPopup(auth, provider);
+			const user = result.user;
+			const userData: User = {
+				id: user.uid,
+				email: user.email || "",
+				role: USER_ROLE.USER,
+			};
+			toast.success("Zarejestrowano pomyślnie");
+			await userApi.add(userData);
+		} catch (error) {
+			console.error("Google register error:", error);
+			toast.error("Wystąpił błąd podczas rejestracji");
+		}
+	}, []);
+	const handleLoginWithGoogle = useCallback(async () => {
+		try {
+			await signInWithPopup(auth, provider);
+			toast.success("Zalogowano pomyślnie");
+		} catch (error) {
+			toast.error("Wystąpił błąd podczas logowania");
+		}
+	}, [auth]);
+
 	const handleSignOut = useCallback(() => signOut(auth), []);
 
 	const values: AuthContextType = {
@@ -107,6 +142,8 @@ export function AuthProvider({ children }: Props) {
 		handleRegisterWithEmail,
 		handleLoginWithEmail,
 		handleSignOut,
+		handleRegisterWithGoogle,
+		handleLoginWithGoogle,
 	};
 
 	return (
