@@ -12,6 +12,7 @@ import { formatWeekRange } from "./mealPlans.utils";
 import { useAuth } from "../../../context/AuthContext";
 import Switch from "../../../components/switch/Switch";
 import { toast } from "react-toastify";
+import { STATUS } from "../../../constants/status.const";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
@@ -90,7 +91,7 @@ function MealPlans() {
 									{mealPlan.description}
 								</p>
 							</div>
-							{mealPlan.status !== "public" && (
+							{mealPlan.status !== STATUS.PUBLIC && (
 								<div className='plan-buttons'>
 									<Link
 										className='plan-button edit-meal-plan'

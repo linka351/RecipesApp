@@ -13,6 +13,7 @@ import {
 import { WeeklyPlan } from "../pages/app/mealPlans/add/addMealPlan/types";
 import { db } from "../firebase/firebaseConfig";
 import { getAuth } from "firebase/auth";
+import { STATUS } from "../constants/status.const";
 
 const add = async (mealPlan: WeeklyPlan) => {
 	const auth = getAuth();
@@ -44,7 +45,7 @@ const getAll = async () => {
 
 	const plansQuery = query(
 		collection(db, "mealPlans"),
-		or(where("userId", "==", user.uid), where("status", "==", "public"))
+		or(where("userId", "==", user.uid), where("status", "==", STATUS.PUBLIC))
 	);
 	const plansSnap = await getDocs(plansQuery);
 	return plansSnap.docs.map(doc => ({

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import defaultImage from "../../../../images/22204570_6605525.jpg";
 import Button from "../../../../components/buttons/Button";
 import { RecipeCardProps } from "../recipe.types";
+import { STATUS } from "../../../../constants/status.const";
 
 export default function RecipeCard({
 	recipe,
@@ -23,7 +24,7 @@ export default function RecipeCard({
 				<div className='recipe-buttons'>
 					{customButtons
 						? customButtons(recipe)
-						: recipe.status !== "public" && (
+						: recipe.status !== STATUS.PUBLIC && (
 								<>
 									<Link
 										to={`/app/recipes/edit/${recipe.id}`}
