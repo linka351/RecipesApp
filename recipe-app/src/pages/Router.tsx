@@ -21,6 +21,7 @@ import { Protected } from "./app/registration/Protected";
 import "./router.scss";
 import { Public } from "./app/registration/Public";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
 	{

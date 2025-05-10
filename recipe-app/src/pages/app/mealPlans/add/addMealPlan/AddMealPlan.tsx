@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import { mealPlansApi } from "../../../../../api/mealPlans";
 import MealPlansForm from "../../mealPlansForm/MealPlansForm";
