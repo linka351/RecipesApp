@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 import { mealPlansApi } from "../../../../../api/mealPlans";
 import MealPlansForm from "../../mealPlansForm/MealPlansForm";
 import { WeeklyPlan } from "./types";
@@ -5,9 +7,9 @@ import { WeeklyPlan } from "./types";
 const handleSubmit = async (values: WeeklyPlan) => {
 	try {
 		await mealPlansApi.add(values!);
-		alert("Plan posiłków został dodany!");
+		toast.success("Dodano plan posiłków");
 	} catch (error) {
-		alert("Wystąpił błąd podczas dodawania planu posiłków");
+		toast.error("Wystąpił błąd przy dodawaniu planu posiłków");
 	}
 };
 

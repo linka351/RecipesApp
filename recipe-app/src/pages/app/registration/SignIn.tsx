@@ -8,6 +8,7 @@ import "./registration.scss";
 import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
+import { toast } from "react-toastify";
 import GoogleLoginButton from "./GoogleLoginButton";
 
 type FormValues = {
@@ -35,6 +36,7 @@ function SignIn() {
 			try {
 				await handleLoginWithEmail(values.email, values.password);
 				resetForm();
+				toast.success("Zalogowano pomyślnie");
 			} catch (error) {
 				const firebaseError = error as FirebaseError;
 				const errorCode = firebaseError.code;
@@ -42,6 +44,7 @@ function SignIn() {
 					firebaseErrorMessages[errorCode] ||
 					"Wystąpił nieznany błąd. Spróbuj ponownie.";
 				setServerError(message);
+				toast.error("Wystąpił błąd podczas logowania");
 			}
 		},
 	});

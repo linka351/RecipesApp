@@ -9,6 +9,7 @@ import Button from "../../../components/buttons/Button";
 import { IoTrashOutline } from "react-icons/io5";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { formatWeekRange } from "./mealPlans.utils";
+import { toast } from "react-toastify";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
@@ -29,8 +30,9 @@ function MealPlans() {
 			setMealPlans(prevMealPlans =>
 				prevMealPlans.filter(mealPlan => mealPlan.id !== id)
 			);
+			toast.error("Usunięto plan posiłków");
 		} catch (error) {
-			console.error("Error removing document: ", error);
+			toast.error("Wystąpił błąd przy usuwaniu planu posiłków");
 		}
 	};
 

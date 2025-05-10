@@ -8,6 +8,7 @@ import Input from "../../../components/inputs/Input";
 import { RecipeCardProps } from "./recipe.types";
 import RecipeCard from "./recipeCard/RecipeCard";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type Props = Pick<
 	RecipeCardProps,
@@ -49,8 +50,9 @@ const RecipeList = ({
 		try {
 			await recipeApi.remove(id);
 			setRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.id !== id));
+			toast.error("Usunięto przepis");
 		} catch (error) {
-			console.error("Error removing document: ", error);
+			toast.error("Wystąpił błąd przy usuwaniu przepisu");
 		}
 	};
 

@@ -9,6 +9,7 @@ import GoogleLoginButton from "./GoogleLoginButton";
 import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -43,12 +44,14 @@ function SignUp() {
 				await handleRegisterWithEmail(values.email, values.password);
 				navigate("/app/recipes");
 				resetForm();
+				toast.success("Rejestracja zakończona sukcesem");
 			} catch (error) {
 				const firebaseError = error as FirebaseError;
 				const message =
 					firebaseErrorMessages[firebaseError.code] ||
 					"Wystąpił nieznany błąd. Spróbuj ponownie.";
 				setserverError(message);
+				toast.error("Wystąpił błąd podczas rejestracji");
 			}
 		},
 	});
