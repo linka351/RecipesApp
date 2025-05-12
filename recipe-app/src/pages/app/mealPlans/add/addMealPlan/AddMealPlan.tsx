@@ -5,16 +5,19 @@ import { mealPlansApi } from "../../../../../api/mealPlans";
 import MealPlansForm from "../../mealPlansForm/MealPlansForm";
 import { WeeklyPlan } from "./types";
 import { useAuth } from "../../../../../context/AuthContext";
+import { USER_ROLE } from "../../../../../constants/user.const";
+import { STATUS } from "../../../../../constants/status.const";
 
 function AddMealPlan() {
-	const { user } = useAuth(); // ✅ teraz OK – w ciele komponentu
+	const { user } = useAuth();
 
 	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
 			if (!user) {
 				return;
 			}
-			const status = user.role === "admin" ? "public" : "private";
+			const status =
+				user.role === USER_ROLE.ADMIN ? STATUS.PUBLIC : STATUS.PRIVATE;
 			await mealPlansApi.add({
 				...values,
 				userId: user.id,
