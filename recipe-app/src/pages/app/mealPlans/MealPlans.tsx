@@ -10,7 +10,6 @@ import { formatWeekRange } from "./mealPlans.utils";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { useAuth } from "../../../context/AuthContext";
 import Switch from "../../../components/switch/Switch";
-import { toast } from "react-toastify";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
@@ -34,18 +33,6 @@ function MealPlans() {
 
 	const handleToggleChange = () => {
 		setShowOnlyPrivate(prev => !prev);
-	};
-
-	const handleDelete = async (id: string) => {
-		try {
-			await mealPlansApi.remove(id);
-			setMealPlans(prevMealPlans =>
-				prevMealPlans.filter(mealPlan => mealPlan.id !== id)
-			);
-			toast.error("Usunięto plan posiłków");
-		} catch (error) {
-			toast.error("Wystąpił błąd przy usuwaniu planu posiłków");
-		}
 	};
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

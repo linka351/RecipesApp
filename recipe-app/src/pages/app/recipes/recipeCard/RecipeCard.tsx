@@ -19,23 +19,6 @@ export default function RecipeCard({
 				<p className='name'>{recipe.name}</p>
 				<p className='description'>{recipe.description}</p>
 				<div className='recipe-buttons'>
-					{customButtons
-						? customButtons(recipe)
-						: recipe.status !== "public" && (
-								<>
-									<Link
-										to={`/app/recipes/edit/${recipe.id}`}
-										className='edit-button'>
-										Edytuj
-									</Link>
-									<Button
-										type='button'
-										className='delete-button'
-										onClick={() => handleDelete(recipe.id)}>
-										Usuń
-									</Button>
-								</>
-							)}
 					{customButtons ? (
 						customButtons(recipe)
 					) : (
