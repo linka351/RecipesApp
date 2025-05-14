@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import defaultImage from "../../../../images/22204570_6605525.jpg";
 import { RecipeCardProps } from "../recipe.types";
 
@@ -8,15 +8,9 @@ export default function RecipeCard({
 	elementsContainerClassName,
 	customButtons,
 }: RecipeCardProps) {
-	const navigate = useNavigate();
-
-	const handleDetails = () => {
-		navigate(`/app/recipes/details/${recipe.id}`);
-	};
 	return (
 		<li className='recipe' key={recipe.id}>
 			<img
-				onClick={handleDetails}
 				src={recipe.image || defaultImage}
 				alt={recipe.name}
 				className={`${imageClassName} image`}

@@ -11,23 +11,23 @@
 		flex-direction: column;
 		gap: 20px;
 
-		@media (min-width: $mobile-media) {
+		@media (min-width: $tablet-media) {
 			display: grid;
-			grid-template-columns: 1fr 1fr;
-			grid-template-areas:
-				"image image"
-				"ingredients instructions";
+			grid-template-columns: 1fr 2fr;
+			grid-template-areas: "left-col instructions";
 			gap: 20px;
 		}
 
-		@media (min-width: $tablet-media) {
-			grid-template-columns: 1fr 1fr 1fr;
-			grid-template-areas: "image ingredients instructions";
+		.left-col {
+			grid-area: left-col;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
 		}
 
 		.image-box {
 			width: 100%;
-			height: 400px;
+			height: 300px;
 
 			.recipe-image {
 				width: 100%;
@@ -35,46 +35,49 @@
 				object-fit: cover;
 				border-radius: 10px;
 			}
+		}
 
-			@media (min-width: $mobile-media) {
-				grid-area: image;
+		.ingredients-box {
+			background-color: #f9f9f9;
+			border-radius: 10px;
+			padding: 15px;
+			overflow: auto;
+
+			.section-title {
+				font-size: 18px;
+				font-weight: bold;
+				margin-bottom: 5px;
+			}
+
+			.section-content {
+				padding: 10px;
+				background-color: white;
+				margin-top: 10px;
+				border-radius: 8px;
+				border: 1px solid #ddd;
 			}
 		}
 
-		.info-box {
-			display: contents;
-			flex-direction: column;
-			gap: 10px;
+		.instructions-box {
+			grid-area: instructions;
+			background-color: #f9f9f9;
+			border-radius: 10px;
+			padding: 15px;
+			overflow: auto;
 
-			.ingredients-box {
-				grid-area: ingredients;
-				background-color: #f9f9f9;
-				border-radius: 10px;
-				padding: 15px;
-				overflow: auto;
+			.section-title {
+				font-size: 18px;
+				font-weight: bold;
+				margin-bottom: 5px;
 			}
 
-			.instructions-box {
-				grid-area: instructions;
-				background-color: #f9f9f9;
-				border-radius: 10px;
-				padding: 15px;
-				overflow: auto;
+			.section-content {
+				padding: 10px;
+				background-color: white;
+				margin-top: 10px;
+				border-radius: 8px;
+				border: 1px solid #ddd;
 			}
-		}
-
-		.section-title {
-			font-size: 18px;
-			font-weight: bold;
-			margin-bottom: 5px;
-		}
-
-		.section-content {
-			padding: 10px;
-			background-color: white;
-			margin-top: 10px;
-			border-radius: 8px;
-			border: 1px solid #ddd;
 		}
 	}
 
@@ -109,16 +112,51 @@
 
 		@media (min-width: $mobile-media) {
 			flex-direction: row;
-			justify-content: space-between;
+			justify-content: flex-end;
+		}
+		@media (min-width: $tablet-media) {
+			justify-content: flex-end;
 		}
 
-		.action-buttons {
+		.actions-buttons {
 			display: flex;
 			flex-direction: column;
 			gap: 10px;
 
 			@media (min-width: $mobile-media) {
 				flex-direction: row;
+				gap: 16px;
+			}
+		}
+
+		.action-button {
+			color: white;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 5px;
+			transition: color 0.5s ease;
+			font-size: 32px;
+
+			@media (min-width: $mobile-media) {
+				background: none;
+				padding: 0;
+				color: rgb(151, 151, 151);
+				&:hover {
+					color: rgb(84, 84, 84);
+				}
+			}
+		}
+		.delete-button {
+			background-color: #f44336;
+			@media (min-width: $mobile-media) {
+				background: none;
+			}
+		}
+		.edit-button {
+			background-color: #4caf50;
+			@media (min-width: $mobile-media) {
+				background: none;
 			}
 		}
 
@@ -133,22 +171,6 @@
 
 			@media (min-width: $mobile-media) {
 				width: 150px;
-			}
-
-			&.back-button {
-				background-color: rgb(212, 202, 202);
-				color: white;
-			}
-			&.delete-button {
-				background-color: rgb(238, 12, 12);
-				color: white;
-			}
-			&.edit-button {
-				background-color: #4caf50;
-				color: white;
-			}
-			&:hover {
-				opacity: 0.9;
 			}
 		}
 	}

@@ -3,29 +3,68 @@
 @import "../../../../styles/global/globalVariables.scss";
 
 .meal-plan {
-	.title {
-		font-size: 24px;
-		font-weight: bold;
-		margin-bottom: 16px;
-	}
+	.details-wrapper {
+		display: flex;
+		gap: 5px;
+		padding: 20px;
+		margin-bottom: 20px;
 
-	.week {
-		padding: 8px;
+		.title {
+			padding: 5px;
+		}
+		.week {
+			margin-bottom: 5px;
+			padding: 5px;
+		}
+		.description {
+			margin-bottom: 5px;
+			padding: 5px;
+		}
+		.label {
+			font-weight: bold;
+			display: inline;
+		}
 	}
+	.details-buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 
-	.description {
-		padding: 8px;
-		margin-bottom: 10px;
-	}
-	.back-button {
-		background-color: rgb(212, 202, 202);
-		color: white;
-		padding: 10px 20px;
-		font-size: 1rem;
-		border: none;
-		border-radius: 6px;
-		cursor: pointer;
-		transition: bckground-color 0.3s ease;
+		@media (min-width: $mobile-media) {
+			flex-direction: row;
+			justify-content: flex-end;
+		}
+		.plan-button {
+			font-size: 32px;
+			background: none;
+			color: white;
+			display: flex;
+			justify-content: center;
+			padding: 5px;
+			transition: color 0.5s ease;
+			border-radius: 6px;
+			align-items: center;
+
+			@media (min-width: $mobile-media) {
+				color: rgb(151, 151, 151);
+
+				&:hover {
+					color: rgb(84, 84, 84);
+				}
+			}
+		}
+		.edit-meal-plan {
+			background-color: #4caf50;
+			@media (min-width: $mobile-media) {
+				background: none;
+			}
+		}
+		.delete-meal-plan {
+			background-color: #f44336;
+			@media (min-width: $mobile-media) {
+				background: none;
+			}
+		}
 	}
 }
 .meal-table-container {

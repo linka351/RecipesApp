@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { WeeklyPlan } from "../add/addMealPlan/types";
 import { useEffect, useState } from "react";
 import { mealPlansApi } from "../../../../api/mealPlans";
@@ -7,11 +7,16 @@ import "./detailsMealPlans.scss";
 import { Recipe } from "../../../../types/editRecipe";
 import { recipeApi } from "../../../../api/recipes";
 import { DayName } from "../../../../types/MealPlan";
+import { MdOutlineModeEdit } from "react-icons/md";
+import { IoTrashOutline } from "react-icons/io5";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import { formatWeekRange } from "../mealPlans.utils";
 
 function DetailsMealPlans() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [mealPlan, setMealPlan] = useState<WeeklyPlan>();
+
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
 	const orderedDays: DayName[] = [
@@ -25,37 +30,66 @@ function DetailsMealPlans() {
 	];
 
 	useEffect(() => {
-		const fetchMealPlan = async () => {
-			if (id) {
-				const singleMealPlan = await mealPlansApi.get(id);
-				const userRecipes = await recipeApi.getAll();
+		if (!id) return;
 
-				setMealPlan(singleMealPlan);
-				setRecipes(userRecipes);
-			}
+		const fetchMealPlan = async () => {
+			const singleMealPlan = await mealPlansApi.get(id);
+			const userRecipes = await recipeApi.getAll();
+			setMealPlan(singleMealPlan);
+			setRecipes(userRecipes);
 		};
 		fetchMealPlan();
 	}, [id]);
 
-	const getRecipeNameById = (id: string) => {
+	const getRecipeLabel = (id: string | undefined) => {
 		const recipe = recipes.find(recipe => recipe.id === id);
-		return recipe ? recipe.name : "Brak przepisu";
+		return recipe?.name || "Brak przepisu";
 	};
 
 	if (!mealPlan) {
 		return <div className='loading'>Ładowanie planu...</div>;
 	}
 
-	const mealNames = mealPlan.mealName;
+	const handleDelete = async (id: string) => {
+		try {
+			await mealPlansApi.remove(id);
+			navigate("/app/meal-plans");
+		} catch (error) {
+			console.error("Error removing document: ", error);
+		}
+	};
 
 	return (
 		<div className='meal-plan'>
-			<h2 className='title'>{mealPlan.name}</h2>
-			<p className='week'>Tydzień: {mealPlan.dateFrom}</p>
-			<p className='description'>Opis: {mealPlan.description}</p>
+			<div className='details-buttons'>
+				<Link
+					className='plan-button edit-meal-plan'
+					to={`/app/meal-plans/edit/${mealPlan.id}`}
+					aria-label='Edytuj'
+					data-tooltip-id='edit-tooltip'>
+					<MdOutlineModeEdit />
+				</Link>
 
+				<Button
+					className='plan-button delete-meal-plan'
+					onClick={() => mealPlan.id && handleDelete(mealPlan.id)}
+					aria-label='Usuń'
+					data-tooltip-id='delete-tooltip'>
+					<IoTrashOutline />
+				</Button>
+			</div>
+			<div className='details-wrapper'>
+				<h2 className='title'>{mealPlan.name}</h2>
+				<p className='week'>
+					<span className='label'>Tydzień:</span>{" "}
+					{formatWeekRange(mealPlan.dateFrom)}
+				</p>
+				<p className='description'>
+					<span className='label'>Opis: </span> {mealPlan.description}
+				</p>
+			</div>
 			<div className='meal-table-container'>
-				{mealNames.length > 0 && (
+				{mealPlan.mealName.length > 0 && (
 					<div className='meal-plan-grid'>
 						<div className='header-cell'>
 							<p>Nazwa Posiłku</p>
@@ -66,16 +100,14 @@ function DetailsMealPlans() {
 							</div>
 						))}
 
-						{mealNames.map(meal => (
+						{mealPlan.mealName.map(meal => (
 							<>
 								<div key={`meal-${meal}`} className='meal-header'>
 									{meal}
 								</div>
 								{orderedDays.map(day => {
 									const recipeId = mealPlan.plan[day]?.[meal];
-									const recipeName = recipeId
-										? getRecipeNameById(recipeId)
-										: "Brak przepisu";
+									const recipeName = getRecipeLabel(recipeId);
 									return (
 										<div key={`${day}-${meal}`} className='meal-cell'>
 											{recipeName}
@@ -88,11 +120,8 @@ function DetailsMealPlans() {
 				)}
 			</div>
 
-			<Button
-				className='back-button'
-				onClick={() => navigate(`/app/meal-plans`)}>
-				Powrót
-			</Button>
+			<ReactTooltip id='delete-tooltip' content='Usuń' place='bottom' />
+			<ReactTooltip id='edit-tooltip' content='Edytuj' place='bottom' />
 		</div>
 	);
 }
