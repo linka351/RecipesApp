@@ -12,15 +12,14 @@ import Button from "../../../../components/buttons/Button";
 import { useRef, useState } from "react";
 import ImageUploader from "./components/uploadImage/ImageUploader";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../context/AuthContext";
+import { Recipe } from "../../../../types/editRecipe";
+import { toast } from "react-toastify";
 
-export interface FormValues {
+export type FormValues = Omit<Recipe, "userId" | "id"> & {
+	userId?: string;
 	id?: string;
-	name: string;
-	description: string;
-	instructions: string[];
-	ingredients: string[];
-	image?: string;
-}
+};
 
 interface RecipesFormProps {
 	initialValues?: FormValues;
@@ -30,6 +29,7 @@ interface RecipesFormProps {
 function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 	const [imageUpload, setImageUpload] = useState<File | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const { user } = useAuth();
 
 	const navigate = useNavigate();
 
@@ -41,6 +41,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		instructions: [],
 		ingredients: [],
 		image: "",
+		status: "private",
 	};
 
 	const uploadImage = async (file: File): Promise<string | undefined> => {
@@ -58,11 +59,11 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 
 			const data = await response.json();
 			if (!data.success) {
-				throw new Error("Błąd podczas przesyłania zdjęcia");
+				toast.error("Wystąpił błąd podczas przesyłania zdjęcia");
 			}
 			return data.data.display_url;
 		} catch (error) {
-			console.error("Błąd podczas przesyłania zdjęcia:", error);
+			toast.error("Wystąpił błąd podczas przesyłania zdjęcia");
 		}
 	};
 
@@ -91,11 +92,14 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 					...values,
 					image: imageUrl,
 				});
+				toast.success("Przepis został zaktualizowany");
 			} else {
 				await recipeApi.add({
 					...values,
+					userId: user?.id,
 					image: imageUrl,
 				});
+				toast.success("Przepis został dodany");
 			}
 
 			formikHelpers.resetForm();
@@ -107,11 +111,12 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 
 			navigate("/app/recipes");
 		} catch (error) {
-			console.error("Błąd podczas zapisywania przepisu:", error);
+			toast.error("Wystąpił błąd podczas dodawania przepisu");
 		} finally {
 			setIsSubmitting(false);
 		}
 	}
+
 	const handleAddInstruction = (instruction: string): void => {
 		formik.setFieldValue("instructions", [
 			...formik.values.instructions,
@@ -140,6 +145,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		updatedIngredients[index] = ingredient;
 		formik.setFieldValue("ingredients", updatedIngredients);
 	};
+
 	const handleEditInstruction = (index: number, instruction: string) => {
 		const updatedInstructions = [...formik.values.instructions];
 		updatedInstructions[index] = instruction;

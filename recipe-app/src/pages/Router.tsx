@@ -21,6 +21,9 @@ import { AuthProvider } from "../context/AuthContext";
 import { Protected } from "./app/registration/Protected";
 
 import "./router.scss";
+import { Public } from "./app/registration/Public";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
 	{
@@ -32,12 +35,17 @@ const router = createBrowserRouter([
 		element: <Layout />,
 		children: [
 			{
-				path: "/sign-up",
-				element: <SignUp />,
-			},
-			{
-				path: "/sign-in",
-				element: <SignIn />,
+				element: <Public />,
+				children: [
+					{
+						path: "/sign-up",
+						element: <SignUp />,
+					},
+					{
+						path: "/sign-in",
+						element: <SignIn />,
+					},
+				],
 			},
 			{
 				element: <Protected />,
@@ -88,6 +96,7 @@ function App() {
 	return (
 		<AuthProvider>
 			<RouterProvider router={router} />
+			<ToastContainer position='top-right' autoClose={3000} />
 		</AuthProvider>
 	);
 }

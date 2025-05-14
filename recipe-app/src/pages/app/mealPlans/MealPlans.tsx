@@ -8,31 +8,61 @@ import "./mealPlans.scss";
 import { CgDetailsMore } from "react-icons/cg";
 import { formatWeekRange } from "./mealPlans.utils";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { useAuth } from "../../../context/AuthContext";
+import Switch from "../../../components/switch/Switch";
+import { toast } from "react-toastify";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
 	const [searchMealPlan, setSearchMealPlan] = useState<string>("");
+	const [showOnlyPrivate, setShowOnlyPrivate] = useState(false);
+
+	const { user } = useAuth();
 
 	useEffect(() => {
-		const fetchMealPlans = async () => {
-			const mealPlanList = await mealPlansApi.getAll();
-			setMealPlans(mealPlanList);
-		};
+		try {
+			const fetchMealPlans = async () => {
+				const mealPlanList = await mealPlansApi.getAll();
+				setMealPlans(mealPlanList);
+			};
 
-		fetchMealPlans();
+			fetchMealPlans();
+		} catch (error) {
+			console.error("Error fetchMealPlans document: ", error);
+		}
 	}, []);
+
+	const handleToggleChange = () => {
+		setShowOnlyPrivate(prev => !prev);
+	};
+
+	const handleDelete = async (id: string) => {
+		try {
+			await mealPlansApi.remove(id);
+			setMealPlans(prevMealPlans =>
+				prevMealPlans.filter(mealPlan => mealPlan.id !== id)
+			);
+			toast.error("Usunięto plan posiłków");
+		} catch (error) {
+			toast.error("Wystąpił błąd przy usuwaniu planu posiłków");
+		}
+	};
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchMealPlan(e.target.value);
 	};
 
-	const filteredMealPlans = mealPlans.filter(mealPlan =>
-		mealPlan.name.toLowerCase().includes(searchMealPlan.toLowerCase())
+	const filteredMealPlans = mealPlans.filter(
+		mealPlans => !showOnlyPrivate || mealPlans.userId === user?.id
 	);
 
 	return (
 		<div className='meal-plan-container'>
 			<div className='search-meal-plan'>
+				<Switch
+					isPrivate={showOnlyPrivate}
+					handleToggleChange={handleToggleChange}
+				/>
 				<h1 className='meal-plan'>Lista Planów</h1>
 				<Link className='add-meal-plan' to={"/app/meal-plans/add/"}>
 					Dodaj Plan

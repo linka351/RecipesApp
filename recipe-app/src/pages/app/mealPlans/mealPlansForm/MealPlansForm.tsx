@@ -13,6 +13,7 @@ import Button from "../../../../components/buttons/Button";
 import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
 import { Oval } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -40,7 +41,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 			formik.resetForm();
 			navigate("/app/meal-plans");
 		} catch (error) {
-			alert("Wystąpił błąd przy zapisywaniu planu.");
+			toast.error("Wystąpił błąd przy dodawaniu planu posiłków");
 		} finally {
 			setIsSubmitting(false);
 		}

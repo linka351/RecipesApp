@@ -8,6 +8,7 @@ import {
 	getDoc,
 	updateDoc,
 	where,
+	or,
 } from "firebase/firestore";
 import { FormValues } from "../pages/app/recipes/recipesForm/RecipesForm";
 import { db } from "../firebase/firebaseConfig";
@@ -25,7 +26,6 @@ const add = async (values: FormValues) => {
 
 	return addDoc(collection(db, "recipes"), {
 		...values,
-		userId: user.uid,
 	});
 };
 
@@ -55,10 +55,13 @@ const getAll = async () => {
 		return [];
 	}
 
-	const q = query(collection(db, "recipes"), where("userId", "==", user.uid));
+	const recipesQuery = query(
+		collection(db, "recipes"),
+		or(where("userId", "==", user.uid), where("status", "==", "public"))
+	);
 
-	const snapShot = await getDocs(q);
-	return snapShot.docs.map(doc => ({
+	const snapshot = await getDocs(recipesQuery);
+	return snapshot.docs.map(doc => ({
 		id: doc.id,
 		...doc.data(),
 	})) as Recipe[];

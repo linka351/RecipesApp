@@ -7,10 +7,12 @@ export type MealPlan = {
 };
 
 export type WeeklyPlan = {
+	userId?: string;
 	id?: string;
 	name: string;
 	description: string;
 	dateFrom: string;
 	mealName: string[];
+	status: "public" | "private";
 	plan: MealPlan;
 };

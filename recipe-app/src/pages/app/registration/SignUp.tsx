@@ -5,6 +5,11 @@ import "./registration.scss";
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleLoginButton from "./GoogleLoginButton";
+import { useState } from "react";
+import { FirebaseError } from "firebase/app";
+import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -16,13 +21,15 @@ const validationSchema = Yup.object({
 		.matches(/[a-z]/, "Hasło musi zawierać co najmniej jedną małą literę")
 		.matches(/[0-9]/, "Hasło musi zawierać co najmniej jedną cyfrę")
 		.matches(
-			/[@$!%*?&]/,
-			"Hasło musi zawierać co najmniej jeden znak specjalny (@, $, !, %, *, ?, &)"
+			/[@$!%*?&#]/,
+			"Hasło musi zawierać co najmniej jeden znak specjalny (@, $, !, %, *, ?, &, #)"
 		)
 		.required("Hasło jest wymagane"),
 });
 
 function SignUp() {
+	const [serverError, setserverError] = useState("");
+
 	const { handleRegisterWithEmail } = useAuth();
 	const navigate = useNavigate();
 
@@ -37,8 +44,14 @@ function SignUp() {
 				await handleRegisterWithEmail(values.email, values.password);
 				navigate("/app/recipes");
 				resetForm();
+				toast.success("Rejestracja zakończona sukcesem");
 			} catch (error) {
-				console.error(error);
+				const firebaseError = error as FirebaseError;
+				const message =
+					firebaseErrorMessages[firebaseError.code] ||
+					"Wystąpił nieznany błąd. Spróbuj ponownie.";
+				setserverError(message);
+				toast.error("Wystąpił błąd podczas rejestracji");
 			}
 		},
 	});
@@ -89,11 +102,16 @@ function SignUp() {
 					touched={formik.touched.password}
 					error={formik.errors.password}
 					errorClassName='registration-error'
+					showPasswordIcon
 				/>
+
+				{serverError && <p className='server-error'>{serverError}</p>}
 
 				<Button className='registration-button' type='submit'>
 					Zarejestruj Się
 				</Button>
+				<p className='login-method'>lub</p>
+				<GoogleLoginButton />
 			</form>
 		</div>
 	);
