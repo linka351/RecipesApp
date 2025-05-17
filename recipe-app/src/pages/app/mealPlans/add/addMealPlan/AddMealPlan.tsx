@@ -7,7 +7,7 @@ import { WeeklyPlan } from "./types";
 import { useAuth } from "../../../../../context/AuthContext";
 
 function AddMealPlan() {
-	const { user } = useAuth(); // ✅ teraz OK – w ciele komponentu
+	const { user } = useAuth();
 
 	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
