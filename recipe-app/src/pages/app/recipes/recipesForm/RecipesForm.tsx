@@ -5,7 +5,6 @@ import Input from "../../../../components/inputs/Input";
 import TextArea from "../../../../components/textAreas/TextArea";
 import { recipeApi } from "../../../../api/recipes";
 import { validationSchema } from "./RecipeForm.validation";
-import { Oval } from "react-loader-spinner";
 
 import "./recipesForm.scss";
 import Button from "../../../../components/buttons/Button";
@@ -15,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../context/AuthContext";
 import { Recipe } from "../../../../types/editRecipe";
 import { toast } from "react-toastify";
+import Loader from "../../../../components/loader/Loader";
 
 export type FormValues = Omit<Recipe, "userId" | "id"> & {
 	userId?: string;
@@ -158,19 +158,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 
 	return (
 		<div className='recipe-container'>
-			{isSubmitting && (
-				<div className='full-page-loader'>
-					<Oval
-						height={100}
-						width={100}
-						color='#ffffff'
-						ariaLabel='Zapisywanie przepisu'
-						secondaryColor='#ffffff'
-						strokeWidth={2}
-						strokeWidthSecondary={2}
-					/>
-				</div>
-			)}
+			{isSubmitting && <Loader />}
 			<div className='recipe-form-name'>
 				<h1 className='new-recipe'>
 					{initialValues?.id ? "Edytuj Przepis" : "Nowy Przepis"}

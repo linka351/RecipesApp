@@ -4,6 +4,7 @@ import MealPlansForm from "../../mealPlansForm/MealPlansForm";
 import { WeeklyPlan } from "../../add/addMealPlan/types";
 import { mealPlansApi } from "../../../../../api/mealPlans";
 import { toast } from "react-toastify";
+import Loader from "../../../../../components/loader/Loader";
 
 function EditMealPlan() {
 	const { id } = useParams<{ id: string }>();
@@ -32,7 +33,7 @@ function EditMealPlan() {
 	return initialValues ? (
 		<MealPlansForm initialValues={initialValues} onSubmit={handleSubmit} />
 	) : (
-		<div>Loading ...</div>
+		<Loader />
 	);
 }
 
