@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { recipeApi } from "../../../../api/recipes";
 import RecipesForm, { FormValues } from "../recipesForm/RecipesForm";
+import Loader from "../../../../components/loader/Loader";
 
 function Edit() {
 	const { id } = useParams<{ id: string }>();
@@ -24,7 +25,7 @@ function Edit() {
 	return recipe ? (
 		<RecipesForm initialValues={recipe} onSubmit={handleFormSubmit} />
 	) : (
-		<div>Loading...</div>
+		<Loader />
 	);
 }
 

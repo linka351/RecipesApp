@@ -10,6 +10,7 @@ import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 import { toast } from "react-toastify";
+import Loader from "../../../components/loader/Loader";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -58,6 +59,7 @@ function SignUp() {
 
 	return (
 		<div className='registration-container'>
+			{formik.isSubmitting && <Loader />}
 			<div className='registration-image'>
 				<div className='registration-text'>
 					<h2 className='image-header'>Witamy w naszej aplikacji! 👋🍽️</h2>

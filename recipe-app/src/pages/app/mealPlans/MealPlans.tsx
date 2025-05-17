@@ -12,25 +12,31 @@ import { formatWeekRange } from "./mealPlans.utils";
 import { useAuth } from "../../../context/AuthContext";
 import Switch from "../../../components/switch/Switch";
 import { toast } from "react-toastify";
+import Loader from "../../../components/loader/Loader";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
 	const [searchMealPlan, setSearchMealPlan] = useState<string>("");
 	const [showOnlyPrivate, setShowOnlyPrivate] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const { user } = useAuth();
 
 	useEffect(() => {
-		try {
-			const fetchMealPlans = async () => {
+		const fetchMealPlans = async () => {
+			setIsLoading(true);
+			try {
 				const mealPlanList = await mealPlansApi.getAll();
 				setMealPlans(mealPlanList);
-			};
+			} catch (error) {
+				console.error("Error fetchMealPlans document: ", error);
+				toast.error("Błąd podczas pobierania planów");
+			} finally {
+				setIsLoading(false);
+			}
+		};
 
-			fetchMealPlans();
-		} catch (error) {
-			console.error("Error fetchMealPlans document: ", error);
-		}
+		fetchMealPlans();
 	}, []);
 
 	const handleToggleChange = () => {
@@ -59,6 +65,7 @@ function MealPlans() {
 
 	return (
 		<div className='meal-plan-container'>
+			{isLoading && <Loader />}
 			<div className='search-meal-plan'>
 				<Switch
 					isPrivate={showOnlyPrivate}

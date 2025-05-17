@@ -11,13 +11,13 @@ import MealTable from "./components/mealTable/MealTable";
 import "./mealPlansForm.scss";
 import Button from "../../../../components/buttons/Button";
 import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
-import { Oval } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Loader from "../../../../components/loader/Loader";
 
 type Props = {
 	initialValues?: WeeklyPlan;
-	onSubmit?: (values: WeeklyPlan) => void;
+	onSubmit?: (values: WeeklyPlan) => Promise<void>;
 };
 
 function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
@@ -37,7 +37,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 	const handleSubmit = async (values: WeeklyPlan) => {
 		try {
 			setIsSubmitting(true);
-			if (onSubmit) onSubmit(values);
+			if (onSubmit) await onSubmit(values);
 			formik.resetForm();
 			navigate("/app/meal-plans");
 		} catch (error) {
@@ -69,19 +69,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 
 	return (
 		<div className='meal-container'>
-			{isSubmitting && (
-				<div className='full-page-loader'>
-					<Oval
-						height={100}
-						width={100}
-						color='#ffffff'
-						ariaLabel='Zapisywanie przepisu'
-						secondaryColor='#ffffff'
-						strokeWidth={2}
-						strokeWidthSecondary={2}
-					/>
-				</div>
-			)}
+			{isSubmitting && <Loader />}
 			<form onSubmit={formik.handleSubmit} className='add-meal-plan-form'>
 				<div className='meal-form-name'>
 					<h1 className='meal-plan-title'>

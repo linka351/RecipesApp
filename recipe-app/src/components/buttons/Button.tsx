@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes } from "react";
 import "./button.scss";
 import clsx from "clsx";
+import Loader from "../loader/Loader";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 	isSubmitting?: boolean;
@@ -20,7 +21,7 @@ const Button = ({
 			type={type}
 			disabled={isSubmitting || disabled}
 			{...props}>
-			{isSubmitting ? <span className='loader'>Loading...</span> : children}
+			{isSubmitting ? <Loader /> : children}
 		</button>
 	);
 };

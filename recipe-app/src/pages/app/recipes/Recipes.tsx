@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import Switch from "../../../components/switch/Switch";
 import { useAuth } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
+import Loader from "../../../components/loader/Loader";
 
 type Props = Pick<
 	RecipeCardProps,
@@ -35,20 +36,25 @@ const RecipeList = ({
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [searchRecipe, setSearchRecipe] = useState<string>("");
 	const [showOnlyPrivate, setShowOnlyPrivate] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const { user } = useAuth();
 
 	useEffect(() => {
-		try {
-			const fetchRecipes = async () => {
+		const fetchRecipes = async () => {
+			setIsLoading(true);
+			try {
 				const recipeList = await recipeApi.getAll();
 				setRecipes(recipeList);
-			};
+			} catch (error) {
+				console.error("Error fetching recipes:", error);
+				toast.error("Wystąpił błąd podczas pobierania przepisów");
+			} finally {
+				setIsLoading(false);
+			}
+		};
 
-			fetchRecipes();
-		} catch (error) {
-			console.error("Error fetchRecipes document: ", error);
-		}
+		fetchRecipes();
 	}, []);
 
 	const toggleFilter = () => {
@@ -75,6 +81,7 @@ const RecipeList = ({
 
 	return (
 		<div className='recipe-list-container'>
+			{isLoading && <Loader />}
 			<div className='search-recipe'>
 				{showAddButton && (
 					<>
