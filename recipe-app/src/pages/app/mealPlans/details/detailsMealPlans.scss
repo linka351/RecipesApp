@@ -1,0 +1,148 @@
+@use "sass:color";
+
+@import "../../../../styles/global/globalVariables.scss";
+
+.meal-plan {
+	.details-wrapper {
+		display: flex;
+		gap: 5px;
+		padding: 20px;
+		margin-bottom: 20px;
+
+		.title {
+			padding: 5px;
+		}
+		.week {
+			margin-bottom: 5px;
+			padding: 5px;
+		}
+		.description {
+			margin-bottom: 5px;
+			padding: 5px;
+		}
+		.label {
+			font-weight: bold;
+			display: inline;
+		}
+	}
+	.details-buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		@media (min-width: $mobile-media) {
+			flex-direction: row;
+			justify-content: flex-end;
+		}
+		.plan-button {
+			font-size: 32px;
+			background: none;
+			color: white;
+			display: flex;
+			justify-content: center;
+			padding: 5px;
+			transition: color 0.5s ease;
+			border-radius: 6px;
+			align-items: center;
+
+			@media (min-width: $mobile-media) {
+				color: rgb(151, 151, 151);
+
+				&:hover {
+					color: rgb(84, 84, 84);
+				}
+			}
+		}
+		.edit-meal-plan {
+			background-color: #4caf50;
+			@media (min-width: $mobile-media) {
+				background: none;
+			}
+		}
+		.delete-meal-plan {
+			background-color: #f44336;
+			@media (min-width: $mobile-media) {
+				background: none;
+			}
+		}
+	}
+}
+.meal-table-container {
+	width: 100%;
+	background-color: #f4f4f4;
+	min-height: 40vh;
+	padding: 10px;
+	border-radius: 5px;
+	overflow-x: scroll;
+	overflow-y: visible;
+	margin-bottom: 24px;
+
+	@media (min-width: $desktop-media) {
+		overflow: hidden;
+	}
+
+	.meal-header {
+		color: white;
+		background-color: #c9bdbd;
+		border-radius: 5px;
+		font-size: 12px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-weight: bold;
+	}
+
+	.meal-plan-grid {
+		margin-top: 10px;
+		display: grid;
+		grid-template-columns: 100px repeat(7, 1fr);
+		grid-gap: 5px;
+
+		.header-cell {
+			color: white;
+			background-color: #c9bdbd;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			font-size: 14px;
+			height: 40px;
+			padding: 5px;
+			border-radius: 5px;
+			font-weight: bold;
+		}
+
+		.meal-select {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 40px;
+			padding: 5px;
+		}
+
+		.meal-cell {
+			background-color: #f9f9f9;
+			border-radius: 5px;
+			border: 1px solid #ddd;
+			text-align: center;
+			padding: 8px;
+		}
+	}
+}
+
+.recipe-name {
+	background-color: #ccc;
+	font-weight: bold;
+	color: white;
+	height: 40px;
+	width: 100px;
+	font-size: 12px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	@media (min-width: $mobile-media) {
+		width: 100%;
+	}
+}
