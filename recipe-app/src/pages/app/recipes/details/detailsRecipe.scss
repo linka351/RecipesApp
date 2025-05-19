@@ -1,0 +1,177 @@
+@import "../../../../styles/global/globalVariables.scss";
+
+.details-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	padding: 20px;
+
+	.top-section {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+
+		@media (min-width: $tablet-media) {
+			display: grid;
+			grid-template-columns: 1fr 2fr;
+			grid-template-areas: "left-col instructions";
+			gap: 20px;
+		}
+
+		.left-col {
+			grid-area: left-col;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		.image-box {
+			width: 100%;
+			height: 300px;
+
+			.recipe-image {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				border-radius: 10px;
+			}
+		}
+
+		.ingredients-box {
+			background-color: #f9f9f9;
+			border-radius: 10px;
+			padding: 15px;
+			overflow: auto;
+
+			.section-title {
+				font-size: 18px;
+				font-weight: bold;
+				margin-bottom: 5px;
+			}
+
+			.section-content {
+				padding: 10px;
+				background-color: white;
+				margin-top: 10px;
+				border-radius: 8px;
+				border: 1px solid #ddd;
+			}
+		}
+
+		.instructions-box {
+			grid-area: instructions;
+			background-color: #f9f9f9;
+			border-radius: 10px;
+			padding: 15px;
+			overflow: auto;
+
+			.section-title {
+				font-size: 18px;
+				font-weight: bold;
+				margin-bottom: 5px;
+			}
+
+			.section-content {
+				padding: 10px;
+				background-color: white;
+				margin-top: 10px;
+				border-radius: 8px;
+				border: 1px solid #ddd;
+			}
+		}
+	}
+
+	.middle-section {
+		.meta-box {
+			background-color: #f9f9f9;
+			padding: 20px;
+			border-radius: 8px;
+
+			.recipe-title {
+				font-size: 22px;
+				margin-bottom: 10px;
+			}
+
+			.description-box {
+				background-color: white;
+				padding: 20px;
+				border-radius: 8px;
+				border: 1px solid #ddd;
+
+				.section-content {
+					margin: 0;
+				}
+			}
+		}
+	}
+
+	.bottom-buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		@media (min-width: $mobile-media) {
+			flex-direction: row;
+			justify-content: flex-end;
+		}
+		@media (min-width: $tablet-media) {
+			justify-content: flex-end;
+		}
+
+		.actions-buttons {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+
+			@media (min-width: $mobile-media) {
+				flex-direction: row;
+				gap: 16px;
+			}
+		}
+
+		.action-button {
+			color: white;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 5px;
+			transition: color 0.5s ease;
+			font-size: 32px;
+
+			@media (min-width: $mobile-media) {
+				background: none;
+				padding: 0;
+				color: rgb(151, 151, 151);
+				&:hover {
+					color: rgb(84, 84, 84);
+				}
+			}
+		}
+		.delete-button {
+			background-color: #f44336;
+			@media (min-width: $mobile-media) {
+				background: none;
+			}
+		}
+		.edit-button {
+			background-color: #4caf50;
+			@media (min-width: $mobile-media) {
+				background: none;
+			}
+		}
+
+		.details-buttons {
+			padding: 10px 20px;
+			font-size: 1rem;
+			border: none;
+			border-radius: 6px;
+			cursor: pointer;
+			width: 100%;
+			transition: background-color 0.3s ease;
+
+			@media (min-width: $mobile-media) {
+				width: 150px;
+			}
+		}
+	}
+}

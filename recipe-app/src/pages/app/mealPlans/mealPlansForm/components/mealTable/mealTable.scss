@@ -67,3 +67,22 @@
 		width: 100%;
 	}
 }
+.meal-plan-grid {
+	margin-top: 10px;
+	display: grid;
+	grid-template-columns: 100px repeat(7, 1fr);
+	grid-gap: 5px;
+	.header-cell {
+		color: white;
+		background-color: #c9bdbd;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		font-size: 14px;
+		height: 40px;
+		padding: 5px;
+		border-radius: 5px;
+		font-weight: bold;
+	}
+}

@@ -110,7 +110,6 @@ const RecipeList = ({
 							imageClassName={imageClassName}
 							elementsContainerClassName={elementsContainerClassName}
 							recipe={recipe}
-							handleDelete={handleDelete}
 						/>
 					))}
 				</ul>
