@@ -9,5 +9,5 @@ export const formatWeekRange = (weekString: string) => {
 	const startDate = startOfISOWeek(firstDayOfYear);
 	startDate.setDate(startDate.getDate() + (weekNumber - 1) * 7);
 	const endDate = endOfISOWeek(startDate);
-	return `${format(startDate, "d", { locale: pl })}-${format(endDate, "d MMMM yyyy", { locale: pl })}`;
+	return `${format(startDate, "d MMMM", { locale: pl })} - ${format(endDate, "d MMMM yyyy", { locale: pl })}`;
 };
