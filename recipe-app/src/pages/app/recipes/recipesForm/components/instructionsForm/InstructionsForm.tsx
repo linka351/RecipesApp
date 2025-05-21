@@ -102,10 +102,14 @@ export default function InstructionsForm({
 						<div className='buttons'>
 							<Button
 								type='button'
-								className='remove-button'
+								className={
+									editInstruction !== null ? "disabled-button" : "remove-button"
+								}
+								disabled={editInstruction !== null}
 								onClick={() => onRemove(index)}>
 								<FaTrashAlt className='remove-element' />
 							</Button>
+
 							<Button
 								type='button'
 								className='edit-button'

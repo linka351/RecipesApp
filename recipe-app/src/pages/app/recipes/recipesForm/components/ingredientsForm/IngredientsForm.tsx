@@ -102,7 +102,10 @@ export default function IngredientsForm({
 						<div className='buttons'>
 							<Button
 								type='button'
-								className='remove-button'
+								className={
+									editIngredient !== null ? "disabled-button" : "remove-button"
+								}
+								disabled={editIngredient !== null}
 								onClick={() => onRemove(index)}>
 								<FaTrashAlt className='remove-element' />
 							</Button>
