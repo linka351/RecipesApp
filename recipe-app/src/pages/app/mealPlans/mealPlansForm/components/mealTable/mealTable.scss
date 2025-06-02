@@ -17,7 +17,7 @@
 
 	.meal-header {
 		color: white;
-		background-color: #c9bdbd;
+		background-color: #36304a;
 		border-radius: 5px;
 		font-size: 12px;
 		display: flex;
@@ -31,9 +31,10 @@
 		display: grid;
 		grid-template-columns: 100px repeat(7, 1fr);
 		grid-gap: 5px;
+
 		.header-cell {
+			background-color: #36304a;
 			color: white;
-			background-color: #c9bdbd;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -47,9 +48,9 @@
 	}
 }
 .recipe-name {
-	background-color: #ccc;
+	background-color: #f0f0f0;
+	border: 1px solid #ededed;
 	font-weight: bold;
-	color: white;
 	height: 40px;
 	width: 100px;
 	font-size: 12px;
@@ -65,5 +66,24 @@
 
 	@media (min-width: $mobile-media) {
 		width: 100%;
+	}
+}
+.meal-plan-grid {
+	margin-top: 10px;
+	display: grid;
+	grid-template-columns: 100px repeat(7, 1fr);
+	grid-gap: 5px;
+	.header-cell {
+		color: white;
+		background-color: #c9bdbd;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		font-size: 14px;
+		height: 40px;
+		padding: 5px;
+		border-radius: 5px;
+		font-weight: bold;
 	}
 }
