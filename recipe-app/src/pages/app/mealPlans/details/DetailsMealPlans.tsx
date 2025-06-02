@@ -11,6 +11,7 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { IoTrashOutline } from "react-icons/io5";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { formatWeekRange } from "../mealPlans.utils";
+import { STATUS } from "../../../../constants/status.const";
 
 function DetailsMealPlans() {
 	const { id } = useParams();
@@ -62,21 +63,25 @@ function DetailsMealPlans() {
 	return (
 		<div className='meal-plan'>
 			<div className='details-buttons'>
-				<Link
-					className='plan-button edit-meal-plan'
-					to={`/app/meal-plans/edit/${mealPlan.id}`}
-					aria-label='Edytuj'
-					data-tooltip-id='edit-tooltip'>
-					<MdOutlineModeEdit />
-				</Link>
+				{mealPlan.status !== STATUS.PUBLIC && (
+					<>
+						<Link
+							className='plan-button edit-meal-plan'
+							to={`/app/meal-plans/edit/${mealPlan.id}`}
+							aria-label='Edytuj'
+							data-tooltip-id='edit-tooltip'>
+							<MdOutlineModeEdit />
+						</Link>
 
-				<Button
-					className='plan-button delete-meal-plan'
-					onClick={() => mealPlan.id && handleDelete(mealPlan.id)}
-					aria-label='Usuń'
-					data-tooltip-id='delete-tooltip'>
-					<IoTrashOutline />
-				</Button>
+						<Button
+							className='plan-button delete-meal-plan'
+							onClick={() => mealPlan.id && handleDelete(mealPlan.id)}
+							aria-label='Usuń'
+							data-tooltip-id='delete-tooltip'>
+							<IoTrashOutline />
+						</Button>
+					</>
+				)}
 			</div>
 			<div className='details-wrapper'>
 				<h2 className='title'>{mealPlan.name}</h2>

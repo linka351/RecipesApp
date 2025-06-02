@@ -9,6 +9,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { MdOutlineModeEdit } from "react-icons/md";
 
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { STATUS } from "../../../../constants/status.const";
 
 function DetailsRecipe() {
 	const { id } = useParams();
@@ -38,22 +39,26 @@ function DetailsRecipe() {
 	return (
 		<div className='details-wrapper'>
 			<div className='bottom-buttons'>
-				<div className='actions-buttons'>
-					<Button
-						className='action-button delete-button'
-						onClick={handleDelete}
-						aria-label='Usuń'
-						data-tooltip-id='delete-tooltip'>
-						<IoTrashOutline />
-					</Button>
-					<Button
-						onClick={() => navigate(`/app/recipes/edit/${id}`)}
-						className='action-button edit-button'
-						aria-label='Edytuj'
-						data-tooltip-id='edit-tooltip'>
-						<MdOutlineModeEdit />
-					</Button>
-				</div>
+				{recipe.status !== STATUS.PUBLIC && (
+					<>
+						<div className='actions-buttons'>
+							<Button
+								className='action-button delete-button'
+								onClick={handleDelete}
+								aria-label='Usuń'
+								data-tooltip-id='delete-tooltip'>
+								<IoTrashOutline />
+							</Button>
+							<Button
+								onClick={() => navigate(`/app/recipes/edit/${id}`)}
+								className='action-button edit-button'
+								aria-label='Edytuj'
+								data-tooltip-id='edit-tooltip'>
+								<MdOutlineModeEdit />
+							</Button>
+						</div>
+					</>
+				)}
 			</div>
 			<div className='top-section'>
 				<div className='left-col'>

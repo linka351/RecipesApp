@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../../context/AuthContext";
 import { Recipe } from "../../../../types/editRecipe";
 import { toast } from "react-toastify";
+import { STATUS } from "../../../../constants/status.const";
 
 export type FormValues = Omit<Recipe, "userId" | "id"> & {
 	userId?: string;
@@ -41,7 +42,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		instructions: [],
 		ingredients: [],
 		image: "",
-		status: "private",
+		status: STATUS.PRIVATE,
 	};
 
 	const uploadImage = async (file: File): Promise<string | undefined> => {
