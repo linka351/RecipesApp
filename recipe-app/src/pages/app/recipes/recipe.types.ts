@@ -5,5 +5,4 @@ export type RecipeCardProps = {
 	imageClassName: string;
 	elementsContainerClassName: string;
 	customButtons: (recipe: Recipe) => React.ReactNode;
-	handleDelete: (id: string) => Promise<void>;
 };

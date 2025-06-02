@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { WeeklyPlan } from "./add/addMealPlan/types";
 import { Link } from "react-router-dom";
 import { mealPlansApi } from "../../../api/mealPlans";
 import Input from "../../../components/inputs/Input";
 
 import "./mealPlans.scss";
-import Button from "../../../components/buttons/Button";
-import { IoTrashOutline } from "react-icons/io5";
-import { MdOutlineModeEdit } from "react-icons/md";
+import { CgDetailsMore } from "react-icons/cg";
 import { formatWeekRange } from "./mealPlans.utils";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import { useAuth } from "../../../context/AuthContext";
 import Switch from "../../../components/switch/Switch";
-import { toast } from "react-toastify";
-import { STATUS } from "../../../constants/status.const";
 
 function MealPlans() {
 	const [mealPlans, setMealPlans] = useState<WeeklyPlan[]>([]);
@@ -36,18 +33,6 @@ function MealPlans() {
 
 	const handleToggleChange = () => {
 		setShowOnlyPrivate(prev => !prev);
-	};
-
-	const handleDelete = async (id: string) => {
-		try {
-			await mealPlansApi.remove(id);
-			setMealPlans(prevMealPlans =>
-				prevMealPlans.filter(mealPlan => mealPlan.id !== id)
-			);
-			toast.error("Usunięto plan posiłków");
-		} catch (error) {
-			toast.error("Wystąpił błąd przy usuwaniu planu posiłków");
-		}
 	};
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,24 +76,20 @@ function MealPlans() {
 									{mealPlan.description}
 								</p>
 							</div>
-							{mealPlan.status !== STATUS.PUBLIC && (
-								<div className='plan-buttons'>
-									<Link
-										className='plan-button edit-meal-plan'
-										to={`/app/meal-plans/edit/${mealPlan.id}`}>
-										<MdOutlineModeEdit />
-									</Link>
-									<Button
-										className='plan-button delete-meal-plan'
-										onClick={() => mealPlan.id && handleDelete(mealPlan.id)}>
-										<IoTrashOutline />
-									</Button>
-								</div>
-							)}
+							<div className='plan-buttons'>
+								<Link
+									className='plan-button'
+									to={`/app/meal-plans/details/${mealPlan.id}`}
+									aria-label='Szczegóły'
+									data-tooltip-id='details-tooltip'>
+									<CgDetailsMore />
+								</Link>
+							</div>
 						</div>
 					</li>
 				))}
 			</ul>
+			<ReactTooltip id='details-tooltip' content='Szczegóły' />
 		</div>
 	);
 }
