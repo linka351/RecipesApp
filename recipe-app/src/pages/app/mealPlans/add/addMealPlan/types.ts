@@ -14,6 +14,5 @@ export type WeeklyPlan = {
 	dateFrom: string;
 	mealName: string[];
 	status: "public" | "private";
-	// to jest ok?
 	plan: MealPlan;
 };
