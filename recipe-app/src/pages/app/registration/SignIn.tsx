@@ -24,7 +24,7 @@ const validationSchema = Yup.object({
 
 function SignIn() {
 	const [serverError, setServerError] = useState("");
-	//Przy logowaniu znika loader i czysci sie form dopiero potem przekierowanie
+	const [isLoaderVisible, setIsLoaderVisible] = useState(false);
 
 	const { handleLoginWithEmail } = useAuth();
 
@@ -36,6 +36,7 @@ function SignIn() {
 		validationSchema: validationSchema,
 		onSubmit: async (values, { resetForm }) => {
 			try {
+				setIsLoaderVisible(true);
 				await handleLoginWithEmail(values.email, values.password);
 				resetForm();
 				toast.success("Zalogowano pomyślnie");
@@ -47,13 +48,14 @@ function SignIn() {
 					"Wystąpił nieznany błąd. Spróbuj ponownie.";
 				setServerError(message);
 				toast.error("Wystąpił błąd podczas logowania");
+				setIsLoaderVisible(false);
 			}
 		},
 	});
 
 	return (
 		<div className='registration-container'>
-			{formik.isSubmitting && <Loader />}
+			{isLoaderVisible && <Loader />}
 			<div className='registration-image'>
 				<div className='registration-text'>
 					<h2 className='image-header'>Witamy ponownie w naszej aplikacji!</h2>
