@@ -9,11 +9,10 @@ import { IoTrashOutline } from "react-icons/io5";
 import { MdOutlineModeEdit } from "react-icons/md";
 
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import { useAuth } from "../../../../context/AuthContext";
+import { STATUS } from "../../../../constants/status.const";
 
 function DetailsRecipe() {
 	const { id } = useParams();
-	const { user } = useAuth();
 	const navigate = useNavigate();
 	const [recipe, setRecipe] = useState<Recipe>();
 
@@ -39,9 +38,9 @@ function DetailsRecipe() {
 
 	return (
 		<div className='details-wrapper'>
-			{user?.role === "admin" ||
-				(recipe.status === "private" && (
-					<div className='bottom-buttons'>
+			<div className='bottom-buttons'>
+				{recipe.status !== STATUS.PUBLIC && (
+					<>
 						<div className='actions-buttons'>
 							<Button
 								className='action-button delete-button'
@@ -58,9 +57,9 @@ function DetailsRecipe() {
 								<MdOutlineModeEdit />
 							</Button>
 						</div>
-					</div>
-				))}
-
+					</>
+				)}
+			</div>
 			<div className='top-section'>
 				<div className='left-col'>
 					<div className='image-box'>

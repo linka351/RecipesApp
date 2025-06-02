@@ -14,6 +14,7 @@ import { FormValues } from "../pages/app/recipes/recipesForm/RecipesForm";
 import { db } from "../firebase/firebaseConfig";
 import { Recipe } from "../types/editRecipe";
 import { getAuth } from "firebase/auth";
+import { STATUS } from "../constants/status.const";
 
 const add = async (values: FormValues) => {
 	const auth = getAuth();
@@ -57,7 +58,7 @@ const getAll = async () => {
 
 	const recipesQuery = query(
 		collection(db, "recipes"),
-		or(where("userId", "==", user.uid), where("status", "==", "public"))
+		or(where("userId", "==", user.uid), where("status", "==", STATUS.PUBLIC))
 	);
 
 	const snapshot = await getDocs(recipesQuery);

@@ -24,7 +24,7 @@ export default function IngredientsForm({
 	errors,
 	onIngredientEdited,
 }: Props) {
-	const [editIngredient, setEditIngredient] = useState<number | null>(null);
+	const [isEditMode, setIsEditMode] = useState<number | null>(null);
 
 	const formik = useFormik({
 		initialValues: {
@@ -32,9 +32,9 @@ export default function IngredientsForm({
 		},
 		validationSchema: ingredientSchema,
 		onSubmit: (values, { resetForm }) => {
-			if (editIngredient !== null) {
-				onIngredientEdited(editIngredient, values.ingredient);
-				setEditIngredient(null);
+			if (isEditMode !== null) {
+				onIngredientEdited(isEditMode, values.ingredient);
+				setIsEditMode(null);
 			} else {
 				onIngredientsAdded(values.ingredient);
 			}
@@ -43,12 +43,12 @@ export default function IngredientsForm({
 	});
 
 	const handleEditClick = (index: number, ingredient: string) => {
-		setEditIngredient(index);
+		setIsEditMode(index);
 		formik.setFieldValue("ingredient", ingredient);
 	};
 
 	const handleExitEdit = () => {
-		setEditIngredient(null);
+		setIsEditMode(null);
 		formik.resetForm();
 	};
 
@@ -56,7 +56,7 @@ export default function IngredientsForm({
 		<div className='recipe-details-container'>
 			<form onSubmit={formik.handleSubmit}>
 				<label htmlFor='ingredient' className='recipes-form-label'>
-					{editIngredient !== null ? "Edytuj Składnik" : "Dodaj Składnik"}
+					{isEditMode !== null ? "Edytuj Składnik" : "Dodaj Składnik"}
 				</label>
 				<div className='recipe-components-input'>
 					<Input
@@ -73,9 +73,9 @@ export default function IngredientsForm({
 								data-testid='add-ingredient'
 								type='submit'
 								disabled={formik.values.ingredient === ""}>
-								{editIngredient !== null ? "Zapisz" : "Dodaj"}
+								{isEditMode !== null ? "Zapisz" : "Dodaj"}
 							</Button>
-							{editIngredient !== null && (
+							{isEditMode !== null && (
 								<Button
 									type='button'
 									className='cancel-button'
@@ -102,7 +102,10 @@ export default function IngredientsForm({
 						<div className='buttons'>
 							<Button
 								type='button'
-								className='remove-button'
+								className={
+									isEditMode !== null ? "disabled-button" : "remove-button"
+								}
+								disabled={isEditMode !== null}
 								onClick={() => onRemove(index)}>
 								<FaTrashAlt className='remove-element' />
 							</Button>

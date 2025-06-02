@@ -11,10 +11,9 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { IoTrashOutline } from "react-icons/io5";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { formatWeekRange } from "../mealPlans.utils";
-import { useAuth } from "../../../../context/AuthContext";
+import { STATUS } from "../../../../constants/status.const";
 
 function DetailsMealPlans() {
-	const { user } = useAuth();
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [mealPlan, setMealPlan] = useState<WeeklyPlan>();
@@ -63,9 +62,9 @@ function DetailsMealPlans() {
 
 	return (
 		<div className='meal-plan'>
-			{user?.role === "admin" ||
-				(mealPlan.status === "private" && (
-					<div className='details-buttons'>
+			<div className='details-buttons'>
+				{mealPlan.status !== STATUS.PUBLIC && (
+					<>
 						<Link
 							className='plan-button edit-meal-plan'
 							to={`/app/meal-plans/edit/${mealPlan.id}`}
@@ -81,9 +80,9 @@ function DetailsMealPlans() {
 							data-tooltip-id='delete-tooltip'>
 							<IoTrashOutline />
 						</Button>
-					</div>
-				))}
-
+					</>
+				)}
+			</div>
 			<div className='details-wrapper'>
 				<h2 className='title'>{mealPlan.name}</h2>
 				<p className='week'>

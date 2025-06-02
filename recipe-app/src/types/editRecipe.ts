@@ -1,3 +1,5 @@
+import { Status } from "./status";
+
 export interface Recipe {
 	userId?: string | undefined;
 	id: string;
@@ -6,5 +8,5 @@ export interface Recipe {
 	ingredients: string[];
 	instructions: string[];
 	image?: string;
-	status: "public" | "private";
+	status: Status;
 }
