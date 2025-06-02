@@ -24,7 +24,7 @@ export default function InstructionsForm({
 	touched,
 	errors,
 }: Props) {
-	const [editInstruction, setEditInstruction] = useState<number | null>(null);
+	const [isEditMode, setIsEditMode] = useState<number | null>(null);
 
 	const formik = useFormik({
 		initialValues: {
@@ -32,9 +32,9 @@ export default function InstructionsForm({
 		},
 		validationSchema: instructionSchema,
 		onSubmit: (values, { resetForm }) => {
-			if (editInstruction !== null) {
-				onInstructionEdited(editInstruction, values.instruction);
-				setEditInstruction(null);
+			if (isEditMode !== null) {
+				onInstructionEdited(isEditMode, values.instruction);
+				setIsEditMode(null);
 			} else {
 				onInstructionsAdded(values.instruction);
 			}
@@ -43,12 +43,12 @@ export default function InstructionsForm({
 	});
 
 	const handleEditClick = (index: number, ingredient: string) => {
-		setEditInstruction(index);
+		setIsEditMode(index);
 		formik.setFieldValue("instruction", ingredient);
 	};
 
 	const handleExitEdit = () => {
-		setEditInstruction(null);
+		setIsEditMode(null);
 		formik.resetForm();
 	};
 
@@ -56,7 +56,7 @@ export default function InstructionsForm({
 		<div className='recipe-details-container'>
 			<form onSubmit={formik.handleSubmit}>
 				<label htmlFor='instruction' className='recipes-form-label'>
-					{editInstruction !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}
+					{isEditMode !== null ? "Edytuj Instrukcję" : "Dodaj Instrukcję"}
 				</label>
 				<div className='recipe-components-input'>
 					<Input
@@ -73,9 +73,9 @@ export default function InstructionsForm({
 								data-testid='add-instruction'
 								type='submit'
 								disabled={formik.values.instruction === ""}>
-								{editInstruction !== null ? "Zapisz" : "Dodaj"}
+								{isEditMode !== null ? "Zapisz" : "Dodaj"}
 							</Button>
-							{editInstruction !== null && (
+							{isEditMode !== null && (
 								<Button
 									type='button'
 									className='cancel-button'
@@ -103,9 +103,9 @@ export default function InstructionsForm({
 							<Button
 								type='button'
 								className={
-									editInstruction !== null ? "disabled-button" : "remove-button"
+									isEditMode !== null ? "disabled-button" : "remove-button"
 								}
-								disabled={editInstruction !== null}
+								disabled={isEditMode !== null}
 								onClick={() => onRemove(index)}>
 								<FaTrashAlt className='remove-element' />
 							</Button>
