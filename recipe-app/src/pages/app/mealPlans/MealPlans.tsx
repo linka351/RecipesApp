@@ -28,7 +28,6 @@ function MealPlans() {
 				setMealPlans(mealPlanList);
 			} catch (error) {
 				console.error("Error fetchMealPlans document: ", error);
-				toast.error("Błąd podczas pobierania planów");
 			} finally {
 				setIsLoading(false);
 			}
