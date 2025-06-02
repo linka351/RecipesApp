@@ -10,6 +10,7 @@ import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 import { toast } from "react-toastify";
+import Loader from "../../../components/loader/Loader";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -29,6 +30,7 @@ const validationSchema = Yup.object({
 
 function SignUp() {
 	const [serverError, setserverError] = useState("");
+	const [isLoaderVisible, setIsLoaderVisible] = useState(false);
 
 	const { handleRegisterWithEmail } = useAuth();
 	const navigate = useNavigate();
@@ -41,6 +43,7 @@ function SignUp() {
 		validationSchema: validationSchema,
 		onSubmit: async (values, { resetForm }) => {
 			try {
+				setIsLoaderVisible(true);
 				await handleRegisterWithEmail(values.email, values.password);
 				navigate("/app/recipes");
 				resetForm();
@@ -52,12 +55,14 @@ function SignUp() {
 					"Wystąpił nieznany błąd. Spróbuj ponownie.";
 				setserverError(message);
 				toast.error("Wystąpił błąd podczas rejestracji");
+				setIsLoaderVisible(false);
 			}
 		},
 	});
 
 	return (
 		<div className='registration-container'>
+			{isLoaderVisible && <Loader />}
 			<div className='registration-image'>
 				<div className='registration-text'>
 					<h2 className='image-header'>Witamy w naszej aplikacji! 👋🍽️</h2>

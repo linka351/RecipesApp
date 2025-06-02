@@ -10,6 +10,7 @@ import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 import { toast } from "react-toastify";
 import GoogleLoginButton from "./GoogleLoginButton";
+import Loader from "../../../components/loader/Loader";
 
 type FormValues = {
 	email: string;
@@ -23,6 +24,7 @@ const validationSchema = Yup.object({
 
 function SignIn() {
 	const [serverError, setServerError] = useState("");
+	const [isLoaderVisible, setIsLoaderVisible] = useState(false);
 
 	const { handleLoginWithEmail } = useAuth();
 
@@ -34,6 +36,7 @@ function SignIn() {
 		validationSchema: validationSchema,
 		onSubmit: async (values, { resetForm }) => {
 			try {
+				setIsLoaderVisible(true);
 				await handleLoginWithEmail(values.email, values.password);
 				resetForm();
 				toast.success("Zalogowano pomyślnie");
@@ -45,12 +48,14 @@ function SignIn() {
 					"Wystąpił nieznany błąd. Spróbuj ponownie.";
 				setServerError(message);
 				toast.error("Wystąpił błąd podczas logowania");
+				setIsLoaderVisible(false);
 			}
 		},
 	});
 
 	return (
 		<div className='registration-container'>
+			{isLoaderVisible && <Loader />}
 			<div className='registration-image'>
 				<div className='registration-text'>
 					<h2 className='image-header'>Witamy ponownie w naszej aplikacji!</h2>
