@@ -12,11 +12,16 @@ import { IoTrashOutline } from "react-icons/io5";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { formatWeekRange } from "../mealPlans.utils";
 import { STATUS } from "../../../../constants/status.const";
+import { useAuth } from "../../../../context/AuthContext";
+import { USER_ROLE } from "../../../../constants/user.const";
+import Loader from "../../../../components/loader/Loader";
 
 function DetailsMealPlans() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [mealPlan, setMealPlan] = useState<WeeklyPlan>();
+
+	const { user } = useAuth();
 
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
@@ -48,7 +53,7 @@ function DetailsMealPlans() {
 	};
 
 	if (!mealPlan) {
-		return <div className='loading'>Ładowanie planu...</div>;
+		return <Loader />;
 	}
 
 	const handleDelete = async (id: string) => {
@@ -63,7 +68,8 @@ function DetailsMealPlans() {
 	return (
 		<div className='meal-plan'>
 			<div className='details-buttons'>
-				{mealPlan.status !== STATUS.PUBLIC && (
+				{(user?.role === USER_ROLE.ADMIN ||
+					mealPlan.status !== STATUS.PUBLIC) && (
 					<>
 						<Link
 							className='plan-button edit-meal-plan'
@@ -132,3 +138,5 @@ function DetailsMealPlans() {
 }
 
 export default DetailsMealPlans;
+
+//nie dodaje sie rola prawdopodbnie przy adminie i uzytkownik nie widzi przepisów publicznych
