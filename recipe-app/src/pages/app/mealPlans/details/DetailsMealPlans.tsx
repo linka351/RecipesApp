@@ -12,6 +12,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { formatWeekRange } from "../mealPlans.utils";
 import { STATUS } from "../../../../constants/status.const";
+import { ImSpoonKnife } from "react-icons/im";
 
 function DetailsMealPlans() {
 	const { id } = useParams();
@@ -115,7 +116,14 @@ function DetailsMealPlans() {
 									const recipeName = getRecipeLabel(recipeId);
 									return (
 										<div key={`${day}-${meal}`} className='meal-cell'>
-											{recipeName}
+											{recipeName !== "Brak przepisu" ? (
+												<>
+													<ImSpoonKnife />
+													{recipeName}
+												</>
+											) : (
+												<p>Brak przepisu</p>
+											)}
 										</div>
 									);
 								})}

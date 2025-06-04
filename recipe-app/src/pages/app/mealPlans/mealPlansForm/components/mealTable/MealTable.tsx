@@ -3,6 +3,8 @@ import { DayName } from "../../../../../../types/MealPlan";
 import { Recipe } from "../../../../../../types/editRecipe";
 import { MealPlan } from "../../../add/addMealPlan/types";
 import MealPlanModal from "../mealPlanModal/MealPlanModal";
+import { ImSpoonKnife } from "react-icons/im";
+
 import "./mealTable.scss";
 
 const days: DayName[] = [
@@ -70,9 +72,23 @@ const MealTable = ({
 										<div
 											className='recipe-name'
 											onClick={() => openModal(day, meal)}>
-											{recipes.find(
-												recipe => recipe.id === selectedRecipes?.[day]?.[meal]
-											)?.name || "Wybierz Przepis"}
+											{(() => {
+												const selectedRecipe = recipes.find(
+													recipe => recipe.id === selectedRecipes?.[day]?.[meal]
+												);
+												return (
+													<>
+														{selectedRecipe ? (
+															<>
+																<ImSpoonKnife />
+																{selectedRecipe.name}
+															</>
+														) : (
+															"Wybierz Przepis"
+														)}
+													</>
+												);
+											})()}
 										</div>
 									</div>
 								))}
