@@ -17,13 +17,13 @@ import { USER_ROLE } from "../../../../constants/user.const";
 import Loader from "../../../../components/loader/Loader";
 
 function DetailsMealPlans() {
-	const { id } = useParams();
-	const navigate = useNavigate();
 	const [mealPlan, setMealPlan] = useState<WeeklyPlan>();
-
-	const { user } = useAuth();
-
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+	const navigate = useNavigate();
+
+	const { id } = useParams();
+	const { user } = useAuth();
 
 	const orderedDays: DayName[] = [
 		"Poniedziałek",
@@ -138,5 +138,3 @@ function DetailsMealPlans() {
 }
 
 export default DetailsMealPlans;
-
-//nie dodaje sie rola prawdopodbnie przy adminie i uzytkownik nie widzi przepisów publicznych
