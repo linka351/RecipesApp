@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Recipe } from "../../../../types/editRecipe";
 import { recipeApi } from "../../../../api/recipes";
@@ -49,13 +49,13 @@ function DetailsRecipe() {
 								data-tooltip-id='delete-tooltip'>
 								<IoTrashOutline />
 							</Button>
-							<Button
-								onClick={() => navigate(`/app/recipes/edit/${id}`)}
+							<Link
+								to={`/app/recipes/edit/${id}`}
 								className='action-button edit-button'
 								aria-label='Edytuj'
 								data-tooltip-id='edit-tooltip'>
 								<MdOutlineModeEdit />
-							</Button>
+							</Link>
 						</div>
 					</>
 				)}

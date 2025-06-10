@@ -58,7 +58,7 @@ function Navbar() {
 				<Button onClick={toggleMenu} className='menu'>
 					<TiThMenuOutline className='menu-icon' />
 				</Button>
-				<Link className='logo-link' to={"/"}>
+				<Link className='logo-link' to={"/app"}>
 					<div className='logo'>
 						<GiRiceCooker className='icon' />
 						<p>RecipesApp</p>
