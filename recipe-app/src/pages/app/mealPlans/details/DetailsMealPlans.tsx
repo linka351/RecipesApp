@@ -6,13 +6,12 @@ import Button from "../../../../components/buttons/Button";
 import "./detailsMealPlans.scss";
 import { Recipe } from "../../../../types/editRecipe";
 import { recipeApi } from "../../../../api/recipes";
-import { DayName } from "../../../../types/MealPlan";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { IoTrashOutline } from "react-icons/io5";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { formatWeekRange } from "../mealPlans.utils";
 import { STATUS } from "../../../../constants/status.const";
-import { ImSpoonKnife } from "react-icons/im";
+import MealTableContainer from "./components/MealTableContainer";
 
 function DetailsMealPlans() {
 	const { id } = useParams();
@@ -20,16 +19,6 @@ function DetailsMealPlans() {
 	const [mealPlan, setMealPlan] = useState<WeeklyPlan>();
 
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
-
-	const orderedDays: DayName[] = [
-		"Poniedziałek",
-		"Wtorek",
-		"Środa",
-		"Czwartek",
-		"Piątek",
-		"Sobota",
-		"Niedziela",
-	];
 
 	useEffect(() => {
 		if (!id) return;
@@ -42,11 +31,6 @@ function DetailsMealPlans() {
 		};
 		fetchMealPlan();
 	}, [id]);
-
-	const getRecipeLabel = (id: string | undefined) => {
-		const recipe = recipes.find(recipe => recipe.id === id);
-		return recipe?.name || "Brak przepisu";
-	};
 
 	if (!mealPlan) {
 		return <div className='loading'>Ładowanie planu...</div>;
@@ -94,44 +78,7 @@ function DetailsMealPlans() {
 					<span className='label'>Opis: </span> {mealPlan.description}
 				</p>
 			</div>
-			<div className='meal-table-container'>
-				{mealPlan.mealName.length > 0 && (
-					<div className='meal-plan-grid'>
-						<div className='header-cell'>
-							<p>Nazwa Posiłku</p>
-						</div>
-						{orderedDays.map(day => (
-							<div key={day} className='header-cell'>
-								{day}
-							</div>
-						))}
-
-						{mealPlan.mealName.map(meal => (
-							<>
-								<div key={`meal-${meal}`} className='meal-header'>
-									{meal}
-								</div>
-								{orderedDays.map(day => {
-									const recipeId = mealPlan.plan[day]?.[meal];
-									const recipeName = getRecipeLabel(recipeId);
-									return (
-										<div key={`${day}-${meal}`} className='meal-cell'>
-											{recipeName !== "Brak przepisu" ? (
-												<>
-													<ImSpoonKnife />
-													{recipeName}
-												</>
-											) : (
-												<p>Brak przepisu</p>
-											)}
-										</div>
-									);
-								})}
-							</>
-						))}
-					</div>
-				)}
-			</div>
+			<MealTableContainer mealPlan={mealPlan} recipes={recipes} />
 
 			<ReactTooltip id='delete-tooltip' content='Usuń' place='bottom' />
 			<ReactTooltip id='edit-tooltip' content='Edytuj' place='bottom' />
