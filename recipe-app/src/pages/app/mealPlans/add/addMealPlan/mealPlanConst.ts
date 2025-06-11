@@ -1,8 +1,8 @@
-import { MealPlan } from "./types";
+// import { MealPlan } from "./types";
 
-export const initialValues: MealPlan = {
-	name: "",
-	description: "",
-	dateFrom: "",
-	mealName: [],
-};
+// export const initialValues: MealPlan = {
+// 	name: "",
+// 	description: "",
+// 	dateFrom: "",
+// 	mealName: [],
+// };

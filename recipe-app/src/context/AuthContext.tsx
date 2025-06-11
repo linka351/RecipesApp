@@ -34,6 +34,7 @@ type AuthContextType = {
 	handleSignOut: () => Promise<void>;
 	handleRegisterWithGoogle: () => Promise<void>;
 	handleLoginWithGoogle: () => Promise<void>;
+	handleLoginAsDemo: () => Promise<void>;
 };
 
 const Context = createContext<AuthContextType | undefined>(undefined);
@@ -135,6 +136,15 @@ export function AuthProvider({ children }: Props) {
 		}
 	}, [auth]);
 
+	const handleLoginAsDemo = useCallback(async () => {
+		try {
+			await signInWithEmailAndPassword(auth, "demo@example.com", "Demo1!");
+			toast.success("Zalogowano jako użytkownik demo");
+		} catch (error) {
+			toast.error("Nie udało się zalogować jako demo");
+		}
+	}, []);
+
 	const handleSignOut = useCallback(() => signOut(auth), []);
 
 	const values: AuthContextType = {
@@ -144,6 +154,7 @@ export function AuthProvider({ children }: Props) {
 		handleSignOut,
 		handleRegisterWithGoogle,
 		handleLoginWithGoogle,
+		handleLoginAsDemo,
 	};
 
 	return (

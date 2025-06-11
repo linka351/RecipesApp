@@ -14,6 +14,8 @@ import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../../../components/loader/Loader";
+import { STATUS } from "../../../../constants/status.const";
+import { useAuth } from "../../../../context/AuthContext";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -25,6 +27,8 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const navigate = useNavigate();
+
+	const { user } = useAuth();
 
 	useEffect(() => {
 		const fetchRecipes = async () => {
@@ -49,6 +53,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 
 	const formik = useFormik<WeeklyPlan>({
 		initialValues: initialValues || {
+			status: user?.role === "admin" ? STATUS.PUBLIC : STATUS.PRIVATE,
 			name: "",
 			description: "",
 			dateFrom: "",
