@@ -13,16 +13,17 @@ import { useAuth } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import Loader from "../../../components/loader/Loader";
 
-type Props = Pick<
-	RecipeCardProps,
-	"customButtons" | "elementsContainerClassName" | "imageClassName"
-> & {
+type Props = {
+	customButtons?: RecipeCardProps["customButtons"];
+	elementsContainerClassName?: RecipeCardProps["elementsContainerClassName"];
+	imageClassName?: RecipeCardProps["imageClassName"];
 	header?: string;
 	addButtonLabel?: string;
 	showAddButton?: boolean;
 	onAddClick?: () => void;
 	listClassName?: string;
 };
+
 const RecipeList = ({
 	header = "Lista Przepisów",
 	addButtonLabel = "Dodaj Przepis",
@@ -59,16 +60,6 @@ const RecipeList = ({
 
 	const toggleFilter = () => {
 		setShowOnlyPrivate(prev => !prev);
-	};
-
-	const handleDelete = async (id: string) => {
-		try {
-			await recipeApi.remove(id);
-			setRecipes(prevRecipes => prevRecipes.filter(recipe => recipe.id !== id));
-			toast.error("Usunięto przepis");
-		} catch (error) {
-			toast.error("Wystąpił błąd przy usuwaniu przepisu");
-		}
 	};
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -42,7 +42,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		instructions: [],
 		ingredients: [],
 		image: "",
-		status: STATUS.PRIVATE,
+		status: user?.role === "admin" ? STATUS.PUBLIC : STATUS.PRIVATE,
 	};
 
 	const uploadImage = async (file: File): Promise<string | undefined> => {
