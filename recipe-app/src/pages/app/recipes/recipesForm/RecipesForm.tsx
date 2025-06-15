@@ -16,6 +16,7 @@ import { Recipe } from "../../../../types/editRecipe";
 import { toast } from "react-toastify";
 import Loader from "../../../../components/loader/Loader";
 import { STATUS } from "../../../../constants/status.const";
+import { USER_ROLE } from "../../../../constants/user.const";
 
 export type FormValues = Omit<Recipe, "userId" | "id"> & {
 	userId?: string;
@@ -42,7 +43,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 		instructions: [],
 		ingredients: [],
 		image: "",
-		status: STATUS.PRIVATE,
+		status: user?.role === USER_ROLE.USER ? STATUS.PRIVATE : STATUS.PUBLIC,
 	};
 
 	const uploadImage = async (file: File): Promise<string | undefined> => {
