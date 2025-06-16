@@ -5,8 +5,8 @@ import { MealPlan } from "../../../add/addMealPlan/types";
 import MealPlanModal from "../mealPlanModal/MealPlanModal";
 
 import "./mealTable.scss";
-import MealTableContainer from "./components/MealTableContainer";
 import { days } from "../../../../../../constants/days.const";
+import MealTable from "./components/MealTable";
 
 type MealNamesProps = {
 	mealName: string[];
@@ -15,7 +15,7 @@ type MealNamesProps = {
 	selectedRecipes: MealPlan;
 };
 
-const MealTable = ({
+const MealPlans = ({
 	mealName,
 	recipes,
 	onChange,
@@ -41,7 +41,7 @@ const MealTable = ({
 
 	return (
 		<>
-			<MealTableContainer
+			<MealTable
 				mealName={mealName}
 				days={days}
 				recipes={recipes}
@@ -59,4 +59,4 @@ const MealTable = ({
 	);
 };
 
-export default MealTable;
+export default MealPlans;

@@ -3,7 +3,7 @@ import { Recipe } from "../../../../../../../types/editRecipe";
 import MealTableHeaderRow from "./MealTableHeaderRow";
 import MealTableRow from "./MealTableRow";
 
-type MealTableContainerProps = {
+type Props = {
 	mealName: string[];
 	days: DayName[];
 	recipes: Recipe[];
@@ -11,13 +11,13 @@ type MealTableContainerProps = {
 	openModal: (day: DayName, meal: string) => void;
 };
 
-function MealTableContainer({
+function MealTable({
 	mealName,
 	days,
 	recipes,
 	selectedRecipes,
 	openModal,
-}: MealTableContainerProps) {
+}: Props) {
 	if (!mealName.length) return null;
 
 	return (
@@ -39,4 +39,4 @@ function MealTableContainer({
 	);
 }
 
-export default MealTableContainer;
+export default MealTable;
