@@ -7,13 +7,13 @@ import { Recipe } from "../../../../types/editRecipe";
 import { validationSchema } from "./MealPlansForm.validation";
 import Input from "../../../../components/inputs/Input";
 import TextArea from "../../../../components/textAreas/TextArea";
-import MealTable from "./components/mealTable/MealTable";
 import "./mealPlansForm.scss";
 import Button from "../../../../components/buttons/Button";
 import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../../../components/loader/Loader";
+import MealPlans from "./components/mealTable/MealPlans";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -54,6 +54,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 			dateFrom: "",
 			mealName: [],
 			plan: {},
+			status: "private",
 		},
 		validationSchema,
 		onSubmit: handleSubmit,
@@ -117,7 +118,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 
 				<NewMealName onAdd={handleAddMealName} />
 				<div className='meal-table-error-position'>
-					<MealTable
+					<MealPlans
 						mealName={formik.values.mealName}
 						recipes={recipes}
 						onChange={handleSelectChange}
