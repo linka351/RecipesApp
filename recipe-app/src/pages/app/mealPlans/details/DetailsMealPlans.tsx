@@ -12,13 +12,18 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import { formatWeekRange } from "../mealPlans.utils";
 import { STATUS } from "../../../../constants/status.const";
 import MealTableContainer from "./components/MealTableContainer";
+import { useAuth } from "../../../../context/AuthContext";
+import { USER_ROLE } from "../../../../constants/user.const";
+import Loader from "../../../../components/loader/Loader";
 
 function DetailsMealPlans() {
-	const { id } = useParams();
-	const navigate = useNavigate();
 	const [mealPlan, setMealPlan] = useState<WeeklyPlan>();
-
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+	const navigate = useNavigate();
+
+	const { id } = useParams();
+	const { user } = useAuth();
 
 	useEffect(() => {
 		if (!id) return;
@@ -33,7 +38,7 @@ function DetailsMealPlans() {
 	}, [id]);
 
 	if (!mealPlan) {
-		return <div className='loading'>Ładowanie planu...</div>;
+		return <Loader />;
 	}
 
 	const handleDelete = async (id: string) => {
@@ -48,7 +53,8 @@ function DetailsMealPlans() {
 	return (
 		<div className='meal-plan'>
 			<div className='details-buttons'>
-				{mealPlan.status !== STATUS.PUBLIC && (
+				{(user?.role === USER_ROLE.ADMIN ||
+					mealPlan.status !== STATUS.PUBLIC) && (
 					<>
 						<Link
 							className='plan-button edit-meal-plan'

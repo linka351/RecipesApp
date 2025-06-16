@@ -10,11 +10,17 @@ import { MdOutlineModeEdit } from "react-icons/md";
 
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { STATUS } from "../../../../constants/status.const";
+import { useAuth } from "../../../../context/AuthContext";
+import { USER_ROLE } from "../../../../constants/user.const";
+import Loader from "../../../../components/loader/Loader";
 
 function DetailsRecipe() {
-	const { id } = useParams();
-	const navigate = useNavigate();
 	const [recipe, setRecipe] = useState<Recipe>();
+
+	const navigate = useNavigate();
+
+	const { id } = useParams();
+	const { user } = useAuth();
 
 	useEffect(() => {
 		if (!id) return;
@@ -33,31 +39,30 @@ function DetailsRecipe() {
 	};
 
 	if (!recipe) {
-		return <div className='loading'>Ładowanie przepisu...</div>;
+		return <Loader />;
 	}
 
 	return (
 		<div className='details-wrapper'>
 			<div className='bottom-buttons'>
-				{recipe.status !== STATUS.PUBLIC && (
-					<>
-						<div className='actions-buttons'>
-							<Button
-								className='action-button delete-button'
-								onClick={handleDelete}
-								aria-label='Usuń'
-								data-tooltip-id='delete-tooltip'>
-								<IoTrashOutline />
-							</Button>
-							<Link
-								to={`/app/recipes/edit/${id}`}
-								className='action-button edit-button'
-								aria-label='Edytuj'
-								data-tooltip-id='edit-tooltip'>
-								<MdOutlineModeEdit />
-							</Link>
-						</div>
-					</>
+				{(user?.role === USER_ROLE.ADMIN ||
+					recipe.status !== STATUS.PUBLIC) && (
+					<div className='actions-buttons'>
+						<Button
+							className='action-button delete-button'
+							onClick={handleDelete}
+							aria-label='Usuń'
+							data-tooltip-id='delete-tooltip'>
+							<IoTrashOutline />
+						</Button>
+						<Link
+							to={`/app/recipes/edit/${id}`}
+							className='action-button edit-button'
+							aria-label='Edytuj'
+							data-tooltip-id='edit-tooltip'>
+							<MdOutlineModeEdit />
+						</Link>
+					</div>
 				)}
 			</div>
 			<div className='top-section'>
