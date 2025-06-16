@@ -11,9 +11,11 @@
 	gap: 8px;
 	transition: all 0.3s ease;
 	text-decoration: none;
+	justify-content: center;
 }
 .btn-primary {
 	background-color: #4caf50;
+	min-width: 300px;
 	color: white;
 
 	&:hover {
@@ -21,11 +23,24 @@
 	}
 }
 
+.cta-buttons {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
+}
+
 .btn-large {
 	padding: 16px 32px;
 	font-size: 18px;
 }
 
+.buttons {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
 .header {
 	position: fixed;
 	top: 0;

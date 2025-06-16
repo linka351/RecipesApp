@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import Loader from "../../../../components/loader/Loader";
 import { STATUS } from "../../../../constants/status.const";
 import { useAuth } from "../../../../context/AuthContext";
+import { USER_ROLE } from "../../../../constants/user.const";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -53,7 +54,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 
 	const formik = useFormik<WeeklyPlan>({
 		initialValues: initialValues || {
-			status: user?.role === "admin" ? STATUS.PUBLIC : STATUS.PRIVATE,
+			status: user?.role === USER_ROLE.ADMIN ? STATUS.PUBLIC : STATUS.PRIVATE,
 			name: "",
 			description: "",
 			dateFrom: "",
