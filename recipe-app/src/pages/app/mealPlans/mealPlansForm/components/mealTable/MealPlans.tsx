@@ -3,17 +3,10 @@ import { DayName } from "../../../../../../types/MealPlan";
 import { Recipe } from "../../../../../../types/editRecipe";
 import { MealPlan } from "../../../add/addMealPlan/types";
 import MealPlanModal from "../mealPlanModal/MealPlanModal";
-import "./mealTable.scss";
 
-const days: DayName[] = [
-	"Poniedziałek",
-	"Wtorek",
-	"Środa",
-	"Czwartek",
-	"Piątek",
-	"Sobota",
-	"Niedziela",
-];
+import "./mealTable.scss";
+import { days } from "../../../../../../constants/days.const";
+import MealTable from "./components/MealTable";
 
 type MealNamesProps = {
 	mealName: string[];
@@ -22,7 +15,7 @@ type MealNamesProps = {
 	selectedRecipes: MealPlan;
 };
 
-const MealTable = ({
+const MealPlans = ({
 	mealName,
 	recipes,
 	onChange,
@@ -48,39 +41,13 @@ const MealTable = ({
 
 	return (
 		<>
-			<div className='meal-table-container'>
-				{mealName.length > 0 && (
-					<div className='meal-plan-grid'>
-						<div className='header-cell'>
-							<p>Nazwa Posiłku</p>
-						</div>
-						{days.map(day => (
-							<div key={day} className='header-cell'>
-								{day}
-							</div>
-						))}
-
-						{mealName.map(meal => (
-							<>
-								<div key={meal} className='meal-header'>
-									{meal}
-								</div>
-								{days.map(day => (
-									<div key={`${day}-${meal}`} className='meal-select'>
-										<div
-											className='recipe-name'
-											onClick={() => openModal(day, meal)}>
-											{recipes.find(
-												recipe => recipe.id === selectedRecipes?.[day]?.[meal]
-											)?.name || "Wybierz Przepis"}
-										</div>
-									</div>
-								))}
-							</>
-						))}
-					</div>
-				)}
-			</div>
+			<MealTable
+				mealName={mealName}
+				days={days}
+				recipes={recipes}
+				selectedRecipes={selectedRecipes}
+				openModal={openModal}
+			/>
 
 			{isModalOpen && (
 				<MealPlanModal
@@ -92,4 +59,4 @@ const MealTable = ({
 	);
 };
 
-export default MealTable;
+export default MealPlans;
