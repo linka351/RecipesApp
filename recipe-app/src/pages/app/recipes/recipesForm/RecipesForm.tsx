@@ -16,6 +16,7 @@ import { Recipe } from "../../../../types/editRecipe";
 import { toast } from "react-toastify";
 import Loader from "../../../../components/loader/Loader";
 import { STATUS } from "../../../../constants/status.const";
+import { ROUTE } from "../../../../constants/routes.const";
 
 export type FormValues = Omit<Recipe, "userId" | "id"> & {
 	userId?: string;
@@ -110,7 +111,7 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 			}
 			if (onSubmit) onSubmit();
 
-			navigate("/app/recipes");
+			navigate(ROUTE.RECIPES);
 		} catch (error) {
 			toast.error("Wystąpił błąd podczas dodawania przepisu");
 		} finally {

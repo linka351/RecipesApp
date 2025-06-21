@@ -12,6 +12,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { formatWeekRange } from "../mealPlans.utils";
 import { STATUS } from "../../../../constants/status.const";
+import { ROUTE } from "../../../../constants/routes.const";
 
 function DetailsMealPlans() {
 	const { id } = useParams();
@@ -54,7 +55,7 @@ function DetailsMealPlans() {
 	const handleDelete = async (id: string) => {
 		try {
 			await mealPlansApi.remove(id);
-			navigate("/app/meal-plans");
+			navigate(ROUTE.MEAL_PLANS);
 		} catch (error) {
 			console.error("Error removing document: ", error);
 		}

@@ -10,6 +10,7 @@ import { MdOutlineModeEdit } from "react-icons/md";
 
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { STATUS } from "../../../../constants/status.const";
+import { ROUTE } from "../../../../constants/routes.const";
 
 function DetailsRecipe() {
 	const { id } = useParams();
@@ -29,7 +30,7 @@ function DetailsRecipe() {
 		if (!id) return;
 
 		await recipeApi.remove(id);
-		navigate("/app/recipes");
+		navigate(ROUTE.RECIPES);
 	};
 
 	if (!recipe) {

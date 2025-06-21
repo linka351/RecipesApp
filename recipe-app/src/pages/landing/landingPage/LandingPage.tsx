@@ -13,6 +13,7 @@ import { GiRiceCooker } from "react-icons/gi";
 
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { ROUTE } from "../../../constants/routes.const";
 
 const App = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,7 +53,7 @@ const App = () => {
 								Odkryj łatwiejszy sposób na planowanie posiłków i zarządzanie
 								przepisami. Wszystko w jednym miejscu.
 							</p>
-							<Link to={"/sign-up"} className='btn btn-primary btn-large'>
+							<Link to={ROUTE.SIGN_UP} className='btn btn-primary btn-large'>
 								Rozpocznij za darmo
 								<IoChevronForwardSharp />
 							</Link>
@@ -129,7 +130,7 @@ const App = () => {
 							Dołącz do tysięcy zadowolonych użytkowników i zacznij planować
 							swoje posiłki już dziś.
 						</p>
-						<Link to={"/sign-up"} className='btn btn-primary btn-large'>
+						<Link to={ROUTE.SIGN_UP} className='btn btn-primary btn-large'>
 							Rozpocznij za darmo
 							<IoChevronForwardSharp />
 						</Link>
@@ -180,7 +181,7 @@ const App = () => {
 						</div>
 					</div>
 					<div className='landing-footer-bottom'>
-						<Link className='footer-link' to={"/"} aria-label='home'>
+						<Link className='footer-link' to={ROUTE.LANDING} aria-label='home'>
 							<GiRiceCooker className='icon' />
 							<p className='landing-footer-text'>&copy; 2024 Recipe App</p>
 						</Link>
