@@ -5,13 +5,14 @@ import { FaGithub } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { ROUTE } from "../../../constants/routes.const";
 
 function Footer() {
 	return (
 		<>
 			<div className='footer'>
 				<div className='logo'>
-					<Link className='footer-link' to={"/"} aria-label='home'>
+					<Link className='footer-link' to={ROUTE.APP} aria-label='home'>
 						<GiRiceCooker className='icon' />
 						<p className='text'>&copy; 2024 Recipe App</p>
 					</Link>

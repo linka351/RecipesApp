@@ -21,13 +21,14 @@ import { AuthProvider } from "../context/AuthContext";
 import { Protected } from "./app/registration/Protected";
 
 import "./router.scss";
+import { ROUTE } from "../constants/routes.const";
 import { Public } from "./app/registration/Public";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
 	{
-		path: "/",
+		path: ROUTE.LANDING,
 		element: <LandingPage />,
 	},
 
@@ -38,11 +39,11 @@ const router = createBrowserRouter([
 				element: <Public />,
 				children: [
 					{
-						path: "/sign-up",
+						path: ROUTE.SIGN_UP,
 						element: <SignUp />,
 					},
 					{
-						path: "/sign-in",
+						path: ROUTE.SIGN_IN,
 						element: <SignIn />,
 					},
 				],
@@ -51,40 +52,40 @@ const router = createBrowserRouter([
 				element: <Protected />,
 				children: [
 					{
-						path: "/app",
+						path: ROUTE.APP,
 						element: <Navigate to='/app/recipes' replace />,
 					},
 
 					{
-						path: "/app/recipes",
+						path: ROUTE.RECIPES,
 						element: <Recipes />,
 					},
 					{
-						path: "/app/recipes/add",
+						path: ROUTE.ADD_RECIPE,
 						element: <AddRecipe />,
 					},
 					{
-						path: "/app/recipes/details/:id",
+						path: ROUTE.DETAILS_RECIPE,
 						element: <DetailsRecipe />,
 					},
 					{
-						path: "/app/recipes/edit/:id",
+						path: ROUTE.EDIT_RECIPE,
 						element: <Edit />,
 					},
 					{
-						path: "/app/meal-plans",
+						path: ROUTE.MEAL_PLANS,
 						element: <MealPlans />,
 					},
 					{
-						path: "/app/meal-plans/add",
+						path: ROUTE.ADD_MEAL_PLAN,
 						element: <AddMealPlan />,
 					},
 					{
-						path: "/app/meal-plans/details/:id",
+						path: ROUTE.DETAILS_MEAL_PLAN,
 						element: <DetailsMealPlans />,
 					},
 					{
-						path: "/app/meal-plans/edit/:id",
+						path: ROUTE.EDIT_MEAL_PLAN,
 						element: <EditMealPlan />,
 					},
 				],
