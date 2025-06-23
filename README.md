@@ -6,7 +6,11 @@ Aplikacja do zarządzania przepisami i tworzenia planów posiłków. Pozwala na 
 
 ## ▶️ Demo
 
-Kliknij w link https://linka351.github.io/RecipesApp/ aby przejść do aplikacji. Następnie kliknij w przycisk wypróbuj demo aby włączyć wersję demonstracyjną.
+Aby przejść do aplikacji kliknij w link:
+
+https://linka351.github.io/RecipesApp/
+
+Następnie kliknij w przycisk wypróbuj demo aby włączyć wersję demonstracyjną.
 
 ---
 
@@ -26,7 +30,7 @@ Kliknij w link https://linka351.github.io/RecipesApp/ aby przejść do aplikacji
 
 ### Strona powitalna
 
-![Strona powitalna](./recipe-app/src/images/landing.png)
+![Demo](./recipe-app/src/videos/landing.gif)
 
 ### Lista planów
 
@@ -86,9 +90,7 @@ src/
    npm install
    ```
 
-3. **Skonfiguruj Firebase:**
-
-4. **Uruchom aplikację:**
+3. **Uruchom aplikację:**
    ```bash
    npm run dev
    ```
