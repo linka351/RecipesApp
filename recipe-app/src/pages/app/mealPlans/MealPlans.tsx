@@ -86,7 +86,7 @@ function MealPlans() {
 							<div className='plan-buttons'>
 								<Link
 									className='plan-button'
-									to={`/app/meal-plans/details/${mealPlan.id}`}
+									to={`${ROUTE.DETAILS_MEAL_PLAN}/${mealPlan.id}`}
 									aria-label='Szczegóły'
 									data-tooltip-id='details-tooltip'>
 									<CgDetailsMore />

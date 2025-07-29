@@ -68,7 +68,7 @@ function DetailsMealPlans() {
 					<>
 						<Link
 							className='plan-button edit-meal-plan'
-							to={`/app/meal-plans/edit/${mealPlan.id}`}
+							to={`${ROUTE.EDIT_MEAL_PLAN}/${mealPlan.id}`}
 							aria-label='Edytuj'
 							data-tooltip-id='edit-tooltip'>
 							<MdOutlineModeEdit />

@@ -65,11 +65,11 @@ const router = createBrowserRouter([
 						element: <AddRecipe />,
 					},
 					{
-						path: ROUTE.DETAILS_RECIPE,
+						path: `${ROUTE.DETAILS_RECIPE}/:id`,
 						element: <DetailsRecipe />,
 					},
 					{
-						path: ROUTE.EDIT_RECIPE,
+						path: `${ROUTE.EDIT_RECIPE}/:id`,
 						element: <Edit />,
 					},
 					{
@@ -81,11 +81,11 @@ const router = createBrowserRouter([
 						element: <AddMealPlan />,
 					},
 					{
-						path: ROUTE.DETAILS_MEAL_PLAN,
+						path: `${ROUTE.DETAILS_MEAL_PLAN}/:id`,
 						element: <DetailsMealPlans />,
 					},
 					{
-						path: ROUTE.EDIT_MEAL_PLAN,
+						path: `${ROUTE.EDIT_MEAL_PLAN}/:id`,
 						element: <EditMealPlan />,
 					},
 				],

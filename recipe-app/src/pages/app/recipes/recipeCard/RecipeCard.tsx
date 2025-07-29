@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import defaultImage from "../../../../images/22204570_6605525.jpg";
 import { RecipeCardProps } from "../recipe.types";
+import { ROUTE } from "../../../../constants/routes.const";
 
 export default function RecipeCard({
 	recipe,
@@ -24,7 +25,7 @@ export default function RecipeCard({
 					) : (
 						<>
 							<Link
-								to={`/app/recipes/details/${recipe.id}`}
+								to={`${ROUTE.DETAILS_RECIPE}/${recipe.id}`}
 								className='edit-button'>
 								Szczegóły
 							</Link>

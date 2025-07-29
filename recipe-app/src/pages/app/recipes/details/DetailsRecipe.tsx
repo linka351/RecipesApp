@@ -51,7 +51,7 @@ function DetailsRecipe() {
 								<IoTrashOutline />
 							</Button>
 							<Button
-								onClick={() => navigate(`/app/recipes/edit/${id}`)}
+								onClick={() => navigate(`${ROUTE.EDIT_RECIPE}/${id}`)}
 								className='action-button edit-button'
 								aria-label='Edytuj'
 								data-tooltip-id='edit-tooltip'>
