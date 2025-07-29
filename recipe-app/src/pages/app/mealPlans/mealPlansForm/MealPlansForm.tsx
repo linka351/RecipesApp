@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../../../components/loader/Loader";
 import { ROUTE } from "../../../../constants/routes.const";
+import GetUserStatus from "../../../../utils/GetUserStatus";
+import { useAuth } from "../../../../context/AuthContext";
 
 type Props = {
 	initialValues?: WeeklyPlan;
@@ -24,6 +26,8 @@ type Props = {
 function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const { user } = useAuth();
 
 	const navigate = useNavigate();
 
@@ -48,6 +52,10 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 		}
 	};
 
+	if (!user) {
+		return "Nie jesteś zalogowany";
+	}
+
 	const formik = useFormik<WeeklyPlan>({
 		initialValues: initialValues || {
 			name: "",
@@ -55,6 +63,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 			dateFrom: "",
 			mealName: [],
 			plan: {},
+			status: GetUserStatus(user.role),
 		},
 		validationSchema,
 		onSubmit: handleSubmit,

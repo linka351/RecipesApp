@@ -15,7 +15,7 @@ import { useAuth } from "../../../../context/AuthContext";
 import { Recipe } from "../../../../types/editRecipe";
 import { toast } from "react-toastify";
 import Loader from "../../../../components/loader/Loader";
-import { STATUS } from "../../../../constants/status.const";
+import GetUserStatus from "../../../../utils/GetUserStatus";
 import { ROUTE } from "../../../../constants/routes.const";
 
 export type FormValues = Omit<Recipe, "userId" | "id"> & {
@@ -37,13 +37,17 @@ function RecipesForm({ initialValues, onSubmit }: RecipesFormProps) {
 
 	const imageUploaderRef = useRef<{ clear: () => void } | null>(null);
 
+	if (!user) {
+		return "Nie jesteś zalogowany";
+	}
+
 	const defaultValues: FormValues = {
 		name: "",
 		description: "",
 		instructions: [],
 		ingredients: [],
 		image: "",
-		status: STATUS.PRIVATE,
+		status: GetUserStatus(user.role),
 	};
 
 	const uploadImage = async (file: File): Promise<string | undefined> => {
