@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { recipeApi } from "../../../../api/recipes";
 import RecipesForm, { FormValues } from "../recipesForm/RecipesForm";
 import Loader from "../../../../components/loader/Loader";
+import { ROUTE } from "../../../../constants/routes.const";
 
 function Edit() {
 	const { id } = useParams<{ id: string }>();
@@ -19,7 +20,7 @@ function Edit() {
 	}, [id]);
 
 	async function handleFormSubmit() {
-		navigate("/app/recipes");
+		navigate(ROUTE.RECIPES);
 	}
 
 	return recipe ? (

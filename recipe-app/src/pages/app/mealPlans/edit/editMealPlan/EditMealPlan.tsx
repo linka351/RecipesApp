@@ -5,6 +5,7 @@ import { WeeklyPlan } from "../../add/addMealPlan/types";
 import { mealPlansApi } from "../../../../../api/mealPlans";
 import { toast } from "react-toastify";
 import Loader from "../../../../../components/loader/Loader";
+import { ROUTE } from "../../../../../constants/routes.const";
 
 function EditMealPlan() {
 	const { id } = useParams<{ id: string }>();
@@ -24,7 +25,7 @@ function EditMealPlan() {
 		try {
 			await mealPlansApi.update(id!, values!);
 			toast.success("Zaktualizowano plan posiłków");
-			navigate("/app/meal-plans");
+			navigate(ROUTE.MEAL_PLANS);
 		} catch (error) {
 			toast.error("Wystąpił błąd przy aktualizacji planu posiłków");
 		}

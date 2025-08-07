@@ -11,6 +11,7 @@ import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 import { toast } from "react-toastify";
 import GoogleLoginButton from "./GoogleLoginButton";
 import Loader from "../../../components/loader/Loader";
+import { ROUTE } from "../../../constants/routes.const";
 
 type FormValues = {
 	email: string;
@@ -70,7 +71,7 @@ function SignIn() {
 			<form className='registration-form' onSubmit={formik.handleSubmit}>
 				<div className='login'>
 					<p>Nie masz jeszcze konta?</p>
-					<Link to={"/sign-up"} className='login-link'>
+					<Link to={ROUTE.SIGN_UP} className='login-link'>
 						Zarejestruj Się
 					</Link>
 				</div>

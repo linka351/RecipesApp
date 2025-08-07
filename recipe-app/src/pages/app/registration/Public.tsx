@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { ROUTE } from "../../../constants/routes.const";
 
 export function Public() {
 	const { user } = useAuth();
@@ -7,6 +8,6 @@ export function Public() {
 	if (!user) {
 		return <Outlet />;
 	} else {
-		return <Navigate to='/app/recipes' replace />;
+		return <Navigate to={`${ROUTE.RECIPES}`} replace />;
 	}
 }

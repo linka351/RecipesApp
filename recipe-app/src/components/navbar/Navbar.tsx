@@ -8,6 +8,7 @@ import Button from "../buttons/Button";
 import { useAuth } from "../../context/AuthContext";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { toast } from "react-toastify";
+import { ROUTE } from "../../constants/routes.const";
 
 const getClassName = ({ isActive }: { isActive: boolean }) =>
 	isActive ? "selected link" : "link";
@@ -44,7 +45,7 @@ function Navbar() {
 		await signOut()
 			.then(() => {
 				toast.success("Wylogowano pomyślnie");
-				navigate("/");
+				navigate(ROUTE.LANDING);
 			})
 			.catch(() => {
 				toast.error("Wystąpił błąd przy wylogowaniu");
@@ -58,7 +59,7 @@ function Navbar() {
 				<Button onClick={toggleMenu} className='menu'>
 					<TiThMenuOutline className='menu-icon' />
 				</Button>
-				<Link className='logo-link' to={"/"}>
+				<Link className='logo-link' to={ROUTE.LANDING}>
 					<div className='logo'>
 						<GiRiceCooker className='icon' />
 						<p>RecipesApp</p>
@@ -66,7 +67,7 @@ function Navbar() {
 				</Link>
 				<div className='user'>
 					{!user ? (
-						<Link to={"/sign-in"} className='user-button'>
+						<Link to={ROUTE.SIGN_IN} className='user-button'>
 							<FaRegCircleUser className='user-icon' />
 							<p>Zaloguj</p>
 						</Link>
@@ -85,27 +86,27 @@ function Navbar() {
 				</Button>
 				<ul className='menu-links'>
 					<li>
-						<NavLink className={getClassName} to={"/"}>
+						<NavLink className={getClassName} to={ROUTE.LANDING} end>
 							Strona Główna
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className={getClassName} to={"/app/recipes"} end>
+						<NavLink className={getClassName} to={ROUTE.RECIPES} end>
 							Przepisy
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className={getClassName} to={"/app/recipes/add"}>
+						<NavLink className={getClassName} to={ROUTE.ADD_RECIPE}>
 							Dodaj Przepis
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className={getClassName} to={"/app/meal-plans"} end>
+						<NavLink className={getClassName} to={ROUTE.MEAL_PLANS} end>
 							Plany Żywnościowe
 						</NavLink>
 					</li>
 					<li>
-						<NavLink className={getClassName} to={"/app/meal-plans/add"}>
+						<NavLink className={getClassName} to={ROUTE.ADD_MEAL_PLAN}>
 							Dodaj Plan Żywnościowy
 						</NavLink>
 					</li>

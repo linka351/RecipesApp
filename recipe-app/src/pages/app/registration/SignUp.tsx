@@ -11,6 +11,7 @@ import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 import { toast } from "react-toastify";
 import Loader from "../../../components/loader/Loader";
+import { ROUTE } from "../../../constants/routes.const";
 
 const validationSchema = Yup.object({
 	email: Yup.string()
@@ -45,7 +46,7 @@ function SignUp() {
 			try {
 				setIsLoaderVisible(true);
 				await handleRegisterWithEmail(values.email, values.password);
-				navigate("/app/recipes");
+				navigate(ROUTE.RECIPES);
 				resetForm();
 				toast.success("Rejestracja zakończona sukcesem");
 			} catch (error) {
@@ -76,7 +77,7 @@ function SignUp() {
 			<form className='registration-form' onSubmit={formik.handleSubmit}>
 				<div className='login'>
 					<p>Masz już konto?</p>{" "}
-					<Link to={"/sign-in"} className='login-link'>
+					<Link to={ROUTE.SIGN_IN} className='login-link'>
 						Zaloguj Się
 					</Link>
 				</div>
