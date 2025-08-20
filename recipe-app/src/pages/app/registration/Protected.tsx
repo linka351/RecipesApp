@@ -5,13 +5,14 @@ export function Protected() {
 	const { user } = useAuth();
 	const location = useLocation();
 
-	if (!user) {
-		if (location.pathname === "/sign-in" || location.pathname === "/sign-up") {
-			return <Outlet />;
-		} else {
-			return <Navigate to='/' replace />;
-		}
-	} else {
+	if (user) {
 		return <Outlet />;
 	}
+
+	console.log(user);
+
+	if (location.pathname === "/sign-in" || location.pathname === "/sign-up") {
+		return <Outlet />;
+	}
+	return <Navigate to='/' replace />;
 }

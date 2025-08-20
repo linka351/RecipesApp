@@ -85,11 +85,6 @@ function Navbar() {
 				</Button>
 				<ul className='menu-links'>
 					<li>
-						<NavLink className={getClassName} to={"/"}>
-							Strona Główna
-						</NavLink>
-					</li>
-					<li>
 						<NavLink className={getClassName} to={"/app/recipes"} end>
 							Przepisy
 						</NavLink>

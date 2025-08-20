@@ -12,21 +12,31 @@ import {
 import { GiRiceCooker } from "react-icons/gi";
 
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import Button from "../../../components/buttons/Button";
 
 const App = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+	const { handleLoginAsDemo } = useAuth();
+	const navigate = useNavigate();
+
+	const loginAsDemoAndRedirect = async () => {
+		await handleLoginAsDemo();
+		navigate("/app/recipes");
+	};
 
 	return (
 		<div className='app'>
 			<div className='header'>
 				<div className='header-container'>
 					<div className='header-logo'>RecipesApp</div>
-					<button
+					<Button
 						className='header-mobile-menu'
 						onClick={() => setIsMenuOpen(!isMenuOpen)}>
 						{isMenuOpen ? <IoClose /> : <IoMenu />}
-					</button>
+					</Button>
 					<nav className={`header-nav ${isMenuOpen ? "header-nav-open" : ""}`}>
 						<a className='header-link' href='#features'>
 							Funkcje
@@ -52,10 +62,17 @@ const App = () => {
 								Odkryj łatwiejszy sposób na planowanie posiłków i zarządzanie
 								przepisami. Wszystko w jednym miejscu.
 							</p>
-							<Link to={"/sign-up"} className='btn btn-primary btn-large'>
-								Rozpocznij za darmo
-								<IoChevronForwardSharp />
-							</Link>
+							<div className='landing-buttons'>
+								<Link to={"/sign-up"} className='btn btn-primary btn-large'>
+									Rozpocznij za darmo
+									<IoChevronForwardSharp />
+								</Link>
+								<Button
+									onClick={loginAsDemoAndRedirect}
+									className='btn btn-primary btn-large'>
+									Wypróbuj demo <IoChevronForwardSharp />
+								</Button>
+							</div>
 						</div>
 						<div className='hero-image-container'>
 							<img
@@ -129,10 +146,18 @@ const App = () => {
 							Dołącz do tysięcy zadowolonych użytkowników i zacznij planować
 							swoje posiłki już dziś.
 						</p>
-						<Link to={"/sign-up"} className='btn btn-primary btn-large'>
-							Rozpocznij za darmo
-							<IoChevronForwardSharp />
-						</Link>
+						<div className='landing-buttons'>
+							<Link to={"/sign-up"} className='btn btn-primary btn-large'>
+								Rozpocznij za darmo
+								<IoChevronForwardSharp />
+							</Link>
+							<Button
+								onClick={loginAsDemoAndRedirect}
+								className='btn btn-primary btn-large'>
+								Wypróbuj demo
+								<IoChevronForwardSharp />
+							</Button>
+						</div>
 					</div>
 				</div>
 			</main>

@@ -11,6 +11,10 @@
 	gap: 8px;
 	transition: all 0.3s ease;
 	text-decoration: none;
+	min-width: 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .btn-primary {
 	background-color: #4caf50;
@@ -24,6 +28,19 @@
 .btn-large {
 	padding: 16px 32px;
 	font-size: 18px;
+}
+
+.landing-buttons {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	gap: 20px;
+	margin-top: 50px;
+
+	@media (min-width: $tablet-media) {
+		flex-direction: row;
+	}
 }
 
 .header {
