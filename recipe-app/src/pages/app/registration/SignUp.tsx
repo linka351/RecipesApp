@@ -2,11 +2,28 @@ import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { validationSchema } from "../recipes/recipesForm/RecipeForm.validation";
 import { toast } from "react-toastify";
 import { FirebaseError } from "firebase/app";
 import { firebaseErrorMessages } from "../../../firebase/firebaseErrors";
 import Loader from "../../../components/loader/Loader";
+import { ROUTE } from "../../../constants/routes.const";
+import * as Yup from "yup";
+
+const validationSchema = Yup.object({
+	email: Yup.string()
+		.email("Nieprawidłowy adres email")
+		.required("Adres email jest wymagany"),
+	password: Yup.string()
+		.min(6, "Hasło musi mieć co najmniej 6 znaków")
+		.matches(/[A-Z]/, "Hasło musi zawierać co najmniej jedną dużą literę")
+		.matches(/[a-z]/, "Hasło musi zawierać co najmniej jedną małą literę")
+		.matches(/[0-9]/, "Hasło musi zawierać co najmniej jedną cyfrę")
+		.matches(
+			/[@$!%*?&#]/,
+			"Hasło musi zawierać co najmniej jeden znak specjalny (@, $, !, %, *, ?, &, #)"
+		)
+		.required("Hasło jest wymagane"),
+});
 import Input from "../../../components/inputs/Input";
 import GoogleLoginButton from "./GoogleLoginButton";
 import Button from "../../../components/buttons/Button";
@@ -28,7 +45,7 @@ function SignUp() {
 			try {
 				setIsLoaderVisible(true);
 				await handleRegisterWithEmail(values.email, values.password);
-				navigate("/app/recipes");
+				navigate(ROUTE.RECIPES);
 				resetForm();
 				toast.success("Rejestracja zakończona sukcesem");
 			} catch (error) {
@@ -61,7 +78,7 @@ function SignUp() {
 				<form className='registration-form' onSubmit={formik.handleSubmit}>
 					<div className='login'>
 						<p>Masz już konto?</p>{" "}
-						<Link to={"/sign-in"} className='login-link'>
+						<Link to={ROUTE.SIGN_IN} className='login-link'>
 							Zaloguj Się
 						</Link>
 					</div>

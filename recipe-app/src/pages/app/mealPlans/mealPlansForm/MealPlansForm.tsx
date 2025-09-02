@@ -14,6 +14,7 @@ import NewMealName from "../add/addMealPlan/components/newMealName/NewMealName";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../../../components/loader/Loader";
+import { ROUTE } from "../../../../constants/routes.const";
 import GetUserStatus from "../../../../utils/GetUserStatus";
 import { useAuth } from "../../../../context/AuthContext";
 
@@ -43,7 +44,7 @@ function MealPlansForm({ initialValues, onSubmit: onSubmit }: Props) {
 			setIsSubmitting(true);
 			if (onSubmit) await onSubmit(values);
 			formik.resetForm();
-			navigate("/app/meal-plans");
+			navigate(ROUTE.MEAL_PLANS);
 		} catch (error) {
 			toast.error("Wystąpił błąd przy dodawaniu planu posiłków");
 		} finally {

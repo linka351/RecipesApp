@@ -12,6 +12,7 @@ import Switch from "../../../components/switch/Switch";
 import { useAuth } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import Loader from "../../../components/loader/Loader";
+import { ROUTE } from "../../../constants/routes.const";
 
 type Props = Partial<
 	Pick<
@@ -68,7 +69,9 @@ const RecipeList = ({
 	};
 
 	const filteredRecipes = recipes.filter(
-		recipe => !showOnlyPrivate || recipe.userId === user?.id
+		recipe =>
+			(!showOnlyPrivate || recipe.userId === user?.id) &&
+			recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
 	);
 
 	return (
@@ -85,7 +88,7 @@ const RecipeList = ({
 						<h1 className='list-recipe'>{header}</h1>
 
 						<Link
-							to={"/app/recipes/add"}
+							to={ROUTE.ADD_RECIPE}
 							className='add-recipe-link'
 							onClick={onAddClick}>
 							{addButtonLabel}
