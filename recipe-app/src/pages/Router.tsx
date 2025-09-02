@@ -1,7 +1,7 @@
 import {
 	Navigate,
 	RouterProvider,
-	createBrowserRouter,
+	createHashRouter, // Zmienione na createHashRouter
 } from "react-router-dom";
 
 import Recipes from "./app/recipes/Recipes";
@@ -26,7 +26,8 @@ import { Public } from "./app/registration/Public";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
+	// Zmienione na createHashRouter
 	{
 		path: ROUTE.LANDING,
 		element: <LandingPage />,
