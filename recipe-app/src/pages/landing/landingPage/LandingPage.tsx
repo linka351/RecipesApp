@@ -12,20 +12,11 @@ import {
 import { GiRiceCooker } from "react-icons/gi";
 
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
+import { Link } from "react-router-dom";
 import Button from "../../../components/buttons/Button";
 
 const App = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-	const { handleLoginAsDemo } = useAuth();
-	const navigate = useNavigate();
-
-	const loginAsDemoAndRedirect = async () => {
-		await handleLoginAsDemo();
-		navigate("/app/recipes");
-	};
 
 	return (
 		<div className='app'>
@@ -67,11 +58,6 @@ const App = () => {
 									Rozpocznij za darmo
 									<IoChevronForwardSharp />
 								</Link>
-								<Button
-									onClick={loginAsDemoAndRedirect}
-									className='btn btn-primary btn-large'>
-									Wypróbuj demo <IoChevronForwardSharp />
-								</Button>
 							</div>
 						</div>
 						<div className='hero-image-container'>
@@ -151,12 +137,6 @@ const App = () => {
 								Rozpocznij za darmo
 								<IoChevronForwardSharp />
 							</Link>
-							<Button
-								onClick={loginAsDemoAndRedirect}
-								className='btn btn-primary btn-large'>
-								Wypróbuj demo
-								<IoChevronForwardSharp />
-							</Button>
 						</div>
 					</div>
 				</div>
