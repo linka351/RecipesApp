@@ -14,6 +14,7 @@ import { GiRiceCooker } from "react-icons/gi";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { ROUTE } from "../../../constants/routes.const";
+import Button from "../../../components/buttons/Button";
 
 const App = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,11 +24,11 @@ const App = () => {
 			<div className='header'>
 				<div className='header-container'>
 					<div className='header-logo'>RecipesApp</div>
-					<button
+					<Button
 						className='header-mobile-menu'
 						onClick={() => setIsMenuOpen(!isMenuOpen)}>
 						{isMenuOpen ? <IoClose /> : <IoMenu />}
-					</button>
+					</Button>
 					<nav className={`header-nav ${isMenuOpen ? "header-nav-open" : ""}`}>
 						<a className='header-link' href='#features'>
 							Funkcje

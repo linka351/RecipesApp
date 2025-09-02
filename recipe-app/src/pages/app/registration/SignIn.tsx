@@ -27,7 +27,7 @@ function SignIn() {
 	const [serverError, setServerError] = useState("");
 	const [isLoaderVisible, setIsLoaderVisible] = useState(false);
 
-	const { handleLoginWithEmail } = useAuth();
+	const { handleLoginWithEmail, handleLoginAsDemo } = useAuth();
 
 	const formik = useFormik<FormValues>({
 		initialValues: {
@@ -107,11 +107,16 @@ function SignIn() {
 
 				{serverError && <p className='server-error'>{serverError}</p>}
 
+				<GoogleLoginButton />
 				<Button className='registration-button' type='submit'>
 					Zaloguj Się
 				</Button>
-				<p className='login-method'>lub</p>
-				<GoogleLoginButton />
+				<Button
+					type='button'
+					className='registration-button'
+					onClick={handleLoginAsDemo}>
+					Wypróbuj demo
+				</Button>
 				{formik.status && (
 					<div className='registration-form-error'>{formik.status}</div>
 				)}

@@ -46,7 +46,9 @@ function MealPlans() {
 	};
 
 	const filteredMealPlans = mealPlans.filter(
-		mealPlans => !showOnlyPrivate || mealPlans.userId === user?.id
+		mealPlan =>
+			(!showOnlyPrivate || mealPlan.userId === user?.id) &&
+			mealPlan.name.toLowerCase().includes(searchMealPlan.toLowerCase())
 	);
 
 	return (
