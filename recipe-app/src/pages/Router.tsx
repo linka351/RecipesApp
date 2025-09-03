@@ -49,7 +49,7 @@ const router = createHashRouter([
 				children: [
 					{
 						path: ROUTE.APP,
-						element: <Navigate to='/app/recipes' replace />,
+						element: <Navigate to={ROUTE.RECIPES} replace />,
 					},
 
 					{

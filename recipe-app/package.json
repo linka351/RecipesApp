@@ -3,6 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
+	"homepage": " https://linka351.github.io/RecipesApp/",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
@@ -10,8 +11,7 @@
 		"preview": "vite preview",
 		"test": "jest",
 		"predeploy": "npm run build",
-		"deploy": "gh-pages -d dist",
-		"homepage": " https://linka351.github.io/RecipesApp/"
+		"deploy": "gh-pages -d dist"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^2.2.5",
