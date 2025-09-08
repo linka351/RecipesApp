@@ -3,7 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"homepage": "/RecipesApp",
+	"homepage": " https://linka351.github.io/RecipesApp/",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
