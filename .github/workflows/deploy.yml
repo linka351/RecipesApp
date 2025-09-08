@@ -5,12 +5,11 @@ on:
     branches:
       - main
       - testdeploy
-  workflow_dispatch:
-
+  
   permissions: 
-  contents: write 
-  pages: write 
-  id-token: write 
+    - contents: write 
+    - pages: write 
+    - id-token: write 
 
 jobs:
   build:
