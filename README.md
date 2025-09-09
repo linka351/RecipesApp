@@ -10,9 +10,7 @@ Aby przejść do aplikacji kliknij w link:
 
 https://linka351.github.io/RecipesApp/
 
-Następnie kliknij w przycisk wypróbuj demo aby włączyć wersję demonstracyjną.
-
----
+Przejdź na stronę, kliknij Rozpocznij za darmo, a następnie kliknij Wypróbuj demo.
 
 ## 🚀 Funkcje
 
